@@ -1,5 +1,18 @@
 <html lang="id">
 <head>
+  // Konfigurasi Firebase RHN CAPITAL
+const firebaseConfig = {
+  apiKey: "AIzaSy...", // Masukkan API Key dari Firebase Console kamu
+  authDomain: "rhn-capital.firebaseapp.com",
+  projectId: "rhn-capital",
+  storageBucket: "rhn-capital.appspot.com",
+  messagingSenderId: "...",
+  appId: "..."
+};
+
+// Inisialisasi Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Jurnal Forex Pro · RHN</title>
