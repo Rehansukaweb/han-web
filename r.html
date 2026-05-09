@@ -47,7 +47,7 @@ header{background:linear-gradient(135deg,#0F6E56,#1D9E75);padding:14px 24px;disp
 .kurs-dot.loading{background:#fcd34d;animation:blink 0.8s infinite;}
 .kurs-dot.error{background:#f87171;animation:none;}
 .kurs-info{display:flex;flex-direction:column;gap:1px;}
-.kurs-val{font-size:13px;font-weight:700;color:#fff;font-family:var(--mono);}
+.kurs-val{font-size:13px;font-weight:700;color:#fff;font-family:var(--mono);transition:color 0.2s ease;}
 .kurs-meta{font-size:10px;color:rgba(255,255,255,.65);}
 .kurs-manual-wrap{display:flex;align-items:center;gap:6px;}
 .kurs-lbl-h{font-size:11px;color:rgba(255,255,255,.8);white-space:nowrap;}
@@ -78,7 +78,7 @@ header{background:linear-gradient(135deg,#0F6E56,#1D9E75);padding:14px 24px;disp
 .info-strip{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:18px;display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;}
 .info-item{display:flex;flex-direction:column;gap:2px;}
 .info-lbl{font-size:10px;font-weight:600;color:var(--hint);text-transform:uppercase;letter-spacing:.06em;}
-.info-val{font-size:15px;font-weight:700;font-family:var(--mono);color:var(--text);}
+.info-val{font-size:15px;font-weight:700;font-family:var(--mono);color:var(--text);transition:color 0.2s ease;}
 .info-idr{font-size:11px;font-weight:600;font-family:var(--mono);color:var(--blue-400);margin-top:1px;}
 .info-divider{width:1px;height:40px;background:var(--border);margin:0 4px;}
 .tab-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
@@ -302,27 +302,10 @@ tr.weekend td{color:#B0B4BC;}
     </div>
   </div>
 
-  <div class="footer">Data tersimpan otomatis di browser & tersinkronisasi ke Firestore · Kurs via Binance Live (USDT/BIDR) · Auto-refresh 1 menit · Jurnal Forex Pro RHN © 2026</div>
+  <div class="footer">Data tersimpan otomatis di browser · Kurs via Binance Live (USDT/BIDR) · Real-time Update · Jurnal Forex Pro RHN © 2026</div>
 </div>
 
 <script>
-// ==========================================
-// 1. FIREBASE CONFIGURATION (RHN CAPITAL)
-// ==========================================
-const firebaseConfig = {
-    apiKey: "AIzaSy...", // GANTI DENGAN API KEY ASLI KAMU
-    authDomain: "rhn-capital.firebaseapp.com",
-    projectId: "rhn-capital",
-    storageBucket: "rhn-capital.appspot.com",
-    messagingSenderId: "...",
-    appId: "..."
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-// ==========================================
-// 2. LOGIKA UTAMA APLIKASI
-// ==========================================
 const MONTHS=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const DAYS=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 const YEAR=2026;
@@ -351,15 +334,12 @@ const plStr=v=>(v>0?'+':'')+v.toFixed(2);
 const pctStr=v=>modalAwal?((v/modalAwal)*100).toFixed(2)+'%':'—';
 const plCls=v=>v>0?'pl-pos':v<0?'pl-neg':'pl-zero';
 const mbCls=r=>r==='WIN'?'mb-win':r==='LOSS'?'mb-loss':r==='BE'?'mb-be':'mb-none';
-
 function loadMonth(m){try{return JSON.parse(localStorage.getItem(SK(m))||'{}');}catch{return{};}}
+function saveMonth(m,d){try{localStorage.setItem(SK(m),JSON.stringify(d));}catch{}}
 
-// MODIFIED: Save to LocalStorage AND Firebase
-function saveMonth(m,d){
-  try{localStorage.setItem(SK(m),JSON.stringify(d));}catch{}
-  if(typeof db !== 'undefined') db.collection("forex_journal_v3").doc(SK(m)).set(d).catch(e=>console.error(e));
-}
-
+/* ══════════════════════════════════════════════════════════════
+   KURS BINANCE LIVE (USDT/BIDR) - WEBSOCKET & API
+══════════════════════════════════════════════════════════════ */
 function setKursDot(state){
   const d=document.getElementById('kursDot');
   d.className='kurs-dot'+(state==='loading'?' loading':state==='error'?' error':'');
@@ -370,14 +350,29 @@ function applyKurs(rate,source,ts){
   const perUsc=Math.round(rate/100);
   const timeStr=new Date(ts).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
   const sourceLabel={
-    'binance':'🟡 Binance Live',
+    'binance-ws':'🟢 Binance Live',
+    'binance-api':'🟡 Binance API',
     'cache':'📦 Cache',
     'manual':'✏️ Override manual',
     'error':'⚠️ Fallback default'
   }[source]||'🔄';
 
-  document.getElementById('kursValEl').textContent='Rp '+Math.round(rate).toLocaleString('id-ID')+' / USD';
-  const isLive=['binance'].includes(source);
+  // Efek Kedip saat harga berubah
+  const rateEl = document.getElementById('kursValEl');
+  rateEl.textContent='Rp '+Math.round(rate).toLocaleString('id-ID')+' / USD';
+  if (source === 'binance-ws') {
+     rateEl.style.color = 'var(--teal-400)';
+     setTimeout(() => { rateEl.style.color = '#fff'; }, 200);
+  }
+
+  const iKursEl = document.getElementById('iKurs');
+  iKursEl.textContent='Rp '+Math.round(rate).toLocaleString('id-ID');
+  if (source === 'binance-ws') {
+     iKursEl.style.color = 'var(--teal-400)';
+     setTimeout(() => { iKursEl.style.color = 'var(--text)'; }, 200);
+  }
+
+  const isLive=['binance-ws','binance-api'].includes(source);
   document.getElementById('kursMetaEl').textContent=
     source==='manual'?`✏️ Override manual · 1¢=Rp${perUsc.toLocaleString('id-ID')}`:
     `${sourceLabel} · ${timeStr} · 1¢=Rp${perUsc.toLocaleString('id-ID')}`;
@@ -385,25 +380,42 @@ function applyKurs(rate,source,ts){
 
   document.getElementById('splashKurs').textContent=
     `${sourceLabel}: 1 USD = Rp ${Math.round(rate).toLocaleString('id-ID')}`;
-  document.getElementById('iKurs').textContent='Rp '+Math.round(rate).toLocaleString('id-ID');
   document.getElementById('iKursSub').textContent='1 USC = Rp '+perUsc.toLocaleString('id-ID');
 
   if(isLive){
     try{localStorage.setItem(KURS_KEY,rate.toString());localStorage.setItem(KURS_TS_KEY,ts.toString());}catch{}
-    startCountdown(ts);
+    startCountdown(ts, source === 'binance-ws');
   }else if(source==='cache'){
-    startCountdown(ts);
+    startCountdown(ts, false);
   }else if(source==='manual'){
     if(countdownInterval)clearInterval(countdownInterval);
     document.getElementById('kursCountdown').textContent='✏️ Mode override manual aktif';
   }
-  render();
-  if(activeTab==='recap')renderRecap();
+  
+  // Hanya refresh IDR saja (supaya input form jurnal tidak lost focus waktu lagi ngetik)
+  refreshIDR();
 }
 
-function startCountdown(fetchedAt){
+function refreshIDR() {
+  renderStats(calcStats(activeMonth,monthData));
+  for(let d=1; d<=daysIn(activeMonth); d++){
+     const r = monthData[d] || {};
+     const pl = (parseFloat(r.income)||0) - (parseFloat(r.outcome)||0);
+     const idrCell = document.querySelector(`td[data-idr="${d}"]`);
+     if(idrCell) {
+         idrCell.textContent = pl !== 0 ? fmtIDR(uscToIDR(pl)) : '—';
+     }
+  }
+  if(activeTab === 'recap') renderRecap();
+}
+
+function startCountdown(fetchedAt, isWs = false){
   if(countdownInterval)clearInterval(countdownInterval);
   const el=document.getElementById('kursCountdown');
+  if(isWs) {
+     el.textContent = '⚡ Real-time aktif';
+     return;
+  }
   function update(){
     const remaining=Math.max(0,REFRESH_INTERVAL-(Date.now()-fetchedAt));
     if(remaining<=0){el.textContent='⏰ Memperbarui...';clearInterval(countdownInterval);return;}
@@ -413,30 +425,26 @@ function startCountdown(fetchedAt){
   update();countdownInterval=setInterval(update,1000);
 }
 
-// MODIFIED: Fetch strictly from Binance (USDT/BIDR)
 async function fetchKursLive(){
   const ov=parseFloat(document.getElementById('kursOverride').value);
   if(!isNaN(ov)&&ov>=1000){applyKurs(ov,'manual',Date.now());return;}
 
   setKursDot('loading');
-  document.getElementById('kursMetaEl').textContent='🔄 Mengambil dari Binance (USDT/BIDR)...';
+  document.getElementById('kursMetaEl').textContent='🔄 Mengambil dari Binance API...';
   document.getElementById('kursCountdown').textContent='';
   document.getElementById('btnRefresh').disabled=true;
 
   try{
     const r=await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBIDR',{signal:AbortSignal.timeout(8000)});
     const j=await r.json();
-    if(j && j.price){
-      const rate = parseFloat(j.price);
-      applyKurs(rate,'binance',Date.now());
+    if(j&&j.price){
+      applyKurs(parseFloat(j.price),'binance-api',Date.now());
       document.getElementById('btnRefresh').disabled=false;
       return;
     }
-  }catch(e){
-    console.error("Gagal ambil dari Binance:", e);
-  }
+  }catch(e){console.error("Gagal Binance API:", e);}
 
-  // Fallback to cache or default if Binance fails
+  // Fallback
   const cached=localStorage.getItem(KURS_KEY);
   if(cached){
     applyKurs(parseFloat(cached),'cache',parseInt(localStorage.getItem(KURS_TS_KEY)||'0'));
@@ -469,20 +477,28 @@ function onManualKurs(){
   else if(document.getElementById('kursOverride').value==='')fetchKursLive();
 }
 
+function initLiveUSD() {
+  const socket = new WebSocket('wss://stream.binance.com:9443/ws/usdtidr@ticker');
+  socket.addEventListener('message', function (event) {
+      const ov=parseFloat(document.getElementById('kursOverride').value);
+      if(!isNaN(ov)&&ov>=1000) return; // Jika override manual aktif, abaikan WS
+
+      const data = JSON.parse(event.data);
+      const newPrice = parseFloat(data.c); 
+      if (newPrice && newPrice !== kursUSDIDR) {
+          applyKurs(newPrice, 'binance-ws', Date.now());
+      }
+  });
+  socket.addEventListener('close', () => setTimeout(initLiveUSD, 3000));
+  socket.addEventListener('error', () => { /* let it close and retry */ });
+}
+
 /* ─── MODAL ─── */
 function loadModal(){const s=localStorage.getItem(MODAL_KEY);modalAwal=s?parseFloat(s):0;}
 function openModal(){document.getElementById('modalInput').value=modalAwal||'';document.getElementById('overlay').classList.add('show');setTimeout(()=>document.getElementById('modalInput').focus(),80);}
 function closeModal(){document.getElementById('overlay').classList.remove('show');}
 function closeOnBg(e){if(e.target===document.getElementById('overlay'))closeModal();}
-
-// MODIFIED: Save Modal to Firebase
-function saveModal(){
-  modalAwal=parseFloat(document.getElementById('modalInput').value)||0;
-  localStorage.setItem(MODAL_KEY,modalAwal.toString());
-  if(typeof db !== 'undefined') db.collection("forex_journal_v3").doc("modal_awal").set({val: modalAwal}).catch(e=>console.error(e));
-  closeModal();render();if(activeTab==='recap')renderRecap();
-}
-
+function saveModal(){modalAwal=parseFloat(document.getElementById('modalInput').value)||0;localStorage.setItem(MODAL_KEY,modalAwal.toString());closeModal();render();if(activeTab==='recap')renderRecap();}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(e.key==='Enter'&&document.getElementById('overlay').classList.contains('show'))saveModal();});
 
 /* ─── CALC ─── */
@@ -552,8 +568,9 @@ function renderTable(){
       saveMonth(activeMonth,monthData);
       badge.className=badgeCls(monthData[day].result);
       badge.textContent=monthData[day].result==='NONE'?'—':monthData[day].result;
-      renderStats(calcStats(activeMonth,monthData));
-      if(activeTab==='recap')renderRecap();
+      
+      // Update IDR dan Stats secara presisi tanpa merusak ketikan user
+      refreshIDR();
     });
   });
 }
@@ -572,26 +589,19 @@ function updateRow(el){
   if(plCell){plCell.textContent=pl!==0?plStr(pl):'0';plCell.style.color=plColor;}
   if(idrCell){idrCell.textContent=pl!==0?fmtIDR(uscToIDR(pl)):'—';idrCell.style.color=idrColor;}
   if(pctCell){pctCell.textContent=modalAwal?((pl/modalAwal)*100).toFixed(2)+'%':'—';pctCell.style.color=plColor;}
-  renderStats(calcStats(activeMonth,monthData));
-  if(activeTab==='recap')renderRecap();
+  
+  // Update IDR dan Stats secara presisi tanpa merusak ketikan user
+  refreshIDR();
 }
 
 /* ─── MONTH BAR ─── */
-// MODIFIED: Fetch dynamically from Firebase when clicking Month tabs
 function renderMonthBar(id){
   const el=document.getElementById(id);el.innerHTML='';
   MONTHS.forEach((name,i)=>{
     const btn=document.createElement('button');
     btn.className='month-btn'+(i===activeMonth?' active':'');
     btn.textContent=name;
-    btn.onclick=()=>{
-      activeMonth=i;monthData=loadMonth(i);render();if(activeTab==='recap')renderRecap();
-      if(typeof db !== 'undefined'){
-        db.collection("forex_journal_v3").doc(SK(i)).get().then(doc=>{
-          if(doc.exists){monthData=doc.data();localStorage.setItem(SK(i),JSON.stringify(monthData));render();if(activeTab==='recap')renderRecap();}
-        });
-      }
-    };
+    btn.onclick=()=>{activeMonth=i;monthData=loadMonth(i);render();if(activeTab==='recap')renderRecap();};
     el.appendChild(btn);
   });
 }
@@ -646,23 +656,20 @@ monthData=loadMonth(activeMonth);
 setHeaderDate();
 render();
 
-// MODIFIED: Fetch Initial Data from Firebase Overwriting Local Data If Exists
-if(typeof db !== 'undefined'){
-  db.collection("forex_journal_v3").doc("modal_awal").get().then(doc=>{
-    if(doc.exists){modalAwal=doc.data().val;localStorage.setItem(MODAL_KEY,modalAwal.toString());render();if(activeTab==='recap')renderRecap();}
-  }).catch(e=>console.error("Firebase err:", e));
-  
-  db.collection("forex_journal_v3").doc(SK(activeMonth)).get().then(doc=>{
-    if(doc.exists){monthData=doc.data();localStorage.setItem(SK(activeMonth),JSON.stringify(monthData));render();if(activeTab==='recap')renderRecap();}
-  }).catch(e=>console.error("Firebase err:", e));
-}
-
 let splashClosed=false;
 function closeSplash(){if(splashClosed)return;splashClosed=true;setTimeout(()=>{const s=document.getElementById('splash');s.classList.add('hide');setTimeout(()=>s.style.display='none',600);},500);}
-fetchKurs(false).then(closeSplash).catch(closeSplash);
+
+// Memulai fetch dari Binance Live API, kemudian sambung dengan WebSocket
+fetchKursLive().then(() => {
+    closeSplash();
+    initLiveUSD();
+}).catch(() => {
+    closeSplash();
+    initLiveUSD();
+});
 setTimeout(closeSplash,2500);
 
-// Auto-refresh setiap 1 menit — prioritas Binance
+// Auto-refresh setiap 1 menit sebagai backup / fallback jika WebSocket terputus
 setInterval(()=>{
   const ov=parseFloat(document.getElementById('kursOverride').value);
   if(isNaN(ov)||ov<1000) fetchKursLive();
