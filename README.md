@@ -4,6 +4,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Jurnal Forex Pro · RHN</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+
+<!-- FIREBASE SDK (DITAMBAHKAN) -->
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+
 <style>
 :root {
   --teal-50:#E1F5EE; --teal-100:#9FE1CB; --teal-400:#1D9E75; --teal-600:#0F6E56; --teal-800:#085041;
@@ -190,7 +195,7 @@ tr.weekend td{color:#B0B4BC;}
   <div class="title">Jurnal Forex Pro</div>
   <div class="sub">RHN · Trading Journal 2026</div>
   <div class="bar-wrap"><div class="bar-fill"></div></div>
-  <div class="splash-kurs" id="splashKurs">🔄 Mengambil kurs USD/IDR dari Google...</div>
+  <div class="splash-kurs" id="splashKurs">🔄 Mengambil kurs USD/IDR dari Binance...</div>
 </div>
 
 <div class="overlay" id="overlay" onclick="closeOnBg(event)">
@@ -216,7 +221,7 @@ tr.weekend td{color:#B0B4BC;}
       <div class="kurs-dot loading" id="kursDot"></div>
       <div class="kurs-info">
         <div class="kurs-val" id="kursValEl">USD/IDR —</div>
-        <div class="kurs-meta" id="kursMetaEl">Memuat dari Google...</div>
+        <div class="kurs-meta" id="kursMetaEl">Memuat dari Binance...</div>
         <div class="kurs-countdown" id="kursCountdown"></div>
       </div>
     </div>
@@ -297,10 +302,27 @@ tr.weekend td{color:#B0B4BC;}
     </div>
   </div>
 
-  <div class="footer">Data tersimpan otomatis di browser · Kurs via Google Finance (allorigins proxy) → Wise → ExchangeRate-API · Auto-refresh 1 menit · Jurnal Forex Pro RHN © 2026</div>
+  <div class="footer">Data tersimpan otomatis di browser & tersinkronisasi ke Firestore · Kurs via Binance Live (USDT/BIDR) · Auto-refresh 1 menit · Jurnal Forex Pro RHN © 2026</div>
 </div>
 
 <script>
+// ==========================================
+// 1. FIREBASE CONFIGURATION (RHN CAPITAL)
+// ==========================================
+const firebaseConfig = {
+    apiKey: "AIzaSy...", // GANTI DENGAN API KEY ASLI KAMU
+    authDomain: "rhn-capital.firebaseapp.com",
+    projectId: "rhn-capital",
+    storageBucket: "rhn-capital.appspot.com",
+    messagingSenderId: "...",
+    appId: "..."
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// ==========================================
+// 2. LOGIKA UTAMA APLIKASI
+// ==========================================
 const MONTHS=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const DAYS=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 const YEAR=2026;
@@ -329,46 +351,18 @@ const plStr=v=>(v>0?'+':'')+v.toFixed(2);
 const pctStr=v=>modalAwal?((v/modalAwal)*100).toFixed(2)+'%':'—';
 const plCls=v=>v>0?'pl-pos':v<0?'pl-neg':'pl-zero';
 const mbCls=r=>r==='WIN'?'mb-win':r==='LOSS'?'mb-loss':r==='BE'?'mb-be':'mb-none';
-function loadMonth(m){try{return JSON.parse(localStorage.getItem(SK(m))||'{}');}catch{return{};}}
-function saveMonth(m,d){try{localStorage.setItem(SK(m),JSON.stringify(d));}catch{}}
 
-/* ══════════════════════════════════════════════════════════════
-   KURS GOOGLE FINANCE — via CORS Proxy
-   
-   Google Finance URL: https://www.google.com/finance/quote/USD-IDR
-   HTML pattern cari: class="YMlKec fxKbKc" → angka kurs
-   
-   Proxy chain (coba satu per satu sampai berhasil):
-   1. allorigins.win    → proxy paling stabil
-   2. corsproxy.io      → proxy alternatif
-   3. Wise API          → mid-market = sama dgn Google
-   4. ExchangeRate-API  → fallback
-   5. Currency-API      → fallback terakhir
-══════════════════════════════════════════════════════════════ */
+function loadMonth(m){try{return JSON.parse(localStorage.getItem(SK(m))||'{}');}catch{return{};}}
+
+// MODIFIED: Save to LocalStorage AND Firebase
+function saveMonth(m,d){
+  try{localStorage.setItem(SK(m),JSON.stringify(d));}catch{}
+  if(typeof db !== 'undefined') db.collection("forex_journal_v3").doc(SK(m)).set(d).catch(e=>console.error(e));
+}
+
 function setKursDot(state){
   const d=document.getElementById('kursDot');
   d.className='kurs-dot'+(state==='loading'?' loading':state==='error'?' error':'');
-}
-
-function parseGoogleFinanceHTML(html){
-  // Pattern 1: class="YMlKec fxKbKc">16.XXX
-  let m=html.match(/class="YMlKec[^"]*fxKbKc[^"]*"[^>]*>([\d.,]+)/);
-  if(!m) m=html.match(/class="fxKbKc[^"]*YMlKec[^"]*"[^>]*>([\d.,]+)/);
-  if(!m) m=html.match(/data-last-price="([\d.]+)"/);
-  // Pattern 2: cari angka di sekitar 15000-17000 (range kurs USD/IDR)
-  if(!m){
-    const matches=html.match(/\b1[56]\d{3}(?:\.\d+)?\b/g);
-    if(matches&&matches.length>0){
-      const val=parseFloat(matches[0]);
-      if(val>10000&&val<20000)return val;
-    }
-  }
-  if(m){
-    const raw=m[1].replace(/,/g,'');
-    const val=parseFloat(raw);
-    if(val>10000&&val<20000)return val;
-  }
-  return null;
 }
 
 function applyKurs(rate,source,ts){
@@ -376,18 +370,14 @@ function applyKurs(rate,source,ts){
   const perUsc=Math.round(rate/100);
   const timeStr=new Date(ts).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
   const sourceLabel={
-    'google-allorigins':'🟢 Google Finance',
-    'google-corsproxy':'🟢 Google Finance',
-    'wise':'🟢 Wise (≈Google)',
-    'exchangerate':'🟡 ExchangeRate-API',
-    'currencyapi':'🟡 Currency-API',
+    'binance':'🟡 Binance Live',
     'cache':'📦 Cache',
     'manual':'✏️ Override manual',
     'error':'⚠️ Fallback default'
   }[source]||'🔄';
 
   document.getElementById('kursValEl').textContent='Rp '+Math.round(rate).toLocaleString('id-ID')+' / USD';
-  const isLive=['google-allorigins','google-corsproxy','wise','exchangerate','currencyapi'].includes(source);
+  const isLive=['binance'].includes(source);
   document.getElementById('kursMetaEl').textContent=
     source==='manual'?`✏️ Override manual · 1¢=Rp${perUsc.toLocaleString('id-ID')}`:
     `${sourceLabel} · ${timeStr} · 1¢=Rp${perUsc.toLocaleString('id-ID')}`;
@@ -423,84 +413,34 @@ function startCountdown(fetchedAt){
   update();countdownInterval=setInterval(update,1000);
 }
 
+// MODIFIED: Fetch strictly from Binance (USDT/BIDR)
 async function fetchKursLive(){
   const ov=parseFloat(document.getElementById('kursOverride').value);
   if(!isNaN(ov)&&ov>=1000){applyKurs(ov,'manual',Date.now());return;}
 
   setKursDot('loading');
-  document.getElementById('kursMetaEl').textContent='🔄 Mengambil dari Google Finance...';
+  document.getElementById('kursMetaEl').textContent='🔄 Mengambil dari Binance (USDT/BIDR)...';
   document.getElementById('kursCountdown').textContent='';
   document.getElementById('btnRefresh').disabled=true;
 
-  const googleUrl='https://www.google.com/finance/quote/USD-IDR';
-
-  // ── SUMBER 1: Google Finance via allorigins.win
   try{
-    const r=await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(googleUrl)}`,{signal:AbortSignal.timeout(8000)});
+    const r=await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBIDR',{signal:AbortSignal.timeout(8000)});
     const j=await r.json();
-    if(j&&j.contents){
-      const rate=parseGoogleFinanceHTML(j.contents);
-      if(rate){
-        applyKurs(rate,'google-allorigins',Date.now());
-        document.getElementById('btnRefresh').disabled=false;
-        return;
-      }
-    }
-  }catch(e){}
-
-  // ── SUMBER 2: Google Finance via corsproxy.io
-  try{
-    const r=await fetch(`https://corsproxy.io/?${encodeURIComponent(googleUrl)}`,{signal:AbortSignal.timeout(8000)});
-    const text=await r.text();
-    if(text){
-      const rate=parseGoogleFinanceHTML(text);
-      if(rate){
-        applyKurs(rate,'google-corsproxy',Date.now());
-        document.getElementById('btnRefresh').disabled=false;
-        return;
-      }
-    }
-  }catch(e){}
-
-  // ── SUMBER 3: Wise — mid-market rate (identik Google Finance ±5 rupiah)
-  try{
-    const r=await fetch('https://wise.com/rates/live?source=USD&target=IDR',{signal:AbortSignal.timeout(6000)});
-    const j=await r.json();
-    if(j&&j.value&&j.value>10000){
-      applyKurs(j.value,'wise',Date.now());
+    if(j && j.price){
+      const rate = parseFloat(j.price);
+      applyKurs(rate,'binance',Date.now());
       document.getElementById('btnRefresh').disabled=false;
       return;
     }
-  }catch(e){}
+  }catch(e){
+    console.error("Gagal ambil dari Binance:", e);
+  }
 
-  // ── SUMBER 4: ExchangeRate-API
-  try{
-    const r=await fetch('https://open.er-api.com/v6/latest/USD',{signal:AbortSignal.timeout(6000)});
-    const j=await r.json();
-    if(j&&j.rates&&j.rates.IDR&&j.rates.IDR>10000){
-      applyKurs(j.rates.IDR,'exchangerate',Date.now());
-      document.getElementById('btnRefresh').disabled=false;
-      return;
-    }
-  }catch(e){}
-
-  // ── SUMBER 5: Currency-API
-  try{
-    const today=new Date().toISOString().slice(0,10);
-    const r=await fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${today}/v1/currencies/usd.json`,{signal:AbortSignal.timeout(6000)});
-    const j=await r.json();
-    if(j&&j.usd&&j.usd.idr&&j.usd.idr>10000){
-      applyKurs(j.usd.idr,'currencyapi',Date.now());
-      document.getElementById('btnRefresh').disabled=false;
-      return;
-    }
-  }catch(e){}
-
-  // ── Semua gagal: cache atau default
+  // Fallback to cache or default if Binance fails
   const cached=localStorage.getItem(KURS_KEY);
   if(cached){
     applyKurs(parseFloat(cached),'cache',parseInt(localStorage.getItem(KURS_TS_KEY)||'0'));
-    document.getElementById('kursMetaEl').textContent='⚠️ Semua sumber gagal · pakai cache terakhir';
+    document.getElementById('kursMetaEl').textContent='⚠️ Binance gagal · pakai cache terakhir';
   }else{
     applyKurs(16200,'error',Date.now());
     setKursDot('error');
@@ -534,7 +474,15 @@ function loadModal(){const s=localStorage.getItem(MODAL_KEY);modalAwal=s?parseFl
 function openModal(){document.getElementById('modalInput').value=modalAwal||'';document.getElementById('overlay').classList.add('show');setTimeout(()=>document.getElementById('modalInput').focus(),80);}
 function closeModal(){document.getElementById('overlay').classList.remove('show');}
 function closeOnBg(e){if(e.target===document.getElementById('overlay'))closeModal();}
-function saveModal(){modalAwal=parseFloat(document.getElementById('modalInput').value)||0;localStorage.setItem(MODAL_KEY,modalAwal.toString());closeModal();render();if(activeTab==='recap')renderRecap();}
+
+// MODIFIED: Save Modal to Firebase
+function saveModal(){
+  modalAwal=parseFloat(document.getElementById('modalInput').value)||0;
+  localStorage.setItem(MODAL_KEY,modalAwal.toString());
+  if(typeof db !== 'undefined') db.collection("forex_journal_v3").doc("modal_awal").set({val: modalAwal}).catch(e=>console.error(e));
+  closeModal();render();if(activeTab==='recap')renderRecap();
+}
+
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(e.key==='Enter'&&document.getElementById('overlay').classList.contains('show'))saveModal();});
 
 /* ─── CALC ─── */
@@ -629,13 +577,21 @@ function updateRow(el){
 }
 
 /* ─── MONTH BAR ─── */
+// MODIFIED: Fetch dynamically from Firebase when clicking Month tabs
 function renderMonthBar(id){
   const el=document.getElementById(id);el.innerHTML='';
   MONTHS.forEach((name,i)=>{
     const btn=document.createElement('button');
     btn.className='month-btn'+(i===activeMonth?' active':'');
     btn.textContent=name;
-    btn.onclick=()=>{activeMonth=i;monthData=loadMonth(i);render();if(activeTab==='recap')renderRecap();};
+    btn.onclick=()=>{
+      activeMonth=i;monthData=loadMonth(i);render();if(activeTab==='recap')renderRecap();
+      if(typeof db !== 'undefined'){
+        db.collection("forex_journal_v3").doc(SK(i)).get().then(doc=>{
+          if(doc.exists){monthData=doc.data();localStorage.setItem(SK(i),JSON.stringify(monthData));render();if(activeTab==='recap')renderRecap();}
+        });
+      }
+    };
     el.appendChild(btn);
   });
 }
@@ -690,12 +646,23 @@ monthData=loadMonth(activeMonth);
 setHeaderDate();
 render();
 
+// MODIFIED: Fetch Initial Data from Firebase Overwriting Local Data If Exists
+if(typeof db !== 'undefined'){
+  db.collection("forex_journal_v3").doc("modal_awal").get().then(doc=>{
+    if(doc.exists){modalAwal=doc.data().val;localStorage.setItem(MODAL_KEY,modalAwal.toString());render();if(activeTab==='recap')renderRecap();}
+  }).catch(e=>console.error("Firebase err:", e));
+  
+  db.collection("forex_journal_v3").doc(SK(activeMonth)).get().then(doc=>{
+    if(doc.exists){monthData=doc.data();localStorage.setItem(SK(activeMonth),JSON.stringify(monthData));render();if(activeTab==='recap')renderRecap();}
+  }).catch(e=>console.error("Firebase err:", e));
+}
+
 let splashClosed=false;
 function closeSplash(){if(splashClosed)return;splashClosed=true;setTimeout(()=>{const s=document.getElementById('splash');s.classList.add('hide');setTimeout(()=>s.style.display='none',600);},500);}
 fetchKurs(false).then(closeSplash).catch(closeSplash);
 setTimeout(closeSplash,2500);
 
-// Auto-refresh setiap 1 menit — prioritas Google Finance
+// Auto-refresh setiap 1 menit — prioritas Binance
 setInterval(()=>{
   const ov=parseFloat(document.getElementById('kursOverride').value);
   if(isNaN(ov)||ov<1000) fetchKursLive();
