@@ -484,25 +484,29 @@ section{
   margin-bottom: 10px;
 }
 
-/* RULES & MATERI */
-.rules{
-  display: flex;
-  flex-direction: column;
+/* FIX: RULES & MATERI (S.O.P TRADING) */
+.rules {
+  display: grid;
+  grid-template-columns: 1fr; /* Memastikan kotak selalu responsif turun ke bawah */
   gap: 25px;
   max-width: 900px;
-  margin: auto;
+  margin: 0 auto;
 }
 
-.rule{
+.rule {
   background: var(--c-surface);
-  padding: 35px 45px;
+  padding: 30px 40px; /* Padding diatur ulang agar tidak terlalu ngepres/kopong */
   border-radius: 20px;
   box-shadow: var(--shadow-soft);
   transition: all 0.3s ease;
   border-left: 8px solid var(--c-primary);
+  height: auto !important; /* Memaksa kotak setinggi isi tulisan */
+  min-height: max-content;
+  display: block; /* Mencegah flexbox collapse */
+  overflow: visible; /* Memastikan isi tidak terpotong */
 }
 
-.rule:hover{
+.rule:hover {
   transform: translateX(15px);
   box-shadow: var(--shadow-hover);
 }
@@ -510,14 +514,17 @@ section{
 .rule h4 {
   color: #0a1128;
   font-size: 1.3rem;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
+  margin-top: 0;
   font-weight: 800;
+  line-height: 1.4;
 }
 
 .rule p {
   color: var(--c-text-muted);
   line-height: 1.8;
   font-size: 1.05rem;
+  margin: 0; /* Merapikan jarak tulisan */
 }
 
 /* CONTACT BOX */
@@ -655,6 +662,7 @@ footer p {
   section { padding: 90px 5%; }
   .accordion-btn { padding: 25px 30px; font-size: 1.15rem; }
   .card { padding: 35px 25px; }
+  .rule { padding: 25px; } /* Padding disesuaikan untuk HP */
 }
 </style>
 </head>
@@ -880,7 +888,6 @@ accordions.forEach(acc => {
     const content = this.nextElementSibling;
     const span = this.querySelector('span');
     
-    // Auto-close others for cleaner UX
     accordions.forEach(otherAcc => {
       if (otherAcc !== this) {
         otherAcc.classList.remove('active');
@@ -904,18 +911,18 @@ accordions.forEach(acc => {
   });
 });
 
-// 3. GENERATOR MATERI EDUKASI (Diperpanjang & Lebih Profesional)
+// 3. GENERATOR MATERI EDUKASI
 const dataMateri = [
-  { judul: "Mekanika Pasar Finansial Global", isi: "Trading adalah partisipasi aktif dalam likuiditas pasar aset finansial (seperti pasangan mata uang mayor, indeks saham, hingga logam mulia). Keuntungan didapatkan dengan memprediksi arah pergerakan aset berdasarkan analisis historis harga, volume, serta rilis data makroekonomi yang memengaruhi kekuatan sebuah mata uang." },
-  { judul: "Anatomi Candlestick Lanjutan", isi: "Candlestick bukan sekadar warna merah atau hijau, melainkan visualisasi psikologi pelaku pasar dalam waktu tertentu. Volume bodi (Body) merepresentasikan komitmen pembeli/penjual, sementara sumbu (Wick/Shadow) merepresentasikan penolakan harga (Rejection) atau pengambilan likuiditas sebelum harga berbalik arah." },
-  { judul: "Zonasi Supply & Demand (SND)", isi: "Pasar tidak bergerak secara acak. Harga bergerak dari satu zona likuiditas ke zona likuiditas lainnya. Zona Supply merepresentasikan dominasi tekanan jual historis (pesanan tertunda institusi), sedangkan Demand merepresentasikan area minat beli agregat. Mengidentifikasi zona ini adalah kunci utama untuk mendapatkan presisi tinggi." },
-  { judul: "Hukum Probabilitas & Risk to Reward (RR)", isi: "Anda tidak perlu selalu benar untuk bisa mencetak profit konsisten. Dengan penerapan rasio Risk:Reward yang logis (misalnya 1:3), Anda merisikokan 1 bagian untuk mendapatkan 3 bagian. Melalui rasio ini, win-rate sebesar 35-40% dari total transaksi bulanan sudah cukup untuk membuat nilai portofolio Anda bertumbuh secara eksponensial." },
-  { judul: "Konsep Dasar Smart Money (SMC)", isi: "Trader ritel cenderung bertransaksi menggunakan pola klasik yang sangat mudah diantisipasi oleh algoritma institusi besar (Smart Money). SMC mengajarkan Anda untuk melihat pasar dari sudut pandang pembuat pasar (Market Maker), memahami bagaimana mereka mengumpulkan posisi (Accumulation), menjebak ritel (Manipulation), lalu mendistribusikan harga (Distribution)." },
-  { judul: "Pentingnya Manajemen Multi-Timeframe", isi: "Analisis yang valid tidak pernah bersumber hanya dari satu Timeframe (TF). Analis profesional menggunakan TF besar (Daily/H4) untuk menentukan bias arah tren utama dan mencari Order Block kuat, TF menengah (H1/M15) untuk memantau struktur pasar terkini, dan TF kecil (M5/M1) untuk masuk pasar (Entry) demi meminimalisasi jarak Stop Loss." },
-  { judul: "Psikologi: Menghancurkan Bias FOMO", isi: "Fear of Missing Out (FOMO) adalah penyebab utama hancurnya akun trading. Trader profesional memiliki kesabaran tak terbatas. Mereka membiarkan harga yang mendatangi area zona setup mereka (Limit Order), bukan secara emosional mengejar harga yang sedang melesat kencang akibat berita mendadak." },
-  { judul: "Navigasi Drawdown Portofolio", isi: "Drawdown (penurunan beruntun) adalah fase alami dari sistem trading mana pun. Kunci melewati fase ini bukan dengan meningkatkan ukuran lot untuk 'balas dendam' kepada pasar (Revenge Trading), melainkan menurunkan eksposur risiko dan mengevaluasi kembali penyesuaian strategi dengan kondisi pasar yang mungkin sedang tidak ideal (Sideways/Konsolidasi)." },
-  { judul: "Pemanfaatan Indikator vs Price Action", isi: "Meskipun indikator (Moving Average, RSI, MACD) dapat membantu, mereka selalu bersifat terlambat (Lagging) karena dihitung dari data harga masa lalu. Institute Trading menekankan pentingnya penguasaan Price Action murni (Membaca harga telanjang), karena harga itu sendiri adalah indikator tercepat dan paling jujur di pasar." },
-  { judul: "Komitmen Pertumbuhan (Compounding)", isi: "Berfokuslah pada persentase pertumbuhan bulanan yang serealistis mungkin (5% - 10%), bukan melipatgandakan akun dalam semalam. Keajaiban efek bunga majemuk (Compounding) akan mengubah pertumbuhan kecil yang persisten menjadi akumulasi kekayaan yang luar biasa hebat dalam rentang waktu bertahun-tahun." }
+  { judul: "Mekanika Pasar Finansial Global", isi: "Trading adalah partisipasi aktif dalam likuiditas pasar aset finansial. Keuntungan didapatkan dengan memprediksi arah pergerakan aset berdasarkan analisis historis harga, volume, serta rilis data makroekonomi." },
+  { judul: "Anatomi Candlestick Lanjutan", isi: "Candlestick memvisualisasikan psikologi pasar. Body merepresentasikan komitmen pembeli/penjual, sementara Wick/Shadow merepresentasikan penolakan harga atau pengambilan likuiditas." },
+  { judul: "Zonasi Supply & Demand (SND)", isi: "Pasar bergerak dari zona likuiditas ke zona lainnya. Zona Supply adalah area pesanan jual tertunda institusi, sedangkan Demand adalah area minat beli. Identifikasi ini adalah kunci presisi." },
+  { judul: "Hukum Probabilitas & Risk to Reward (RR)", isi: "Dengan rasio RR logis (misal 1:3), Anda cukup merisikokan sedikit untuk keuntungan besar. Win-rate 35-40% sudah cukup membuat portofolio Anda bertumbuh eksponensial." },
+  { judul: "Konsep Dasar Smart Money (SMC)", isi: "SMC mengajarkan Anda melihat pasar layaknya Market Maker. Memahami bagaimana institusi mengumpulkan posisi, menjebak ritel, lalu mendistribusikan harga." },
+  { judul: "Pentingnya Manajemen Multi-Timeframe", isi: "Gunakan TF Daily/H4 untuk tren utama, H1/M15 untuk struktur terkini, dan M5/M1 untuk masuk pasar dengan jarak Stop Loss yang sangat minim." },
+  { judul: "Psikologi: Menghancurkan Bias FOMO", isi: "FOMO sering menghancurkan akun. Trader profesional bersabar membiarkan harga yang mendatangi area zona setup mereka, bukan secara emosional mengejar harga yang sedang melesat." },
+  { judul: "Navigasi Drawdown Portofolio", isi: "Drawdown adalah fase alami. Kuncinya bukan membalas dendam ke pasar dengan menaikkan lot, melainkan menurunkan risiko dan mengevaluasi strategi Anda kembali." },
+  { judul: "Pemanfaatan Indikator vs Price Action", isi: "Indikator seringkali terlambat (lagging). Kami menekankan pentingnya penguasaan Price Action murni karena harga itu sendiri adalah indikator tercepat dan paling jujur." },
+  { judul: "Komitmen Pertumbuhan (Compounding)", isi: "Berfokuslah pada pertumbuhan bulanan realistis (5% - 10%). Efek bunga majemuk (Compounding) akan mengubah pertumbuhan kecil ini menjadi akumulasi kekayaan yang luar biasa." }
 ];
 
 const kontainer = document.getElementById("kontainer-materi");
