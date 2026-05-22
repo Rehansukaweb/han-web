@@ -1,679 +1,937 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Jurnal Forex Pro · RHN</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IT - Institute Trading | Professional Education</title>
 
-<!-- FIREBASE SDK (DITAMBAHKAN) -->
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --teal-50:#E1F5EE; --teal-100:#9FE1CB; --teal-400:#1D9E75; --teal-600:#0F6E56; --teal-800:#085041;
-  --red-50:#FCEBEB; --red-400:#E24B4A; --red-600:#A32D2D;
-  --amber-50:#FAEEDA; --amber-400:#BA7517; --amber-600:#854F0B;
-  --blue-50:#E6F1FB; --blue-400:#378ADD; --blue-600:#185FA5;
-  --purple-50:#EEEDFE; --purple-400:#7F77DD; --purple-600:#534AB7;
-  --gray-50:#F1EFE8; --gray-100:#D3D1C7; --gray-400:#888780; --gray-600:#5F5E5A;
-  --bg:#F5F6FA; --surface:#fff; --border:#E2E4EA;
-  --text:#1A1C23; --muted:#6B7280; --hint:#9CA3AF;
-  --font:'Space Grotesk',sans-serif; --mono:'JetBrains Mono',monospace;
-  --radius:12px; --radius-sm:8px; --shadow:0 2px 12px rgba(0,0,0,.08);
+  --c-primary: #00b140;
+  --c-primary-light: #00ff88;
+  --c-grad: linear-gradient(135deg, var(--c-primary), var(--c-primary-light));
+  --c-bg: #f5fff7;
+  --c-surface: #ffffff;
+  --c-text: #111827;
+  --c-text-muted: #4b5563;
+  --shadow-soft: 0 15px 40px rgba(0, 177, 64, 0.06);
+  --shadow-hover: 0 20px 50px rgba(0, 177, 64, 0.15);
+  --border-soft: 1px solid rgba(0, 177, 64, 0.1);
 }
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
-#splash{position:fixed;inset:0;background:linear-gradient(135deg,#0F6E56,#1D9E75 60%,#5dd9a8);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;}
-#splash .logo{font-size:52px;animation:floatUp .6s ease both;}
-#splash .title{font-size:28px;font-weight:700;color:#fff;letter-spacing:-.02em;opacity:0;animation:floatUp .6s .15s ease both;}
-#splash .sub{font-size:14px;color:rgba(255,255,255,.7);opacity:0;animation:floatUp .6s .3s ease both;}
-#splash .bar-wrap{width:220px;height:4px;background:rgba(255,255,255,.2);border-radius:99px;margin-top:12px;opacity:0;animation:floatUp .4s .45s ease both;}
-#splash .bar-fill{height:100%;background:#fff;border-radius:99px;width:0;animation:loadBar 1.8s .5s cubic-bezier(.4,0,.2,1) forwards;}
-@keyframes floatUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-@keyframes loadBar{to{width:100%}}
-#splash.hide{animation:splashOut .5s .1s ease forwards;pointer-events:none;}
-@keyframes splashOut{to{opacity:0;transform:scale(1.04);}}
-.splash-kurs{font-size:13px;color:rgba(255,255,255,.85);background:rgba(255,255,255,.15);padding:8px 18px;border-radius:99px;opacity:0;animation:floatUp .5s .6s ease both;}
-header{background:linear-gradient(135deg,#0F6E56,#1D9E75);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(15,110,86,.25);}
-.h-left{display:flex;align-items:center;gap:10px;}
-.h-icon{font-size:22px;}
-.h-title{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.02em;}
-.h-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.h-date{font-size:12px;color:rgba(255,255,255,.7);}
-.kurs-pill{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:var(--radius-sm);padding:7px 13px;}
-.kurs-dot{width:7px;height:7px;border-radius:50%;background:#5dd9a8;flex-shrink:0;animation:blink 2s infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
-.kurs-dot.loading{background:#fcd34d;animation:blink 0.8s infinite;}
-.kurs-dot.error{background:#f87171;animation:none;}
-.kurs-info{display:flex;flex-direction:column;gap:1px;}
-.kurs-val{font-size:13px;font-weight:700;color:#fff;font-family:var(--mono);transition:color 0.2s ease;}
-.kurs-meta{font-size:10px;color:rgba(255,255,255,.65);}
-.kurs-manual-wrap{display:flex;align-items:center;gap:6px;}
-.kurs-lbl-h{font-size:11px;color:rgba(255,255,255,.8);white-space:nowrap;}
-.kurs-input-h{width:80px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:6px;padding:4px 7px;font-size:12px;font-family:var(--mono);color:#fff;outline:none;text-align:center;}
-.kurs-input-h::placeholder{color:rgba(255,255,255,.45);}
-.kurs-input-h:focus{background:rgba(255,255,255,.3);}
-.btn-refresh{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap;}
-.btn-refresh:hover{background:rgba(255,255,255,.3);}
-.btn-refresh:disabled{opacity:.4;cursor:default;}
-.btn-modal{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;font-family:var(--font);transition:all .15s;display:flex;align-items:center;gap:6px;}
-.btn-modal:hover{background:rgba(255,255,255,.28);}
-#modalBadge{font-size:11px;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:99px;}
-.kurs-countdown{font-size:10px;color:rgba(255,255,255,.55);font-family:var(--mono);}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
-.overlay.show{display:flex;}
-.modal{background:var(--surface);border-radius:18px;padding:28px;width:340px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:modalIn .22s ease;}
-@keyframes modalIn{from{opacity:0;transform:scale(.93) translateY(12px)}to{opacity:1;transform:none}}
-.modal h2{font-size:18px;font-weight:700;color:var(--teal-600);margin-bottom:4px;}
-.modal p{font-size:13px;color:var(--muted);margin-bottom:20px;}
-.modal label{font-size:13px;font-weight:600;color:var(--text);display:block;margin-bottom:7px;}
-.modal input{width:100%;border:2px solid var(--border);border-radius:10px;padding:11px 14px;font-size:16px;font-family:var(--mono);outline:none;transition:border-color .15s;color:var(--text);}
-.modal input:focus{border-color:var(--teal-400);}
-.modal-actions{display:flex;gap:10px;margin-top:20px;}
-.btn-save{flex:1;background:var(--teal-400);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:background .15s;}
-.btn-save:hover{background:var(--teal-600);}
-.btn-cancel{background:var(--gray-50);color:var(--muted);border:none;border-radius:10px;padding:12px 18px;font-size:14px;cursor:pointer;font-family:var(--font);}
-.container{max-width:1300px;margin:0 auto;padding:22px 16px;}
-.info-strip{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:18px;display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;}
-.info-item{display:flex;flex-direction:column;gap:2px;}
-.info-lbl{font-size:10px;font-weight:600;color:var(--hint);text-transform:uppercase;letter-spacing:.06em;}
-.info-val{font-size:15px;font-weight:700;font-family:var(--mono);color:var(--text);transition:color 0.2s ease;}
-.info-idr{font-size:11px;font-weight:600;font-family:var(--mono);color:var(--blue-400);margin-top:1px;}
-.info-divider{width:1px;height:40px;background:var(--border);margin:0 4px;}
-.tab-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
-.tab-btn{font-size:13px;font-weight:600;padding:9px 22px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;font-family:var(--font);transition:all .15s;}
-.tab-btn.active{background:var(--teal-600);color:#fff;border-color:var(--teal-600);}
-.tab-btn:hover:not(.active){background:var(--teal-50);border-color:var(--teal-100);color:var(--teal-600);}
-.tab-content{display:none;animation:fadeIn .25s ease;}
-.tab-content.show{display:block;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.month-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
-.month-btn{font-size:12px;padding:6px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;font-family:var(--font);transition:all .15s;}
-.month-btn.active{background:var(--teal-400);color:#fff;border-color:var(--teal-400);font-weight:600;}
-.month-btn:hover:not(.active){background:var(--teal-50);border-color:var(--teal-100);color:var(--teal-600);}
-.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px;}
-@media(max-width:760px){.stats-grid{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:480px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
-.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;transition:box-shadow .15s;}
-.stat:hover{box-shadow:var(--shadow);}
-.stat-lbl{font-size:10px;color:var(--hint);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
-.stat-val{font-size:22px;font-weight:700;font-family:var(--mono);}
-.stat-idr{font-size:11px;font-weight:600;font-family:var(--mono);color:var(--blue-400);margin-top:4px;}
-.c-green{color:var(--teal-400);}.c-red{color:var(--red-400);}.c-blue{color:var(--blue-400);}.c-purple{color:var(--purple-400);}.c-gray{color:var(--gray-400);}
-.wr-bar{height:5px;background:var(--border);border-radius:99px;margin-top:8px;overflow:hidden;}
-.wr-fill{background:var(--teal-400);height:100%;border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1);}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:18px;box-shadow:var(--shadow);}
-.card-hdr{background:var(--teal-50);border-bottom:1px solid var(--teal-100);padding:13px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;}
-.card-title{font-size:15px;font-weight:700;color:var(--teal-600);}
-.card-hint{font-size:11px;color:var(--muted);}
-table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed;}
-thead th{background:#F7FDF9;color:var(--teal-600);font-weight:600;padding:10px 8px;text-align:center;font-size:11px;border-bottom:1.5px solid var(--teal-100);font-family:var(--font);}
-thead th.th-idr{background:#EEF3FF;color:var(--blue-600);}
-tbody tr:hover{background:#F0FDF8;}
-tbody td{padding:6px 7px;text-align:center;border-bottom:1px solid #F5F5F5;vertical-align:middle;}
-tbody tr:last-child td{border-bottom:none;}
-td.day-lbl{color:var(--hint);font-size:11px;}
-td input[type="text"],td input[type="number"]{width:100%;border:1px solid transparent;background:transparent;text-align:center;font-size:13px;color:var(--text);font-family:var(--font);padding:3px 4px;border-radius:6px;outline:none;transition:all .15s;}
-td input:focus{background:var(--teal-50);border-color:var(--teal-100);}
-td input::placeholder{color:var(--hint);}
-td.pl-cell{font-family:var(--mono);font-weight:700;}
-td.idr-cell{font-family:var(--mono);font-size:12px;font-weight:600;}
-td.pct-cell{font-family:var(--mono);font-size:12px;}
-.badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;cursor:pointer;user-select:none;letter-spacing:.04em;transition:transform .1s;}
-.badge:active{transform:scale(.93);}
-.b-win{background:var(--teal-50);color:var(--teal-600);}
-.b-loss{background:var(--red-50);color:var(--red-600);}
-.b-be{background:var(--amber-50);color:var(--amber-600);}
-.b-none{background:#F3F4F6;color:var(--hint);border:1px dashed var(--border);}
-textarea.note{font-size:12px;color:var(--muted);width:100%;border:1px solid transparent;background:transparent;font-family:var(--font);resize:none;outline:none;padding:2px 4px;border-radius:6px;transition:all .15s;}
-textarea.note:focus{background:#F9F9F9;border-color:var(--border);}
-textarea.note::placeholder{color:var(--hint);}
-tr.weekend{background:#FAFAFA;}
-tr.weekend td{color:#B0B4BC;}
-.recap-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-@media(max-width:640px){.recap-grid{grid-template-columns:1fr;}}
-.rc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
-.rc-hdr{padding:13px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
-.rc-icon{font-size:16px;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;}
-.rc-title{font-size:14px;font-weight:700;}
-.rc-sub{font-size:11px;margin-top:1px;}
-.rc-daily .rc-hdr{background:var(--blue-50);}
-.rc-daily .rc-icon{background:#BFDBFE;}
-.rc-daily .rc-title{color:var(--blue-600);}
-.rc-daily .rc-sub{color:#3B82F6;}
-.rc-weekly .rc-hdr{background:var(--teal-50);}
-.rc-weekly .rc-icon{background:var(--teal-100);}
-.rc-weekly .rc-title{color:var(--teal-600);}
-.rc-weekly .rc-sub{color:var(--teal-400);}
-.rc-monthly .rc-hdr{background:var(--amber-50);}
-.rc-monthly .rc-icon{background:#FCD34D;}
-.rc-monthly .rc-title{color:var(--amber-600);}
-.rc-monthly .rc-sub{color:var(--amber-400);}
-.rc-yearly .rc-hdr{background:var(--purple-50);}
-.rc-yearly .rc-icon{background:#DDD6FE;}
-.rc-yearly .rc-title{color:var(--purple-600);}
-.rc-yearly .rc-sub{color:var(--purple-400);}
-.rtable{width:100%;border-collapse:collapse;font-size:12.5px;}
-.rtable th{padding:8px 12px;text-align:left;font-size:10px;font-weight:600;color:var(--hint);text-transform:uppercase;letter-spacing:.06em;background:#FAFAFA;border-bottom:1px solid var(--border);}
-.rtable th:not(:first-child){text-align:right;}
-.rtable th.th-idr{color:var(--blue-600);background:#EEF3FF;}
-.rtable td{padding:8px 12px;border-bottom:1px solid #F5F5F5;vertical-align:middle;font-family:var(--mono);}
-.rtable td:first-child{font-family:var(--font);}
-.rtable td:not(:first-child){text-align:right;}
-.rtable td.td-idr{color:var(--blue-400);font-size:11px;}
-.rtable tr:last-child td{border-bottom:none;}
-.rtable tr:hover td{background:#FAFAFA;}
-.rtable tfoot td{font-weight:700;background:#F7FDF9;border-top:1.5px solid var(--teal-100);}
-.rtable tfoot td.td-idr{background:#EEF3FF;}
-.pl-pos{color:var(--teal-400);font-weight:700;}
-.pl-neg{color:var(--red-400);font-weight:700;}
-.pl-zero{color:var(--hint);}
-.mini-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;}
-.mb-win{background:var(--teal-50);color:var(--teal-600);}
-.mb-loss{background:var(--red-50);color:var(--red-600);}
-.mb-be{background:var(--amber-50);color:var(--amber-600);}
-.mb-none{background:#F3F4F6;color:var(--hint);}
-.empty{text-align:center;padding:32px;color:var(--hint);font-size:13px;}
-.yr-wrap{padding:14px 16px;}
-.yr-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
-.yr-lbl{width:42px;font-size:11px;font-weight:600;color:var(--muted);flex-shrink:0;}
-.yr-bg{flex:1;background:var(--border);border-radius:99px;height:13px;overflow:hidden;}
-.yr-fill{height:100%;border-radius:99px;transition:width .6s cubic-bezier(.4,0,.2,1);}
-.yr-pos{background:linear-gradient(90deg,var(--teal-400),#5dd9a8);}
-.yr-neg{background:linear-gradient(90deg,var(--red-400),#f87171);}
-.yr-val{width:140px;text-align:right;font-size:11px;font-weight:700;flex-shrink:0;font-family:var(--mono);line-height:1.6;}
-.yr-idr{font-size:10px;color:var(--blue-400);font-weight:600;}
-.yr-total{border-top:1px solid var(--border);margin-top:10px;padding-top:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
-.footer{text-align:center;margin-top:28px;font-size:11px;color:var(--hint);padding-bottom:24px;}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body{
+  font-family: 'Poppins', sans-serif;
+  background: var(--c-bg);
+  color: var(--c-text);
+  overflow-x: hidden;
+  line-height: 1.7;
+}
+
+/* NAVBAR */
+header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 18px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 1000;
+  border-bottom: 1px solid rgba(0,0,0,0.03);
+  transition: all 0.4s ease;
+}
+
+.logo{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo-circle{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--c-grad);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 800;
+  box-shadow: 0 10px 20px rgba(0, 177, 64, 0.25);
+  animation: floating 4s ease-in-out infinite;
+}
+
+.logo h2{
+  font-size: 1.4rem;
+  color: var(--c-primary);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.logo p {
+  font-size: 0.7rem;
+  color: var(--c-text-muted);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+nav{
+  display: flex;
+  gap: 40px;
+}
+
+nav a{
+  text-decoration: none;
+  color: var(--c-text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: 0.3s ease;
+  position: relative;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: var(--c-primary);
+  transition: 0.3s ease;
+}
+
+nav a:hover{
+  color: var(--c-primary);
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* HERO */
+.hero{
+  min-height: 100vh;
+  padding: 180px 7% 100px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  gap: 60px;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(214, 255, 228, 0.7) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(197, 255, 217, 0.6) 0%, transparent 40%);
+}
+
+.badge{
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  background: rgba(0, 177, 64, 0.1);
+  color: var(--c-primary);
+  font-weight: 700;
+  border-radius: 50px;
+  margin-bottom: 25px;
+  font-size: 0.9rem;
+  border: var(--border-soft);
+  letter-spacing: 0.5px;
+}
+
+.hero h1{
+  font-size: 4rem;
+  line-height: 1.15;
+  margin-bottom: 25px;
+  font-weight: 800;
+  color: #0a1128;
+  letter-spacing: -1px;
+}
+
+.hero h1 span{
+  background: var(--c-grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p{
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--c-text-muted);
+  max-width: 95%;
+  margin-bottom: 40px;
+}
+
+.hero-buttons{
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn{
+  padding: 16px 35px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary{
+  background: var(--c-grad);
+  color: white;
+  box-shadow: 0 10px 20px rgba(0, 177, 64, 0.2);
+}
+
+.btn-primary:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 177, 64, 0.35);
+}
+
+.btn-secondary{
+  background: white;
+  color: var(--c-primary);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(0, 177, 64, 0.15);
+}
+
+.btn-secondary:hover{
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* HERO RIGHT (CARD) */
+.hero-card{
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 50px 45px;
+  border-radius: 35px;
+  box-shadow: var(--shadow-hover);
+  border: var(--border-soft);
+  position: relative;
+  overflow: hidden;
+  animation: floating 5s ease-in-out infinite;
+}
+
+.hero-card::before{
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: var(--c-grad);
+  top: -120px;
+  right: -120px;
+  border-radius: 50%;
+  opacity: 0.1;
+  filter: blur(50px);
+}
+
+.hero-card h2{
+  font-size: 1.5rem;
+  margin-bottom: 35px;
+  font-weight: 800;
+  color: #0a1128;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.stat-box{
+  background: white;
+  padding: 22px 25px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+  border: 1px solid #f4f4f4;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.stat-box h3{
+  font-size: 2.2rem;
+  color: var(--c-primary);
+  font-weight: 800;
+  min-width: 80px;
+}
+
+.stat-box p {
+  color: var(--c-text-muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.progress{
+  width: 100%;
+  height: 14px;
+  background: #edf2f7;
+  border-radius: 50px;
+  overflow: hidden;
+  margin-top: 35px;
+}
+
+.progress-fill{
+  height: 100%;
+  width: 90%;
+  background: var(--c-grad);
+  border-radius: 50px;
+  animation: grow 3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+.progress-text{
+  margin-top: 15px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--c-primary);
+  text-align: right;
+}
+
+/* SECTION GLOBAL */
+section{
+  padding: 120px 7%;
+}
+
+.section-title{
+  text-align: center;
+  margin-bottom: 70px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-title span{
+  display: inline-block;
+  color: var(--c-primary);
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  background: rgba(0, 177, 64, 0.1);
+  padding: 8px 20px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+}
+
+.section-title h2{
+  font-size: 3rem;
+  color: #0a1128;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.section-title p {
+  font-size: 1.1rem;
+  color: var(--c-text-muted);
+}
+
+/* GRID & CARDS (TENTANG KAMI) */
+.grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 35px;
+}
+
+.card{
+  background: var(--c-surface);
+  padding: 50px 40px;
+  border-radius: 30px;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.8);
+  z-index: 1;
+}
+
+.card::before{
+  content: '';
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: var(--c-grad);
+  opacity: 0.04;
+  top: -50px;
+  right: -50px;
+  border-radius: 50%;
+  transition: all 0.5s ease;
+  z-index: -1;
+}
+
+.card:hover{
+  transform: translateY(-12px);
+  box-shadow: var(--shadow-hover);
+}
+
+.card:hover::before {
+  transform: scale(2);
+  opacity: 0.08;
+}
+
+.card h3{
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0a1128;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.card p{
+  color: var(--c-text-muted);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+/* ACCORDION (PROGRAM) */
+.accordion-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.accordion-btn {
+  background: var(--c-surface);
+  padding: 35px 45px;
+  border-radius: 25px;
+  box-shadow: var(--shadow-soft);
+  width: 100%;
+  text-align: left;
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-family: inherit;
+  border: 1px solid rgba(0,0,0,0.02);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #0a1128;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion-btn span {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--c-primary);
+  transition: transform 0.4s ease;
+}
+
+.accordion-btn.active span {
+  transform: rotate(45deg);
+}
+
+.accordion-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.accordion-btn.premium-acc {
+  background: var(--c-grad);
+  color: white;
+  border: none;
+}
+
+.accordion-btn.premium-acc span {
+  color: white;
+}
+
+.accordion-content {
+  padding: 0 45px;
+  background: var(--c-surface);
+  border-radius: 0 0 25px 25px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.1, 0.8, 0.3, 1), padding 0.5s ease;
+  box-shadow: var(--shadow-soft);
+  margin-top: -30px; 
+  position: relative;
+  z-index: -1; 
+}
+
+.accordion-content p {
+  color: var(--c-text-muted);
+  line-height: 1.9;
+  padding: 55px 0 35px 0;
+  font-size: 1.05rem;
+}
+
+.accordion-content ul {
+  padding: 0 0 35px 20px;
+  color: var(--c-text-muted);
+  line-height: 1.9;
+  font-size: 1.05rem;
+}
+
+.accordion-content li {
+  margin-bottom: 10px;
+}
+
+/* RULES & MATERI */
+.rules{
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.rule{
+  background: var(--c-surface);
+  padding: 35px 45px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+  border-left: 8px solid var(--c-primary);
+}
+
+.rule:hover{
+  transform: translateX(15px);
+  box-shadow: var(--shadow-hover);
+}
+
+.rule h4 {
+  color: #0a1128;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 800;
+}
+
+.rule p {
+  color: var(--c-text-muted);
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+/* CONTACT BOX */
+.contact-wrapper {
+  max-width: 1000px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+.contact-box{
+  background: var(--c-surface);
+  padding: 70px 50px;
+  border-radius: 40px;
+  text-align: center;
+  box-shadow: var(--shadow-hover);
+  position: relative;
+}
+
+.contact-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: var(--c-grad);
+  border-radius: 40px 40px 0 0;
+}
+
+.contact-box h2{
+  font-size: 2.5rem;
+  color: #0a1128;
+  margin-bottom: 15px;
+  font-weight: 800;
+}
+
+.contact-box h2 span {
+  color: var(--c-primary);
+}
+
+.contact-box p {
+  color: var(--c-text-muted);
+  font-size: 1.15rem;
+  margin-bottom: 30px;
+}
+
+.contact-box h3{
+  font-size: 3.5rem;
+  margin: 20px 0;
+  color: var(--c-primary);
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.payment-methods {
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+}
+
+.payment-methods p {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.payment-badges {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.payment-badge {
+  background: #f8f9fa;
+  padding: 8px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  color: #333;
+  border: 1px solid #e9ecef;
+  font-size: 0.95rem;
+}
+
+/* FOOTER */
+footer{
+  background: #008731;
+  padding: 70px 20px;
+  text-align: center;
+  color: white;
+}
+
+footer h2{
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  font-weight: 800;
+}
+
+footer p {
+  opacity: 0.9;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+/* ANIMATION */
+@keyframes floating{
+  0%, 100%{ transform: translateY(0); }
+  50%{ transform: translateY(-20px); }
+}
+
+@keyframes grow{
+  from{ width: 0%; }
+  to{ width: 90%; }
+}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .hero{ grid-template-columns: 1fr; padding-top: 150px; gap: 50px; }
+  .hero h1{ font-size: 3.5rem; }
+  .hero-card { margin: 0 auto; max-width: 550px; width: 100%; }
+  nav{ display: none; }
+}
+
+@media(max-width:600px){
+  .hero h1{ font-size: 2.6rem; }
+  .hero p { font-size: 1.05rem; }
+  .section-title h2{ font-size: 2.2rem; }
+  .btn{ width: 100%; }
+  .contact-box{ padding: 50px 25px; }
+  .contact-box h3 { font-size: 2.5rem; }
+  section { padding: 90px 5%; }
+  .accordion-btn { padding: 25px 30px; font-size: 1.15rem; }
+  .card { padding: 35px 25px; }
+}
 </style>
 </head>
+
 <body>
 
-<div id="splash">
-  <div class="logo">📈</div>
-  <div class="title">Jurnal Forex Pro</div>
-  <div class="sub">RHN · Trading Journal 2026</div>
-  <div class="bar-wrap"><div class="bar-fill"></div></div>
-  <div class="splash-kurs" id="splashKurs">🔄 Mengambil kurs USD/IDR dari Binance...</div>
-</div>
-
-<div class="overlay" id="overlay" onclick="closeOnBg(event)">
-  <div class="modal">
-    <h2>💰 Set Modal Awal</h2>
-    <p>Modal awal digunakan sebagai acuan perhitungan % profit/loss dan saldo akhir.</p>
-    <label for="modalInput">Jumlah Modal (USC)</label>
-    <input type="number" id="modalInput" placeholder="Contoh: 1000" min="0" step="any"/>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">Batal</button>
-      <button class="btn-save" onclick="saveModal()">✅ Simpan Modal</button>
-    </div>
-  </div>
-</div>
-
 <header>
-  <div class="h-left">
-    <span class="h-icon">📈</span>
-    <span class="h-title">Jurnal Forex Pro · RHN</span>
-  </div>
-  <div class="h-right">
-    <div class="kurs-pill">
-      <div class="kurs-dot loading" id="kursDot"></div>
-      <div class="kurs-info">
-        <div class="kurs-val" id="kursValEl">USD/IDR —</div>
-        <div class="kurs-meta" id="kursMetaEl">Memuat dari Binance...</div>
-        <div class="kurs-countdown" id="kursCountdown"></div>
-      </div>
+  <div class="logo">
+    <div class="logo-circle">IT</div>
+    <div>
+      <h2>Institute Trading</h2>
+      <p>by RHN Capital Finance</p>
     </div>
-    <div class="kurs-manual-wrap">
-      <span class="kurs-lbl-h">Override kurs:</span>
-      <input class="kurs-input-h" type="number" id="kursOverride" placeholder="cth: 16200" min="1000" step="50" oninput="onManualKurs()"/>
-    </div>
-    <button class="btn-refresh" id="btnRefresh" onclick="fetchKursLive()">🔄 Refresh</button>
-    <button class="btn-modal" onclick="openModal()">💰 Modal Awal <span id="modalBadge">Belum diset</span></button>
-    <span class="h-date" id="hDate"></span>
   </div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">Filosofi</a>
+    <a href="#program">Program & Kurikulum</a>
+    <a href="#materi">Silabus Edukasi</a>
+    <a href="#rules">S.O.P Trading</a>
+    <a href="#contact">Kemitraan</a>
+  </nav>
 </header>
 
-<div class="container">
-  <div class="info-strip">
-    <div class="info-item">
-      <span class="info-lbl">🔴 Kurs Live USD/IDR</span>
-      <span class="info-val" id="iKurs">—</span>
-      <span class="info-idr" id="iKursSub">1 USC = —</span>
+<section class="hero" id="home">
+  <div>
+    <div class="badge">Institusi Edukasi Finansial Terpercaya</div>
+    <h1>Menciptakan <span>Trader Profesional</span> Yang Konsisten & Disiplin</h1>
+    <p>Didukung oleh ekosistem <strong>RHN CAPITAL FINANCE</strong>, Institute Trading hadir secara eksklusif untuk membangun trader dengan penguasaan psikologi tingkat tinggi, manajemen risiko institusional, dan akurasi teknikal menuju kebebasan finansial jangka panjang.</p>
+    <div class="hero-buttons">
+      <a href="https://wa.me/6285717426626" class="btn btn-primary">Konsultasi Mentor Gratis</a>
+      <a href="#program" class="btn btn-secondary">Jelajahi Kurikulum</a>
     </div>
-    <div class="info-divider"></div>
-    <div class="info-item"><span class="info-lbl">Modal Awal</span><span class="info-val" id="iModal">—</span><span class="info-idr" id="iModalIDR"></span></div>
-    <div class="info-divider"></div>
-    <div class="info-item"><span class="info-lbl">Saldo Sekarang</span><span class="info-val" id="iSaldo">—</span><span class="info-idr" id="iSaldoIDR"></span></div>
-    <div class="info-divider"></div>
-    <div class="info-item"><span class="info-lbl">P/L Bulan Ini</span><span class="info-val" id="iPL">0.00</span><span class="info-idr" id="iPLIDR"></span></div>
-    <div class="info-divider"></div>
-    <div class="info-item"><span class="info-lbl">P/L Tahun Ini</span><span class="info-val" id="iPLYear">0.00</span><span class="info-idr" id="iPLYearIDR"></span></div>
-    <div class="info-divider"></div>
-    <div class="info-item"><span class="info-lbl">Win Rate Bulan</span><span class="info-val" id="iWR">—</span></div>
-    <div class="info-divider"></div>
-    <div class="info-item"><span class="info-lbl">Total Trade Tahun</span><span class="info-val" id="iTotalYear">0</span></div>
   </div>
-
-  <div class="tab-nav">
-    <button class="tab-btn active" onclick="switchTab('jurnal',this)">📋 Jurnal</button>
-    <button class="tab-btn" onclick="switchTab('recap',this)">📊 Rekap</button>
+  
+  <div class="hero-card">
+    <h2>STANDAR AKURASI INSTITUSI</h2>
+    <div class="stat-box">
+      <h3>90%</h3>
+      <p>Penguasaan Psikologi &<br>Manajemen Ekuitas (Margin)</p>
+    </div>
+    <div class="stat-box">
+      <h3>10%</h3>
+      <p>Eksekusi Teknis, Pemetaan Likuiditas & Penggunaan Alat</p>
+    </div>
+    <div class="progress"><div class="progress-fill"></div></div>
+    <div class="progress-text">Fokus Pada Pertumbuhan Akun Jangka Panjang</div>
   </div>
+</section>
 
-  <div class="tab-content show" id="tab-jurnal">
-    <div class="month-bar" id="monthBar1"></div>
-    <div class="stats-grid">
-      <div class="stat"><div class="stat-lbl">Modal Awal</div><div class="stat-val c-purple" id="sModal" style="font-size:17px">—</div><div class="stat-idr" id="sModalIDR"></div></div>
-      <div class="stat"><div class="stat-lbl">Total Trade</div><div class="stat-val c-blue" id="sTotal">0</div></div>
-      <div class="stat"><div class="stat-lbl">Win Rate</div><div class="stat-val c-green" id="sWR">0%</div><div class="wr-bar"><div class="wr-fill" id="wrBar" style="width:0%"></div></div></div>
-      <div class="stat"><div class="stat-lbl">Win / Loss / BE</div><div class="stat-val c-gray" id="sWLB" style="font-size:17px">0/0/0</div></div>
-      <div class="stat"><div class="stat-lbl">P/L Bulan</div><div class="stat-val" id="sPL">+0.00</div><div class="stat-idr" id="sPLIDR"></div></div>
+<section id="about">
+  <div class="section-title">
+    <span>Filosofi & Pendekatan Kami</span>
+    <h2>Pondasi Menuju Profesionalisme</h2>
+    <p>Kami tidak mengajarkan skema cepat kaya. Kami mencetak analis pasar dan pengelola risiko yang bertindak secara objektif layaknya institusi keuangan modern.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3>🧠 Psikologi Baja (Trading Mindset)</h3>
+      <p>Melatih kendali emosional absolut. Kami mengajarkan Anda untuk beroperasi layaknya mesin—menghilangkan keraguan, ketakutan (FOMO), dan sifat serakah. Fokus utama kami adalah membentuk disiplin eksekusi tanpa terpengaruh <i>noise</i> dan volatilitas market harian.</p>
     </div>
     <div class="card">
-      <div class="card-hdr">
-        <span class="card-title" id="tblTitle">— 2026</span>
-        <span class="card-hint">Klik badge WIN/LOSS/BE · Kolom biru = Rupiah LIVE otomatis</span>
+      <h3>💼 Proteksi Ekuitas (Money Management)</h3>
+      <p>Sistem pengelolaan modal yang dirancang untuk memastikan akun Anda mustahil terkena Margin Call. Mulai dari transisi akun <i>Cent</i> untuk melatih mentalitas pemula, hingga pengaturan rasio <i>Lot Size</i> yang proporsional terhadap ketahanan dana di pasar ekstrem.</p>
+    </div>
+    <div class="card">
+      <h3>🛡️ Manajemen Risiko Defensif</h3>
+      <p>Kami menanamkan prinsip bahwa modal adalah "nyawa" bisnis Anda. Penerapan <i>Stop Loss</i> terukur yang tidak bisa diganggu gugat, serta manajemen <i>Drawdown</i> harian untuk menjaga karir trading Anda bertahan selama berpuluh-puluh tahun di industri ini.</p>
+    </div>
+    <div class="card">
+      <h3>⚙️ Penguasaan Teknologi (MT5 & EA)</h3>
+      <p>Di era modern, kecepatan dan presisi adalah segalanya. Kami membekali pemahaman operasional tingkat lanjut menggunakan platform MetaTrader 5 (MT5), termasuk optimalisasi dan tata kelola <i>Expert Advisor</i> (EA/Robot Trading) berbasis algoritma yang kami rancang.</p>
+    </div>
+  </div>
+</section>
+
+<section id="program">
+  <div class="section-title">
+    <span>Kurikulum Akademi</span>
+    <h2>Pilih Jalur Spesialisasi Anda</h2>
+    <p>Dari pemahaman fundamental struktur pasar hingga penguasaan algoritma tingkat lanjut.</p>
+  </div>
+  <div class="accordion-wrapper">
+    <div>
+      <button class="accordion-btn">📉 Level 1: Market Structure & Foundation <span>+</span></button>
+      <div class="accordion-content">
+        <p>Kelas fondasi wajib bagi pemula. Modul ini membongkar ilusi market dan memberikan pemahaman logis tentang mengapa harga bergerak. Anda akan belajar:</p>
+        <ul>
+          <li>Anatomi Candlestick dan Price Action murni.</li>
+          <li>Pemetaan Support, Resistance, serta Supply & Demand (SND).</li>
+          <li>Menentukan tren primer, sekunder, dan minor (Market Structure).</li>
+          <li>Transisi ke akun real menggunakan Akun Cent (USC) untuk melatih psikologi rasio.</li>
+        </ul>
       </div>
-      <div style="overflow-x:auto">
-        <table>
-          <thead><tr>
-            <th style="width:8%">Hari</th><th style="width:4%">Tgl</th>
-            <th style="width:9%">Pair</th><th style="width:6%">Lot</th>
-            <th style="width:9%">Keluar (USC)</th><th style="width:9%">Masuk (USC)</th>
-            <th style="width:8%">P/L USC</th>
-            <th style="width:11%" class="th-idr">🔴 P/L Rupiah LIVE</th>
-            <th style="width:7%">% Modal</th><th style="width:7%">Hasil</th>
-            <th style="width:14%">Catatan</th>
-          </tr></thead>
-          <tbody id="tBody"></tbody>
-        </table>
+    </div>
+    <div>
+      <button class="accordion-btn premium-acc">👑 Level 2: Smart Money Concept (SMC) & XAUUSD Mastery <span>+</span></button>
+      <div class="accordion-content">
+        <p>Program eksklusif terlaris kami. Anda tidak lagi bertrading seperti "Retail", melainkan mengikuti jejak institusi besar (Bank/Hedge Funds). Sangat direkomendasikan untuk trader yang menyukai pair dengan volatilitas tinggi seperti XAUUSD (Gold).</p>
+        <ul>
+          <li>Membaca jejak likuiditas: Mengidentifikasi area di mana Stop Loss ritel akan disapu oleh Market Maker.</li>
+          <li>Pemahaman mendalam tentang Fair Value Gap (FVG), Imbalance, Order Block, dan Break of Structure (BOS / CHoCH).</li>
+          <li>Spesialisasi pergerakan fundamental dan teknikal pada market Gold (XAUUSD) di berbagai Timeframe (Multi-Timeframe Analysis).</li>
+          <li>Mencari setup presisi (Sniper Entry) dengan rasio Risk:Reward (RR) 1:3 hingga 1:10.</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <button class="accordion-btn">⚙️ Level 3: Algorithmic & EA Configuration <span>+</span></button>
+      <div class="accordion-content">
+        <p>Otomatisasi adalah kunci efisiensi waktu. Program teknis ini dirancang bagi trader yang ingin memanfaatkan kekuatan sistem otomatis tanpa harus menatap layar 24 jam.</p>
+        <ul>
+          <li>Pengenalan mendalam arsitektur platform MetaTrader 5 (MT5).</li>
+          <li>Manajemen instalasi, kompilasi, dan <i>backtesting Expert Advisor</i> (EA) pada folder data.</li>
+          <li>Penyesuaian parameter variabel logika EA agar adaptif terhadap kondisi market berjalan.</li>
+          <li>Manajemen risiko terotomatisasi (Auto Lot & Auto Trailing Stop).</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <button class="accordion-btn">🚀 Level 4: Elite Mentorship & Portfolio Management <span>+</span></button>
+      <div class="accordion-content">
+        <p>Layanan konsultasi dan pendampingan 1-on-1 (Eksklusif) yang fokus pada pembentukan Anda menjadi pengelola dana mandiri berpenghasilan tetap.</p>
+        <ul>
+          <li>Audit portofolio dan pembedahan "Trading Journal" secara berkala bersama mentor.</li>
+          <li>Perbaikan kesalahan eksekusi psikologis secara real-time.</li>
+          <li>Strategi <i>compounding</i> tingkat lanjut dan target pertumbuhan dana (Healthy Growth).</li>
+          <li>Akses prioritas ke pembaruan ekosistem riset RHN CAPITAL FINANCE.</li>
+        </ul>
       </div>
     </div>
   </div>
+</section>
 
-  <div class="tab-content" id="tab-recap">
-    <div class="month-bar" id="monthBar2"></div>
-    <div class="recap-grid">
-      <div class="rc rc-daily"><div class="rc-hdr"><div class="rc-icon">📅</div><div><div class="rc-title">Rekap Harian</div><div class="rc-sub" id="rcDailySub"></div></div></div><div id="rcDaily"></div></div>
-      <div class="rc rc-weekly"><div class="rc-hdr"><div class="rc-icon">📆</div><div><div class="rc-title">Rekap Mingguan</div><div class="rc-sub" id="rcWeeklySub"></div></div></div><div id="rcWeekly"></div></div>
-      <div class="rc rc-monthly"><div class="rc-hdr"><div class="rc-icon">🗓️</div><div><div class="rc-title">Rekap Bulanan</div><div class="rc-sub" id="rcMonthlySub"></div></div></div><div id="rcMonthly"></div></div>
-      <div class="rc rc-yearly"><div class="rc-hdr"><div class="rc-icon">📈</div><div><div class="rc-title">Rekap Tahunan</div><div class="rc-sub" id="rcYearlySub"></div></div></div><div id="rcYearly"></div></div>
+<section id="rules">
+  <div class="section-title">
+    <span>Standard Operating Procedure (SOP)</span>
+    <h2>Hukum Mutlak Kesuksesan</h2>
+    <p>Kami tidak menoleransi pelanggaran terhadap aturan dasar keselamatan finansial berikut ini.</p>
+  </div>
+  <div class="rules">
+    <div class="rule">
+      <h4>📜 Pasal 1: Pembatasan Risiko Tetap (Max 1-2%)</h4>
+      <p>Pasar tidak bisa diprediksi secara absolut, hanya probabilitas. Merisikokan lebih dari 2% dari total ekuitas dalam satu transaksi adalah bentuk dari perjudian. Hitung <i>Lot Size</i> Anda berdasarkan jarak <i>Stop Loss</i>, bukan berdasarkan <i>feeling</i>.</p>
+    </div>
+    <div class="rule">
+      <h4>📜 Pasal 2: Kewajiban Penggunaan Stop Loss (SL)</h4>
+      <p>Beroperasi tanpa SL berarti Anda membiarkan pasar memutuskan kapan akun Anda akan hancur. SL adalah asuransi yang melindungi bisnis Anda dari "Black Swan Event" atau rilis berita fundamental yang memicu lonjakan ratusan pips dalam hitungan detik.</p>
+    </div>
+    <div class="rule">
+      <h4>📜 Pasal 3: Kualitas Mengalahkan Kuantitas (No Overtrading)</h4>
+      <p>Tugas utama Anda bukanlah terus-menerus menekan tombol <i>Buy</i> atau <i>Sell</i>. Tugas Anda adalah mengintai, menunggu konfirmasi, dan mengeksekusi HANYA jika pergerakan pasar memenuhi 100% dari kriteria sistem perdagangan Anda. Jika tidak ada setup, jangan memaksakan diri.</p>
+    </div>
+    <div class="rule">
+      <h4>📜 Pasal 4: Audit & Jurnal Mandiri</h4>
+      <p>Trader yang tidak melakukan pencatatan adalah trader buta. Setiap <i>entry</i> wajib dicatat: alasan masuk, target, rasio risiko, hingga emosi saat itu. Evaluasi mingguan adalah satu-satunya cara mengidentifikasi kelemahan sistem Anda.</p>
     </div>
   </div>
+</section>
 
-  <div class="footer">Data tersimpan otomatis di browser · Kurs via Binance Live (USDT/BIDR) · Real-time Update · Jurnal Forex Pro RHN © 2026</div>
-</div>
+<section id="materi" style="background: white;">
+  <div class="section-title">
+    <span>Silabus Pengetahuan Dasar</span>
+    <h2>Modul Edukasi Terbuka</h2>
+    <p>Pelajari terminologi dan mekanisme dasar pasar finansial global secara komprehensif.</p>
+  </div>
+  <div id="kontainer-materi" class="rules"></div>
+</section>
+
+<section id="contact">
+  <div class="section-title">
+    <span>Layanan Anggota & Pendaftaran</span>
+    <h2>Bergabung Bersama Kami</h2>
+    <p>Lakukan pendaftaran kelas atau konsultasikan tantangan trading Anda langsung dengan divisi pendampingan kami.</p>
+  </div>
+  
+  <div class="contact-wrapper">
+    <div class="contact-box">
+      <h2>TANYA JAWAB <span>DI WHATSAPP</span></h2>
+      <p>Layanan konsultasi langsung cepat tanggap (Fast Response). Bahas strategi, review setup MT5, hingga pemilihan program yang tepat dengan kapasitas Anda.</p>
+      <h3>0857-1742-6626</h3>
+      
+      <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:35px;">
+        <a href="https://wa.me/6285717426626" class="btn btn-primary">📱 Chat via WhatsApp Sekarang</a>
+      </div>
+
+      <div class="payment-methods">
+        <p>Sistem Pembayaran Pendaftaran Kelas Resmi Didukung Oleh:</p>
+        <div class="payment-badges">
+          <div class="payment-badge">GOPAY</div>
+          <div class="payment-badge">DANA</div>
+          <div class="payment-badge">SHOPEEPAY</div>
+          <div class="payment-badge">TRANSFER BANK</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <h2>Institute Trading</h2>
+  <p>Dikembangkan secara profesional dan terafiliasi dengan RHN CAPITAL FINANCE.</p>
+  <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.6;">© 2026 Institute Trading. Hak Cipta Dilindungi Undang-Undang.</p>
+</footer>
 
 <script>
-const MONTHS=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const DAYS=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-const YEAR=2026;
-const MODAL_KEY='forex_rhn_v3_modal';
-const KURS_KEY='forex_rhn_v3_kurs';
-const KURS_TS_KEY='forex_rhn_v3_kurs_ts';
-const REFRESH_INTERVAL=60*1000; // 1 menit
-const SK=m=>`forex_rhn_v2_${YEAR}_${m}`;
-
-let activeMonth=new Date().getMonth();
-let modalAwal=0;
-let kursUSDIDR=16200;
-let monthData={};
-let activeTab='jurnal';
-let countdownInterval=null;
-
-const daysIn=(m)=>new Date(YEAR,m+1,0).getDate();
-const dayName=(m,d)=>DAYS[new Date(YEAR,m,d).getDay()];
-const isWknd=(m,d)=>{const w=new Date(YEAR,m,d).getDay();return w===0||w===6;};
-const weekNum=d=>Math.ceil(d/7);
-function uscToIDR(usc){return usc*kursUSDIDR/100;}
-function fmtIDR(val){const s=val<0?'-':'';const a=Math.abs(val);if(a>=1000000000)return s+'Rp '+(a/1000000000).toFixed(2)+' M';if(a>=1000000)return s+'Rp '+(a/1000000).toFixed(2)+' jt';return s+'Rp '+Math.round(a).toLocaleString('id-ID');}
-function fmtIDRFull(val){const s=val<0?'-':'';const a=Math.abs(val);return s+'Rp '+Math.round(a).toLocaleString('id-ID');}
-const fmt=v=>{const s=v<0?'-':'';const a=Math.abs(v);return s+'USC '+(a>=1000?a.toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2}):a.toFixed(2));};
-const plStr=v=>(v>0?'+':'')+v.toFixed(2);
-const pctStr=v=>modalAwal?((v/modalAwal)*100).toFixed(2)+'%':'—';
-const plCls=v=>v>0?'pl-pos':v<0?'pl-neg':'pl-zero';
-const mbCls=r=>r==='WIN'?'mb-win':r==='LOSS'?'mb-loss':r==='BE'?'mb-be':'mb-none';
-function loadMonth(m){try{return JSON.parse(localStorage.getItem(SK(m))||'{}');}catch{return{};}}
-function saveMonth(m,d){try{localStorage.setItem(SK(m),JSON.stringify(d));}catch{}}
-
-/* ══════════════════════════════════════════════════════════════
-   KURS BINANCE LIVE (USDT/BIDR) - WEBSOCKET & API
-══════════════════════════════════════════════════════════════ */
-function setKursDot(state){
-  const d=document.getElementById('kursDot');
-  d.className='kurs-dot'+(state==='loading'?' loading':state==='error'?' error':'');
-}
-
-function applyKurs(rate,source,ts){
-  kursUSDIDR=rate;
-  const perUsc=Math.round(rate/100);
-  const timeStr=new Date(ts).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  const sourceLabel={
-    'binance-ws':'🟢 Binance Live',
-    'binance-api':'🟡 Binance API',
-    'cache':'📦 Cache',
-    'manual':'✏️ Override manual',
-    'error':'⚠️ Fallback default'
-  }[source]||'🔄';
-
-  // Efek Kedip saat harga berubah
-  const rateEl = document.getElementById('kursValEl');
-  rateEl.textContent='Rp '+Math.round(rate).toLocaleString('id-ID')+' / USD';
-  if (source === 'binance-ws') {
-     rateEl.style.color = 'var(--teal-400)';
-     setTimeout(() => { rateEl.style.color = '#fff'; }, 200);
+// 1. EFEK BAYANGAN NAVBAR
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('header');
+  if(window.scrollY > 50){ 
+    header.style.boxShadow = '0 10px 30px rgba(0, 177, 64, 0.08)'; 
+    header.style.padding = '12px 7%';
+  } else { 
+    header.style.boxShadow = 'none'; 
+    header.style.padding = '18px 7%';
   }
-
-  const iKursEl = document.getElementById('iKurs');
-  iKursEl.textContent='Rp '+Math.round(rate).toLocaleString('id-ID');
-  if (source === 'binance-ws') {
-     iKursEl.style.color = 'var(--teal-400)';
-     setTimeout(() => { iKursEl.style.color = 'var(--text)'; }, 200);
-  }
-
-  const isLive=['binance-ws','binance-api'].includes(source);
-  document.getElementById('kursMetaEl').textContent=
-    source==='manual'?`✏️ Override manual · 1¢=Rp${perUsc.toLocaleString('id-ID')}`:
-    `${sourceLabel} · ${timeStr} · 1¢=Rp${perUsc.toLocaleString('id-ID')}`;
-  setKursDot(source==='error'?'error':'');
-
-  document.getElementById('splashKurs').textContent=
-    `${sourceLabel}: 1 USD = Rp ${Math.round(rate).toLocaleString('id-ID')}`;
-  document.getElementById('iKursSub').textContent='1 USC = Rp '+perUsc.toLocaleString('id-ID');
-
-  if(isLive){
-    try{localStorage.setItem(KURS_KEY,rate.toString());localStorage.setItem(KURS_TS_KEY,ts.toString());}catch{}
-    startCountdown(ts, source === 'binance-ws');
-  }else if(source==='cache'){
-    startCountdown(ts, false);
-  }else if(source==='manual'){
-    if(countdownInterval)clearInterval(countdownInterval);
-    document.getElementById('kursCountdown').textContent='✏️ Mode override manual aktif';
-  }
-  
-  // Hanya refresh IDR saja (supaya input form jurnal tidak lost focus waktu lagi ngetik)
-  refreshIDR();
-}
-
-function refreshIDR() {
-  renderStats(calcStats(activeMonth,monthData));
-  for(let d=1; d<=daysIn(activeMonth); d++){
-     const r = monthData[d] || {};
-     const pl = (parseFloat(r.income)||0) - (parseFloat(r.outcome)||0);
-     const idrCell = document.querySelector(`td[data-idr="${d}"]`);
-     if(idrCell) {
-         idrCell.textContent = pl !== 0 ? fmtIDR(uscToIDR(pl)) : '—';
-     }
-  }
-  if(activeTab === 'recap') renderRecap();
-}
-
-function startCountdown(fetchedAt, isWs = false){
-  if(countdownInterval)clearInterval(countdownInterval);
-  const el=document.getElementById('kursCountdown');
-  if(isWs) {
-     el.textContent = '⚡ Real-time aktif';
-     return;
-  }
-  function update(){
-    const remaining=Math.max(0,REFRESH_INTERVAL-(Date.now()-fetchedAt));
-    if(remaining<=0){el.textContent='⏰ Memperbarui...';clearInterval(countdownInterval);return;}
-    const s=Math.ceil(remaining/1000);
-    el.textContent=`⏱ Update dalam ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
-  }
-  update();countdownInterval=setInterval(update,1000);
-}
-
-async function fetchKursLive(){
-  const ov=parseFloat(document.getElementById('kursOverride').value);
-  if(!isNaN(ov)&&ov>=1000){applyKurs(ov,'manual',Date.now());return;}
-
-  setKursDot('loading');
-  document.getElementById('kursMetaEl').textContent='🔄 Mengambil dari Binance API...';
-  document.getElementById('kursCountdown').textContent='';
-  document.getElementById('btnRefresh').disabled=true;
-
-  try{
-    const r=await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBIDR',{signal:AbortSignal.timeout(8000)});
-    const j=await r.json();
-    if(j&&j.price){
-      applyKurs(parseFloat(j.price),'binance-api',Date.now());
-      document.getElementById('btnRefresh').disabled=false;
-      return;
-    }
-  }catch(e){console.error("Gagal Binance API:", e);}
-
-  // Fallback
-  const cached=localStorage.getItem(KURS_KEY);
-  if(cached){
-    applyKurs(parseFloat(cached),'cache',parseInt(localStorage.getItem(KURS_TS_KEY)||'0'));
-    document.getElementById('kursMetaEl').textContent='⚠️ Binance gagal · pakai cache terakhir';
-  }else{
-    applyKurs(16200,'error',Date.now());
-    setKursDot('error');
-  }
-  document.getElementById('btnRefresh').disabled=false;
-}
-
-async function fetchKurs(forceRefresh=false){
-  const ov=parseFloat(document.getElementById('kursOverride').value);
-  if(!forceRefresh&&!isNaN(ov)&&ov>=1000){applyKurs(ov,'manual',Date.now());return;}
-  if(!forceRefresh){
-    const cached=localStorage.getItem(KURS_KEY);
-    const cachedTs=parseInt(localStorage.getItem(KURS_TS_KEY)||'0');
-    if(cached&&(Date.now()-cachedTs)<REFRESH_INTERVAL){
-      applyKurs(parseFloat(cached),'cache',cachedTs);
-      document.getElementById('btnRefresh').disabled=false;
-      return;
-    }
-  }
-  await fetchKursLive();
-}
-
-function onManualKurs(){
-  const val=parseFloat(document.getElementById('kursOverride').value);
-  if(!isNaN(val)&&val>=1000)applyKurs(val,'manual',Date.now());
-  else if(document.getElementById('kursOverride').value==='')fetchKursLive();
-}
-
-function initLiveUSD() {
-  const socket = new WebSocket('wss://stream.binance.com:9443/ws/usdtidr@ticker');
-  socket.addEventListener('message', function (event) {
-      const ov=parseFloat(document.getElementById('kursOverride').value);
-      if(!isNaN(ov)&&ov>=1000) return; // Jika override manual aktif, abaikan WS
-
-      const data = JSON.parse(event.data);
-      const newPrice = parseFloat(data.c); 
-      if (newPrice && newPrice !== kursUSDIDR) {
-          applyKurs(newPrice, 'binance-ws', Date.now());
-      }
-  });
-  socket.addEventListener('close', () => setTimeout(initLiveUSD, 3000));
-  socket.addEventListener('error', () => { /* let it close and retry */ });
-}
-
-/* ─── MODAL ─── */
-function loadModal(){const s=localStorage.getItem(MODAL_KEY);modalAwal=s?parseFloat(s):0;}
-function openModal(){document.getElementById('modalInput').value=modalAwal||'';document.getElementById('overlay').classList.add('show');setTimeout(()=>document.getElementById('modalInput').focus(),80);}
-function closeModal(){document.getElementById('overlay').classList.remove('show');}
-function closeOnBg(e){if(e.target===document.getElementById('overlay'))closeModal();}
-function saveModal(){modalAwal=parseFloat(document.getElementById('modalInput').value)||0;localStorage.setItem(MODAL_KEY,modalAwal.toString());closeModal();render();if(activeTab==='recap')renderRecap();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(e.key==='Enter'&&document.getElementById('overlay').classList.contains('show'))saveModal();});
-
-/* ─── CALC ─── */
-function calcStats(m,d){let wins=0,losses=0,be=0,total=0,pl=0;for(let i=1;i<=daysIn(m);i++){const r=d[i]||{};pl+=(parseFloat(r.income)||0)-(parseFloat(r.outcome)||0);const res=r.result||'NONE';if(res==='WIN'){wins++;total++;}else if(res==='LOSS'){losses++;total++;}else if(res==='BE'){be++;total++;}}return{wins,losses,be,total,wr:total>0?Math.round((wins/total)*100):0,pl};}
-function calcYearStats(){let totalTrade=0,totalPL=0;for(let m=0;m<12;m++){const d=m===activeMonth?monthData:loadMonth(m);const st=calcStats(m,d);totalTrade+=st.total;totalPL+=st.pl;}return{totalTrade,totalPL};}
-
-/* ─── RENDER STATS ─── */
-function renderStats(st){
-  document.getElementById('sModal').textContent=modalAwal>0?fmt(modalAwal):'—';
-  document.getElementById('sModalIDR').textContent=modalAwal>0?fmtIDR(uscToIDR(modalAwal)):'';
-  document.getElementById('sTotal').textContent=st.total;
-  const wrEl=document.getElementById('sWR');wrEl.textContent=st.wr+'%';wrEl.className='stat-val '+(st.wr>=50?'c-green':st.wr>0?'c-red':'c-gray');
-  document.getElementById('wrBar').style.width=st.wr+'%';
-  document.getElementById('sWLB').textContent=st.wins+'/'+st.losses+'/'+st.be;
-  const plEl=document.getElementById('sPL');plEl.textContent=plStr(st.pl);plEl.className='stat-val '+(st.pl>0?'c-green':st.pl<0?'c-red':'c-gray');
-  const sPLIDR=document.getElementById('sPLIDR');sPLIDR.textContent=fmtIDR(uscToIDR(st.pl));sPLIDR.style.color=st.pl>0?'var(--teal-400)':st.pl<0?'var(--red-400)':'var(--hint)';
-  const saldo=modalAwal+st.pl;
-  document.getElementById('iModal').textContent=modalAwal>0?fmt(modalAwal):'—';
-  document.getElementById('iModalIDR').textContent=modalAwal>0?fmtIDRFull(uscToIDR(modalAwal)):'';
-  document.getElementById('iSaldo').textContent=modalAwal>0?fmt(saldo):'—';
-  document.getElementById('iSaldoIDR').textContent=modalAwal>0?fmtIDRFull(uscToIDR(saldo)):'';
-  const piEl=document.getElementById('iPL');piEl.textContent=plStr(st.pl);piEl.style.color=st.pl>0?'var(--teal-400)':st.pl<0?'var(--red-400)':'var(--hint)';
-  const piIDR=document.getElementById('iPLIDR');piIDR.textContent=fmtIDRFull(uscToIDR(st.pl));piIDR.style.color=st.pl>0?'var(--teal-400)':st.pl<0?'var(--red-400)':'var(--hint)';
-  document.getElementById('iWR').textContent=st.total>0?st.wr+'%':'—';
-  document.getElementById('modalBadge').textContent=modalAwal>0?fmt(modalAwal):'Belum diset';
-  const yst=calcYearStats();
-  const pyEl=document.getElementById('iPLYear');pyEl.textContent=plStr(yst.totalPL)+' USC';pyEl.style.color=yst.totalPL>0?'var(--teal-400)':yst.totalPL<0?'var(--red-400)':'var(--hint)';
-  const pyIDR=document.getElementById('iPLYearIDR');pyIDR.textContent=fmtIDRFull(uscToIDR(yst.totalPL));pyIDR.style.color=yst.totalPL>0?'var(--teal-400)':yst.totalPL<0?'var(--red-400)':'var(--hint)';
-  document.getElementById('iTotalYear').textContent=yst.totalTrade;
-}
-
-/* ─── TABLE ─── */
-function cycleResult(r){if(!r||r==='NONE')return 'WIN';if(r==='WIN')return 'LOSS';if(r==='LOSS')return 'BE';return 'NONE';}
-function badgeCls(r){return 'badge '+(r==='WIN'?'b-win':r==='LOSS'?'b-loss':r==='BE'?'b-be':'b-none');}
-function renderTable(){
-  const tbody=document.getElementById('tBody');
-  document.getElementById('tblTitle').textContent=MONTHS[activeMonth]+' '+YEAR;
-  tbody.innerHTML='';
-  for(let d=1;d<=daysIn(activeMonth);d++){
-    const row=monthData[d]||{};
-    const inc=parseFloat(row.income)||0,out=parseFloat(row.outcome)||0,pl=inc-out;
-    const result=row.result||'NONE';
-    const plColor=pl>0?'var(--teal-400)':pl<0?'var(--red-400)':'var(--hint)';
-    const idrDisp=pl!==0?fmtIDR(uscToIDR(pl)):'—';
-    const idrColor=pl>0?'var(--teal-400)':pl<0?'var(--red-400)':'var(--hint)';
-    const pct=modalAwal?((pl/modalAwal)*100).toFixed(2)+'%':'—';
-    const tr=document.createElement('tr');
-    if(isWknd(activeMonth,d))tr.className='weekend';
-    tr.innerHTML=`<td class="day-lbl">${dayName(activeMonth,d)}</td><td><b>${d}</b></td>
-      <td><input type="text" placeholder="XAUUSD" value="${row.pair||''}" data-day="${d}" data-field="pair"/></td>
-      <td><input type="number" placeholder="0.01" value="${row.lot||''}" data-day="${d}" data-field="lot" step="0.01" min="0"/></td>
-      <td><input type="number" placeholder="0" value="${row.outcome||''}" data-day="${d}" data-field="outcome" step="any" min="0"/></td>
-      <td><input type="number" placeholder="0" value="${row.income||''}" data-day="${d}" data-field="income" step="any" min="0"/></td>
-      <td class="pl-cell" style="color:${plColor}" data-pl="${d}">${pl!==0?plStr(pl):'0'}</td>
-      <td class="idr-cell" style="color:${idrColor}" data-idr="${d}">${idrDisp}</td>
-      <td class="pct-cell" style="color:${plColor}" data-pct="${d}">${pct}</td>
-      <td><span class="${badgeCls(result)}" data-day="${d}">${result==='NONE'?'—':result}</span></td>
-      <td><textarea class="note" rows="1" placeholder="catatan…" data-day="${d}" data-field="note">${row.note||''}</textarea></td>`;
-    tbody.appendChild(tr);
-  }
-  tbody.querySelectorAll('input,textarea').forEach(el=>el.addEventListener('input',()=>updateRow(el)));
-  tbody.querySelectorAll('span[data-day]').forEach(badge=>{
-    badge.addEventListener('click',()=>{
-      const day=badge.dataset.day;
-      if(!monthData[day])monthData[day]={};
-      monthData[day].result=cycleResult(monthData[day].result);
-      saveMonth(activeMonth,monthData);
-      badge.className=badgeCls(monthData[day].result);
-      badge.textContent=monthData[day].result==='NONE'?'—':monthData[day].result;
-      
-      // Update IDR dan Stats secara presisi tanpa merusak ketikan user
-      refreshIDR();
-    });
-  });
-}
-function updateRow(el){
-  const day=el.dataset.day,field=el.dataset.field;
-  if(!monthData[day])monthData[day]={};
-  monthData[day][field]=el.value;
-  saveMonth(activeMonth,monthData);
-  const r=monthData[day];
-  const inc=parseFloat(r.income)||0,out=parseFloat(r.outcome)||0,pl=inc-out;
-  const plColor=pl>0?'var(--teal-400)':pl<0?'var(--red-400)':'var(--hint)';
-  const idrColor=pl>0?'var(--teal-400)':pl<0?'var(--red-400)':'var(--hint)';
-  const plCell=document.querySelector(`td[data-pl="${day}"]`);
-  const idrCell=document.querySelector(`td[data-idr="${day}"]`);
-  const pctCell=document.querySelector(`td[data-pct="${day}"]`);
-  if(plCell){plCell.textContent=pl!==0?plStr(pl):'0';plCell.style.color=plColor;}
-  if(idrCell){idrCell.textContent=pl!==0?fmtIDR(uscToIDR(pl)):'—';idrCell.style.color=idrColor;}
-  if(pctCell){pctCell.textContent=modalAwal?((pl/modalAwal)*100).toFixed(2)+'%':'—';pctCell.style.color=plColor;}
-  
-  // Update IDR dan Stats secara presisi tanpa merusak ketikan user
-  refreshIDR();
-}
-
-/* ─── MONTH BAR ─── */
-function renderMonthBar(id){
-  const el=document.getElementById(id);el.innerHTML='';
-  MONTHS.forEach((name,i)=>{
-    const btn=document.createElement('button');
-    btn.className='month-btn'+(i===activeMonth?' active':'');
-    btn.textContent=name;
-    btn.onclick=()=>{activeMonth=i;monthData=loadMonth(i);render();if(activeTab==='recap')renderRecap();};
-    el.appendChild(btn);
-  });
-}
-
-/* ─── RECAP ─── */
-function renderRecap(){
-  renderMonthBar('monthBar2');
-  const m=activeMonth,d=monthData,days=daysIn(m);
-  document.getElementById('rcDailySub').textContent=MONTHS[m]+' '+YEAR;
-  const dailyRows=[];
-  for(let i=1;i<=days;i++){const row=d[i]||{};const inc=parseFloat(row.income)||0,out=parseFloat(row.outcome)||0,pl=inc-out;const result=row.result||'NONE';if(inc===0&&out===0&&result==='NONE')continue;dailyRows.push({day:i,pl,result,pair:row.pair||'—'});}
-  if(!dailyRows.length){document.getElementById('rcDaily').innerHTML='<div class="empty">Belum ada data trading bulan ini.</div>';}
-  else{
-    let totPL=0,totW=0,totL=0,totB=0;
-    let h=`<table class="rtable"><thead><tr><th>Tgl</th><th>Pair</th><th>P/L USC</th><th class="th-idr">Rupiah LIVE</th><th>% Modal</th><th>Hasil</th></tr></thead><tbody>`;
-    dailyRows.forEach(r=>{totPL+=r.pl;if(r.result==='WIN')totW++;else if(r.result==='LOSS')totL++;else if(r.result==='BE')totB++;
-      h+=`<tr><td><b>${r.day}</b> <span style="color:var(--hint);font-size:10px">${dayName(m,r.day).substring(0,3)}</span></td><td style="font-family:var(--font);font-weight:600">${r.pair}</td><td class="${plCls(r.pl)}">${plStr(r.pl)}</td><td class="td-idr ${plCls(r.pl)}">${fmtIDR(uscToIDR(r.pl))}</td><td class="${plCls(r.pl)}">${pctStr(r.pl)}</td><td><span class="mini-badge ${mbCls(r.result)}">${r.result==='NONE'?'—':r.result}</span></td></tr>`;});
-    h+=`</tbody><tfoot><tr><td colspan="2" style="font-family:var(--font)">Total <span style="font-weight:400;color:var(--hint);font-size:10px">${totW}W/${totL}L/${totB}BE</span></td><td class="${plCls(totPL)}">${plStr(totPL)}</td><td class="td-idr ${plCls(totPL)}">${fmtIDRFull(uscToIDR(totPL))}</td><td class="${plCls(totPL)}">${pctStr(totPL)}</td><td></td></tr></tfoot></table>`;
-    document.getElementById('rcDaily').innerHTML=h;
-  }
-  document.getElementById('rcWeeklySub').textContent=MONTHS[m]+' '+YEAR;
-  const weeks={};
-  for(let i=1;i<=days;i++){const wn=weekNum(i);if(!weeks[wn])weeks[wn]={pl:0,wins:0,losses:0,be:0,trades:0,start:i,end:i};const row=d[i]||{};weeks[wn].pl+=(parseFloat(row.income)||0)-(parseFloat(row.outcome)||0);weeks[wn].end=i;const res=row.result||'NONE';if(res==='WIN'){weeks[wn].wins++;weeks[wn].trades++;}else if(res==='LOSS'){weeks[wn].losses++;weeks[wn].trades++;}else if(res==='BE'){weeks[wn].be++;weeks[wn].trades++;}}
-  let weekTotPL=0;
-  let wh=`<table class="rtable"><thead><tr><th>Minggu</th><th>Periode</th><th>W/L/BE</th><th>P/L USC</th><th class="th-idr">Rupiah LIVE</th><th>% Modal</th></tr></thead><tbody>`;
-  Object.keys(weeks).map(Number).sort((a,b)=>a-b).forEach(wn=>{const w=weeks[wn];weekTotPL+=w.pl;const h=w.trades>0;wh+=`<tr><td style="font-family:var(--font)"><b>Ke-${wn}</b></td><td style="font-family:var(--font);color:var(--hint);font-size:11px">${w.start}–${w.end} ${MONTHS[m].substring(0,3)}</td><td style="font-family:var(--font)">${h?`<span style="color:var(--teal-400);font-weight:700">${w.wins}</span>/<span style="color:var(--red-400);font-weight:700">${w.losses}</span>/<span style="color:var(--amber-400);font-weight:700">${w.be}</span>`:'<span style="color:var(--hint)">—</span>'}</td><td class="${h?plCls(w.pl):'pl-zero'}">${h?plStr(w.pl):'—'}</td><td class="td-idr ${h?plCls(w.pl):'pl-zero'}">${h?fmtIDR(uscToIDR(w.pl)):'—'}</td><td class="${h?plCls(w.pl):'pl-zero'}">${h?pctStr(w.pl):'—'}</td></tr>`;});
-  wh+=`</tbody><tfoot><tr><td colspan="3" style="font-family:var(--font)">Total Bulan</td><td class="${plCls(weekTotPL)}">${plStr(weekTotPL)}</td><td class="td-idr ${plCls(weekTotPL)}">${fmtIDRFull(uscToIDR(weekTotPL))}</td><td class="${plCls(weekTotPL)}">${pctStr(weekTotPL)}</td></tr></tfoot></table>`;
-  document.getElementById('rcWeekly').innerHTML=wh;
-  document.getElementById('rcMonthlySub').textContent='Semua bulan '+YEAR;
-  let monthRows=[],grandPL=0,grandW=0,grandL=0,grandB=0,grandT=0;
-  for(let mi=0;mi<12;mi++){const md=mi===activeMonth?monthData:loadMonth(mi);let mpl=0,mw=0,ml=0,mb=0,mt=0;for(let i=1;i<=daysIn(mi);i++){const row=md[i]||{};mpl+=(parseFloat(row.income)||0)-(parseFloat(row.outcome)||0);const res=row.result||'NONE';if(res==='WIN'){mw++;mt++;}else if(res==='LOSS'){ml++;mt++;}else if(res==='BE'){mb++;mt++;}}grandPL+=mpl;grandW+=mw;grandL+=ml;grandB+=mb;grandT+=mt;monthRows.push({mi,pl:mpl,wins:mw,losses:ml,be:mb,trades:mt});}
-  let mh=`<table class="rtable"><thead><tr><th>Bulan</th><th>W/L/BE</th><th>P/L USC</th><th class="th-idr">Rupiah LIVE</th><th>% Modal</th></tr></thead><tbody>`;
-  monthRows.forEach(r=>{const isAct=r.mi===activeMonth,h=r.trades>0;mh+=`<tr style="${isAct?'background:var(--teal-50);':''}"><td style="font-family:var(--font)"><b style="${isAct?'color:var(--teal-600)':''}">${MONTHS[r.mi]}</b></td><td style="font-family:var(--font)">${h?`<span style="color:var(--teal-400);font-weight:700">${r.wins}</span>/<span style="color:var(--red-400);font-weight:700">${r.losses}</span>/<span style="color:var(--amber-400);font-weight:700">${r.be}</span>`:'<span style="color:var(--border)">—</span>'}</td><td class="${h?plCls(r.pl):'pl-zero'}">${h?plStr(r.pl):'—'}</td><td class="td-idr ${h?plCls(r.pl):'pl-zero'}">${h?fmtIDR(uscToIDR(r.pl)):'—'}</td><td class="${h?plCls(r.pl):'pl-zero'}">${h?pctStr(r.pl):'—'}</td></tr>`;});
-  mh+=`</tbody><tfoot><tr><td style="font-family:var(--font)">Total ${YEAR} <span style="font-weight:400;color:var(--hint);font-size:10px">${grandW}W/${grandL}L/${grandB}BE</span></td><td style="font-family:var(--font)"><span style="color:var(--teal-400);font-weight:700">${grandW}</span>/<span style="color:var(--red-400);font-weight:700">${grandL}</span>/<span style="color:var(--amber-400);font-weight:700">${grandB}</span></td><td class="${plCls(grandPL)}">${plStr(grandPL)}</td><td class="td-idr ${plCls(grandPL)}">${fmtIDRFull(uscToIDR(grandPL))}</td><td class="${plCls(grandPL)}">${pctStr(grandPL)}</td></tr></tfoot></table>`;
-  document.getElementById('rcMonthly').innerHTML=mh;
-  document.getElementById('rcYearlySub').textContent='Visualisasi per bulan '+YEAR;
-  const maxAbs=Math.max(...monthRows.map(r=>Math.abs(r.pl)),0.01);
-  let yh='<div class="yr-wrap">';
-  monthRows.forEach(r=>{const isAct=r.mi===activeMonth;const barW=r.trades>0?Math.max((Math.abs(r.pl)/maxAbs)*100,2):0;yh+=`<div class="yr-row"><div class="yr-lbl" style="${isAct?'color:var(--teal-600);font-weight:700':''}">${MONTHS[r.mi].substring(0,3)}</div><div class="yr-bg">${r.trades>0?`<div class="yr-fill ${r.pl>=0?'yr-pos':'yr-neg'}" style="width:${barW}%"></div>`:''}</div><div class="yr-val ${r.trades>0?plCls(r.pl):'pl-zero'}">${r.trades>0?(r.pl>=0?'+':'')+r.pl.toFixed(2):'—'}${r.trades>0?`<br><span class="yr-idr">${fmtIDR(uscToIDR(r.pl))}</span>`:''}</div></div>`;});
-  yh+=`<div class="yr-total"><div><div style="font-size:12px;font-weight:600;color:var(--muted)">Total P/L ${YEAR}</div><div style="font-size:11px;color:var(--hint);margin-top:2px">${grandT} trade · ${grandW}W/${grandL}L/${grandB}BE</div></div><div style="text-align:right"><div style="font-size:18px;font-weight:800;font-family:var(--mono)" class="${plCls(grandPL)}">${plStr(grandPL)} USC</div><div style="font-size:13px;font-weight:700;font-family:var(--mono);color:var(--blue-400)">${fmtIDRFull(uscToIDR(grandPL))}</div></div></div></div>`;
-  document.getElementById('rcYearly').innerHTML=yh;
-}
-
-/* ─── TABS ─── */
-function switchTab(tab,btn){activeTab=tab;document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('tab-jurnal').classList.toggle('show',tab==='jurnal');document.getElementById('tab-recap').classList.toggle('show',tab==='recap');if(tab==='recap')renderRecap();}
-function setHeaderDate(){const now=new Date();document.getElementById('hDate').textContent=DAYS[now.getDay()]+', '+now.getDate()+' '+MONTHS[now.getMonth()]+' '+now.getFullYear();}
-function render(){renderMonthBar('monthBar1');renderStats(calcStats(activeMonth,monthData));renderTable();}
-
-/* ─── INIT ─── */
-loadModal();
-monthData=loadMonth(activeMonth);
-setHeaderDate();
-render();
-
-let splashClosed=false;
-function closeSplash(){if(splashClosed)return;splashClosed=true;setTimeout(()=>{const s=document.getElementById('splash');s.classList.add('hide');setTimeout(()=>s.style.display='none',600);},500);}
-
-// Memulai fetch dari Binance Live API, kemudian sambung dengan WebSocket
-fetchKursLive().then(() => {
-    closeSplash();
-    initLiveUSD();
-}).catch(() => {
-    closeSplash();
-    initLiveUSD();
 });
-setTimeout(closeSplash,2500);
 
-// Auto-refresh setiap 1 menit sebagai backup / fallback jika WebSocket terputus
-setInterval(()=>{
-  const ov=parseFloat(document.getElementById('kursOverride').value);
-  if(isNaN(ov)||ov<1000) fetchKursLive();
-},REFRESH_INTERVAL);
+// 2. ACCORDION BUTTERY SMOOTH
+const accordions = document.querySelectorAll('.accordion-btn');
+accordions.forEach(acc => {
+  acc.addEventListener('click', function() {
+    const content = this.nextElementSibling;
+    const span = this.querySelector('span');
+    
+    // Auto-close others for cleaner UX
+    accordions.forEach(otherAcc => {
+      if (otherAcc !== this) {
+        otherAcc.classList.remove('active');
+        otherAcc.querySelector('span').innerHTML = '+';
+        otherAcc.nextElementSibling.style.maxHeight = null;
+        otherAcc.nextElementSibling.style.padding = "0 45px";
+      }
+    });
+
+    this.classList.toggle('active');
+    
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+      content.style.padding = "0 45px";
+      span.innerHTML = "+";
+    } else {
+      content.style.maxHeight = content.scrollHeight + 120 + "px"; 
+      content.style.padding = "0 45px 35px 45px";
+      span.innerHTML = "+"; 
+    }
+  });
+});
+
+// 3. GENERATOR MATERI EDUKASI (Diperpanjang & Lebih Profesional)
+const dataMateri = [
+  { judul: "Mekanika Pasar Finansial Global", isi: "Trading adalah partisipasi aktif dalam likuiditas pasar aset finansial (seperti pasangan mata uang mayor, indeks saham, hingga logam mulia). Keuntungan didapatkan dengan memprediksi arah pergerakan aset berdasarkan analisis historis harga, volume, serta rilis data makroekonomi yang memengaruhi kekuatan sebuah mata uang." },
+  { judul: "Anatomi Candlestick Lanjutan", isi: "Candlestick bukan sekadar warna merah atau hijau, melainkan visualisasi psikologi pelaku pasar dalam waktu tertentu. Volume bodi (Body) merepresentasikan komitmen pembeli/penjual, sementara sumbu (Wick/Shadow) merepresentasikan penolakan harga (Rejection) atau pengambilan likuiditas sebelum harga berbalik arah." },
+  { judul: "Zonasi Supply & Demand (SND)", isi: "Pasar tidak bergerak secara acak. Harga bergerak dari satu zona likuiditas ke zona likuiditas lainnya. Zona Supply merepresentasikan dominasi tekanan jual historis (pesanan tertunda institusi), sedangkan Demand merepresentasikan area minat beli agregat. Mengidentifikasi zona ini adalah kunci utama untuk mendapatkan presisi tinggi." },
+  { judul: "Hukum Probabilitas & Risk to Reward (RR)", isi: "Anda tidak perlu selalu benar untuk bisa mencetak profit konsisten. Dengan penerapan rasio Risk:Reward yang logis (misalnya 1:3), Anda merisikokan 1 bagian untuk mendapatkan 3 bagian. Melalui rasio ini, win-rate sebesar 35-40% dari total transaksi bulanan sudah cukup untuk membuat nilai portofolio Anda bertumbuh secara eksponensial." },
+  { judul: "Konsep Dasar Smart Money (SMC)", isi: "Trader ritel cenderung bertransaksi menggunakan pola klasik yang sangat mudah diantisipasi oleh algoritma institusi besar (Smart Money). SMC mengajarkan Anda untuk melihat pasar dari sudut pandang pembuat pasar (Market Maker), memahami bagaimana mereka mengumpulkan posisi (Accumulation), menjebak ritel (Manipulation), lalu mendistribusikan harga (Distribution)." },
+  { judul: "Pentingnya Manajemen Multi-Timeframe", isi: "Analisis yang valid tidak pernah bersumber hanya dari satu Timeframe (TF). Analis profesional menggunakan TF besar (Daily/H4) untuk menentukan bias arah tren utama dan mencari Order Block kuat, TF menengah (H1/M15) untuk memantau struktur pasar terkini, dan TF kecil (M5/M1) untuk masuk pasar (Entry) demi meminimalisasi jarak Stop Loss." },
+  { judul: "Psikologi: Menghancurkan Bias FOMO", isi: "Fear of Missing Out (FOMO) adalah penyebab utama hancurnya akun trading. Trader profesional memiliki kesabaran tak terbatas. Mereka membiarkan harga yang mendatangi area zona setup mereka (Limit Order), bukan secara emosional mengejar harga yang sedang melesat kencang akibat berita mendadak." },
+  { judul: "Navigasi Drawdown Portofolio", isi: "Drawdown (penurunan beruntun) adalah fase alami dari sistem trading mana pun. Kunci melewati fase ini bukan dengan meningkatkan ukuran lot untuk 'balas dendam' kepada pasar (Revenge Trading), melainkan menurunkan eksposur risiko dan mengevaluasi kembali penyesuaian strategi dengan kondisi pasar yang mungkin sedang tidak ideal (Sideways/Konsolidasi)." },
+  { judul: "Pemanfaatan Indikator vs Price Action", isi: "Meskipun indikator (Moving Average, RSI, MACD) dapat membantu, mereka selalu bersifat terlambat (Lagging) karena dihitung dari data harga masa lalu. Institute Trading menekankan pentingnya penguasaan Price Action murni (Membaca harga telanjang), karena harga itu sendiri adalah indikator tercepat dan paling jujur di pasar." },
+  { judul: "Komitmen Pertumbuhan (Compounding)", isi: "Berfokuslah pada persentase pertumbuhan bulanan yang serealistis mungkin (5% - 10%), bukan melipatgandakan akun dalam semalam. Keajaiban efek bunga majemuk (Compounding) akan mengubah pertumbuhan kecil yang persisten menjadi akumulasi kekayaan yang luar biasa hebat dalam rentang waktu bertahun-tahun." }
+];
+
+const kontainer = document.getElementById("kontainer-materi");
+let htmlMateri = "";
+
+dataMateri.forEach((item, index) => {
+  htmlMateri += `
+  <div class="rule">
+    <h4>Modul ${index + 1}: ${item.judul}</h4>
+    <p>${item.isi}</p>
+  </div>
+  `;
+});
+
+kontainer.innerHTML = htmlMateri;
 </script>
+
 </body>
 </html>
