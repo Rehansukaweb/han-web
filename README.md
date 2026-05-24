@@ -2,667 +2,495 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>IT - Institute Trading | Professional Education</title>
+<title>IT - Institute Trading</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --c-primary: #00b140;
-  --c-primary-light: #00ff88;
-  --c-grad: linear-gradient(135deg, var(--c-primary), var(--c-primary-light));
-  --c-bg: #f5fff7;
-  --c-surface: #ffffff;
-  --c-text: #111827;
-  --c-text-muted: #4b5563;
-  --shadow-soft: 0 15px 40px rgba(0, 177, 64, 0.06);
-  --shadow-hover: 0 20px 50px rgba(0, 177, 64, 0.15);
-  --border-soft: 1px solid rgba(0, 177, 64, 0.1);
-}
-
 *{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  scroll-behavior: smooth;
+margin:0;
+padding:0;
+box-sizing:border-box;
+scroll-behavior:smooth;
 }
 
 body{
-  font-family: 'Poppins', sans-serif;
-  background: var(--c-bg);
-  color: var(--c-text);
-  overflow-x: hidden;
-  line-height: 1.7;
+font-family:'Poppins',sans-serif;
+background:#080a0f; /* Mengikuti warna latar belakang hitam/gelap premium seperti logo */
+overflow-x:hidden;
+color:#f1f5f9; /* Teks terang untuk tema gelap */
 }
 
 /* NAVBAR */
 header{
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 18px 7%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  z-index: 1000;
-  border-bottom: 1px solid rgba(0,0,0,0.03);
-  transition: all 0.4s ease;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:15px 7%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(8, 10, 15, 0.85); /* Dark translucent navbar */
+backdrop-filter:blur(14px);
+z-index:1000;
+border-bottom:1px solid rgba(255,255,255,0.05);
+transition:0.3s;
 }
 
 .logo{
-  display: flex;
-  align-items: center;
-  gap: 14px;
+display:flex;
+align-items:center;
+gap:14px;
 }
 
-.logo-circle{
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--c-grad);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2rem;
-  color: white;
-  font-weight: 800;
-  box-shadow: 0 10px 20px rgba(0, 177, 64, 0.25);
-  animation: floating 4s ease-in-out infinite;
+.logo-img{
+width:50px;
+height:50px;
+object-fit:cover;
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.1);
+box-shadow:0 0 15px rgba(0, 210, 255, 0.2);
 }
 
 .logo h2{
-  font-size: 1.4rem;
-  color: var(--c-primary);
-  font-weight: 800;
-  letter-spacing: -0.5px;
+font-size:1.4rem;
+color:#ffffff;
+font-weight:700;
+letter-spacing:0.5px;
 }
 
-.logo p {
-  font-size: 0.7rem;
-  color: var(--c-text-muted);
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+.logo h2 span{
+color:#00b140;
 }
 
 nav{
-  display: flex;
-  gap: 40px;
+display:flex;
+gap:35px;
 }
 
 nav a{
-  text-decoration: none;
-  color: var(--c-text);
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: 0.3s ease;
-  position: relative;
-}
-
-nav a::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -4px;
-  left: 0;
-  background: var(--c-primary);
-  transition: 0.3s ease;
+text-decoration:none;
+color:#94a3b8;
+font-weight:600;
+transition:0.3s;
+font-size:0.95rem;
 }
 
 nav a:hover{
-  color: var(--c-primary);
-}
-
-nav a:hover::after {
-  width: 100%;
+color:#00d2ff; /* Aksen biru elektrik dari logo */
 }
 
 /* HERO */
 .hero{
-  min-height: 100vh;
-  padding: 180px 7% 100px;
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  align-items: center;
-  gap: 60px;
-  background: 
-    radial-gradient(circle at 10% 20%, rgba(214, 255, 228, 0.7) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(197, 255, 217, 0.6) 0%, transparent 40%);
+min-height:100vh;
+padding:170px 7% 100px;
+display:grid;
+grid-template-columns:1.2fr 1fr;
+align-items:center;
+gap:60px;
+background:
+radial-gradient(circle at top left, rgba(0, 210, 255, 0.12) 0%, transparent 45%),
+radial-gradient(circle at bottom right, rgba(229, 169, 61, 0.08) 0%, transparent 40%);
 }
 
 .badge{
-  display: inline-flex;
-  align-items: center;
-  padding: 8px 18px;
-  background: rgba(0, 177, 64, 0.1);
-  color: var(--c-primary);
-  font-weight: 700;
-  border-radius: 50px;
-  margin-bottom: 25px;
-  font-size: 0.9rem;
-  border: var(--border-soft);
-  letter-spacing: 0.5px;
+display:inline-block;
+padding:10px 20px;
+background:rgba(0, 210, 255, 0.1);
+color:#00d2ff;
+border:1px solid rgba(0, 210, 255, 0.2);
+font-weight:700;
+border-radius:50px;
+margin-bottom:25px;
+box-shadow:0 5px 20px rgba(0, 210, 255, 0.1);
+font-size:0.85rem;
+letter-spacing:0.5px;
 }
 
 .hero h1{
-  font-size: 4rem;
-  line-height: 1.15;
-  margin-bottom: 25px;
-  font-weight: 800;
-  color: #0a1128;
-  letter-spacing: -1px;
+font-size:4.2rem;
+line-height:1.2;
+margin-bottom:25px;
+font-weight:800;
+color:#ffffff;
 }
 
 .hero h1 span{
-  background: var(--c-grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+background: linear-gradient(135deg, #00b140, #00d2ff);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
 }
 
 .hero p{
-  font-size: 1.15rem;
-  line-height: 1.8;
-  color: var(--c-text-muted);
-  max-width: 95%;
-  margin-bottom: 40px;
+font-size:1.05rem;
+line-height:1.8;
+color:#94a3b8;
+max-width:700px;
+margin-bottom:35px;
 }
 
 .hero-buttons{
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
+display:flex;
+gap:20px;
+flex-wrap:wrap;
 }
 
 .btn{
-  padding: 16px 35px;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.05rem;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+padding:16px 32px;
+border-radius:14px;
+text-decoration:none;
+font-weight:700;
+transition:0.3s;
+display: inline-block;
+font-size:0.95rem;
 }
 
 .btn-primary{
-  background: var(--c-grad);
-  color: white;
-  box-shadow: 0 10px 20px rgba(0, 177, 64, 0.2);
+background:linear-gradient(135deg, #00b140, #00ff88);
+color:#080a0f;
+box-shadow:0 10px 25px rgba(0,177,64,0.25);
 }
 
 .btn-primary:hover{
-  transform: translateY(-4px);
-  box-shadow: 0 15px 30px rgba(0, 177, 64, 0.35);
+transform:translateY(-3px);
+box-shadow:0 15px 30px rgba(0,177,64,0.4);
 }
 
 .btn-secondary{
-  background: white;
-  color: var(--c-primary);
-  box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(0, 177, 64, 0.15);
+border:2px solid rgba(255, 255, 255, 0.15);
+color:#ffffff;
+background:rgba(255,255,255,0.03);
 }
 
 .btn-secondary:hover{
-  border-color: var(--c-primary);
-  color: var(--c-primary);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
+background:rgba(255, 255, 255, 0.08);
+border-color:rgba(255, 255, 255, 0.3);
+transform:translateY(-3px);
 }
 
-/* HERO RIGHT (CARD) */
+.btn-tiktok{
+background:linear-gradient(135deg,#111115,#22252a);
+color:white;
+border:1px solid rgba(255,255,255,0.1);
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+.btn-tiktok:hover{
+transform:translateY(-3px);
+color:#00ff88;
+border-color:rgba(0,255,136,0.3);
+}
+
+/* HERO RIGHT */
 .hero-card{
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  padding: 50px 45px;
-  border-radius: 35px;
-  box-shadow: var(--shadow-hover);
-  border: var(--border-soft);
-  position: relative;
-  overflow: hidden;
-  animation: floating 5s ease-in-out infinite;
-}
-
-.hero-card::before{
-  content: '';
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  background: var(--c-grad);
-  top: -120px;
-  right: -120px;
-  border-radius: 50%;
-  opacity: 0.1;
-  filter: blur(50px);
+background:rgba(18, 22, 32, 0.7);
+backdrop-filter:blur(20px);
+padding:40px;
+border-radius:30px;
+border:1px solid rgba(255,255,255,0.05);
+box-shadow:0 20px 50px rgba(0,0,0,0.3);
+position:relative;
+overflow:hidden;
+animation:floating 4s ease-in-out infinite;
 }
 
 .hero-card h2{
-  font-size: 1.5rem;
-  margin-bottom: 35px;
-  font-weight: 800;
-  color: #0a1128;
-  text-align: center;
-  letter-spacing: 1px;
+font-size:1.6rem;
+margin-bottom:30px;
+color:#ffffff;
+letter-spacing:1px;
+font-weight:700;
+text-align:center;
+border-bottom:1px solid rgba(255,255,255,0.05);
+padding-bottom:15px;
 }
 
 .stat-box{
-  background: white;
-  padding: 22px 25px;
-  border-radius: 20px;
-  margin-bottom: 18px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.03);
-  border: 1px solid #f4f4f4;
-  display: flex;
-  align-items: center;
-  gap: 25px;
+background:rgba(255,255,255,0.02);
+padding:22px;
+border-radius:16px;
+margin-bottom:20px;
+border:1px solid rgba(255,255,255,0.03);
+box-shadow:inset 0 2px 4px rgba(255,255,255,0.02);
 }
 
 .stat-box h3{
-  font-size: 2.2rem;
-  color: var(--c-primary);
-  font-weight: 800;
-  min-width: 80px;
+font-size:2.2rem;
+color:#00ff88;
+font-weight:800;
+margin-bottom:4px;
 }
 
-.stat-box p {
-  color: var(--c-text-muted);
-  font-size: 0.95rem;
-  font-weight: 600;
-  line-height: 1.4;
+.stat-box p{
+color:#94a3b8;
+font-size:0.95rem;
 }
 
 .progress{
-  width: 100%;
-  height: 14px;
-  background: #edf2f7;
-  border-radius: 50px;
-  overflow: hidden;
-  margin-top: 35px;
+width:100%;
+height:12px;
+background:rgba(255,255,255,0.05);
+border-radius:50px;
+overflow:hidden;
+margin-top:25px;
 }
 
 .progress-fill{
-  height: 100%;
-  width: 90%;
-  background: var(--c-grad);
-  border-radius: 50px;
-  animation: grow 3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+height:100%;
+width:90%;
+background:linear-gradient(90deg, #00b140, #00d2ff);
+border-radius:50px;
+animation:grow 4s infinite alternate;
 }
 
 .progress-text{
-  margin-top: 15px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--c-primary);
-  text-align: right;
+margin-top:15px;
+font-weight:600;
+color:#00d2ff;
+font-size:0.9rem;
+text-align:center;
+letter-spacing:0.5px;
 }
 
-/* SECTION GLOBAL */
+/* SECTION */
 section{
-  padding: 120px 7%;
+padding:100px 7%;
 }
 
 .section-title{
-  text-align: center;
-  margin-bottom: 70px;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+text-align:center;
+margin-bottom:60px;
 }
 
 .section-title span{
-  display: inline-block;
-  color: var(--c-primary);
-  font-weight: 700;
-  letter-spacing: 2px;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  background: rgba(0, 177, 64, 0.1);
-  padding: 8px 20px;
-  border-radius: 50px;
-  margin-bottom: 20px;
+color:#00d2ff;
+font-weight:700;
+letter-spacing:2px;
+font-size:0.85rem;
+text-transform:uppercase;
 }
 
 .section-title h2{
-  font-size: 3rem;
-  color: #0a1128;
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 20px;
+font-size:2.6rem;
+margin-top:12px;
+color:#ffffff;
+font-weight:800;
 }
 
-.section-title p {
-  font-size: 1.1rem;
-  color: var(--c-text-muted);
-}
-
-/* GRID & CARDS (TENTANG KAMI) */
+/* GRID */
 .grid{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 35px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:35px;
 }
 
+/* CARD */
 .card{
-  background: var(--c-surface);
-  padding: 50px 40px;
-  border-radius: 30px;
-  box-shadow: var(--shadow-soft);
-  transition: all 0.4s ease;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.8);
-  z-index: 1;
+background:#111520;
+padding:40px;
+border-radius:24px;
+border:1px solid rgba(255,255,255,0.03);
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+transition:0.4s;
+position:relative;
+overflow:hidden;
 }
 
 .card::before{
-  content: '';
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  background: var(--c-grad);
-  opacity: 0.04;
-  top: -50px;
-  right: -50px;
-  border-radius: 50%;
-  transition: all 0.5s ease;
-  z-index: -1;
+content:'';
+position:absolute;
+width:100px;
+height:100px;
+background:linear-gradient(135deg, #00d2ff, transparent);
+opacity:0.03;
+top:-30px;
+right:-30px;
+border-radius:50%;
 }
 
 .card:hover{
-  transform: translateY(-12px);
-  box-shadow: var(--shadow-hover);
-}
-
-.card:hover::before {
-  transform: scale(2);
-  opacity: 0.08;
+transform:translateY(-8px);
+border-color:rgba(0, 210, 255, 0.2);
+box-shadow:0 15px 40px rgba(0, 210, 255, 0.08);
 }
 
 .card h3{
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #0a1128;
-  display: flex;
-  align-items: center;
-  gap: 15px;
+margin-bottom:15px;
+font-size:1.4rem;
+color:#ffffff;
+font-weight:700;
 }
 
 .card p{
-  color: var(--c-text-muted);
-  line-height: 1.8;
-  font-size: 1rem;
+color:#94a3b8;
+line-height:1.7;
+font-size:0.95rem;
 }
 
-/* ACCORDION (PROGRAM) */
+/* ACCORDION PROGRAM */
 .accordion-wrapper {
-  max-width: 900px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
+max-width: 900px;
+margin: 0 auto;
+display: flex;
+flex-direction: column;
+gap: 20px;
 }
 
 .accordion-btn {
-  background: var(--c-surface);
-  padding: 35px 45px;
-  border-radius: 25px;
-  box-shadow: var(--shadow-soft);
-  width: 100%;
-  text-align: left;
-  font-size: 1.35rem;
-  font-weight: 700;
-  font-family: inherit;
-  border: 1px solid rgba(0,0,0,0.02);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #0a1128;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.accordion-btn span {
-  font-size: 1.8rem;
-  font-weight: 400;
-  color: var(--c-primary);
-  transition: transform 0.4s ease;
-}
-
-.accordion-btn.active span {
-  transform: rotate(45deg);
+background: #111520;
+padding: 30px 35px;
+border-radius: 20px;
+border: 1px solid rgba(255,255,255,0.03);
+box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+width: 100%;
+text-align: left;
+font-size: 1.3rem;
+font-weight: 700;
+font-family: 'Poppins', sans-serif;
+cursor: pointer;
+transition: 0.4s;
+position: relative;
+overflow: hidden;
+color: #ffffff;
+z-index: 2;
+display: flex;
+justify-content: space-between;
+align-items: center;
 }
 
 .accordion-btn:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
+transform: translateY(-3px);
+border-color: rgba(255,255,255,0.1);
 }
 
 .accordion-btn.premium-acc {
-  background: var(--c-grad);
-  color: white;
-  border: none;
+background: linear-gradient(135deg, #161e2e, #111520);
+border: 1px solid rgba(0, 210, 255, 0.2);
+box-shadow: 0 10px 35px rgba(0, 210, 255, 0.05);
 }
 
 .accordion-btn.premium-acc span {
-  color: white;
+color: #e5a93c; /* Aksen Emas pro dari logo */
 }
 
 .accordion-content {
-  padding: 0 45px;
-  background: var(--c-surface);
-  border-radius: 0 0 25px 25px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s cubic-bezier(0.1, 0.8, 0.3, 1), padding 0.5s ease;
-  box-shadow: var(--shadow-soft);
-  margin-top: -30px; 
-  position: relative;
-  z-index: -1; 
+padding: 0 35px;
+background: #0d1017;
+border-radius: 0 0 20px 20px;
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+box-shadow: inset 0 4px 20px rgba(0,0,0,0.2);
+margin-top: -20px;
+position: relative;
+z-index: 1;
+border: 1px solid rgba(255,255,255,0.02);
+border-top: none;
 }
 
 .accordion-content p {
-  color: var(--c-text-muted);
-  line-height: 1.9;
-  padding: 55px 0 35px 0;
-  font-size: 1.05rem;
+color: #94a3b8;
+line-height: 1.8;
+padding: 35px 0 20px 0;
+font-size: 0.98rem;
 }
 
-.accordion-content ul {
-  padding: 0 0 35px 20px;
-  color: var(--c-text-muted);
-  line-height: 1.9;
-  font-size: 1.05rem;
+/* RULE (MATERI EDUKASI) */
+.rules{
+display:grid;
+gap:20px;
+max-width:900px;
+margin:auto;
 }
 
-.accordion-content li {
-  margin-bottom: 10px;
+.rule{
+background:#111520;
+padding:25px 30px;
+border-radius:16px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+transition:0.3s;
+border: 1px solid rgba(255,255,255,0.02);
+border-left: 4px solid #00b140;
 }
 
-/* FIX: RULES & MATERI (S.O.P TRADING) */
-.rules {
-  display: grid;
-  grid-template-columns: 1fr; /* Memastikan kotak selalu responsif turun ke bawah */
-  gap: 25px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.rule {
-  background: var(--c-surface);
-  padding: 30px 40px; /* Padding diatur ulang agar tidak terlalu ngepres/kopong */
-  border-radius: 20px;
-  box-shadow: var(--shadow-soft);
-  transition: all 0.3s ease;
-  border-left: 8px solid var(--c-primary);
-  height: auto !important; /* Memaksa kotak setinggi isi tulisan */
-  min-height: max-content;
-  display: block; /* Mencegah flexbox collapse */
-  overflow: visible; /* Memastikan isi tidak terpotong */
-}
-
-.rule:hover {
-  transform: translateX(15px);
-  box-shadow: var(--shadow-hover);
+.rule:hover{
+transform:translateY(-4px);
+border-color: rgba(255,255,255,0.05);
+border-left-color: #00ff88;
 }
 
 .rule h4 {
-  color: #0a1128;
-  font-size: 1.3rem;
-  margin-bottom: 12px;
-  margin-top: 0;
-  font-weight: 800;
-  line-height: 1.4;
+color: #ffffff;
+font-size: 1.2rem;
+margin-bottom: 10px;
+font-weight: 700;
 }
-
 .rule p {
-  color: var(--c-text-muted);
-  line-height: 1.8;
-  font-size: 1.05rem;
-  margin: 0; /* Merapikan jarak tulisan */
+color: #94a3b8;
+line-height: 1.7;
+font-size: 0.95rem;
 }
 
-/* CONTACT BOX */
-.contact-wrapper {
-  max-width: 1000px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
-}
-
+/* CONTACT */
 .contact-box{
-  background: var(--c-surface);
-  padding: 70px 50px;
-  border-radius: 40px;
-  text-align: center;
-  box-shadow: var(--shadow-hover);
-  position: relative;
-}
-
-.contact-box::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 10px;
-  background: var(--c-grad);
-  border-radius: 40px 40px 0 0;
-}
-
-.contact-box h2{
-  font-size: 2.5rem;
-  color: #0a1128;
-  margin-bottom: 15px;
-  font-weight: 800;
-}
-
-.contact-box h2 span {
-  color: var(--c-primary);
-}
-
-.contact-box p {
-  color: var(--c-text-muted);
-  font-size: 1.15rem;
-  margin-bottom: 30px;
+max-width:700px;
+margin:auto;
+background:#111520;
+padding:50px;
+border-radius:30px;
+text-align:center;
+box-shadow:0 15px 40px rgba(0,0,0,0.3);
 }
 
 .contact-box h3{
-  font-size: 3.5rem;
-  margin: 20px 0;
-  color: var(--c-primary);
-  font-weight: 800;
-  letter-spacing: 3px;
-}
-
-.payment-methods {
-  margin-top: 50px;
-  padding-top: 30px;
-  border-top: 1px solid #eee;
-}
-
-.payment-methods p {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #888;
-  margin-bottom: 15px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.payment-badges {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-
-.payment-badge {
-  background: #f8f9fa;
-  padding: 8px 20px;
-  border-radius: 10px;
-  font-weight: 700;
-  color: #333;
-  border: 1px solid #e9ecef;
-  font-size: 0.95rem;
+font-size:2.4rem;
+margin:20px 0;
+color:#00ff88;
+font-weight:800;
 }
 
 /* FOOTER */
 footer{
-  background: #008731;
-  padding: 70px 20px;
-  text-align: center;
-  color: white;
+background:#06080c;
+padding:50px 20px;
+text-align:center;
+color:#64748b;
+border-top:1px solid rgba(255,255,255,0.03);
 }
 
 footer h2{
-  font-size: 1.8rem;
-  margin-bottom: 15px;
-  font-weight: 800;
+margin-bottom:10px;
+color:#ffffff;
+font-size:1.4rem;
 }
 
 footer p {
-  opacity: 0.9;
-  font-size: 1rem;
-  margin-bottom: 10px;
+font-size:0.9rem;
 }
 
 /* ANIMATION */
 @keyframes floating{
-  0%, 100%{ transform: translateY(0); }
-  50%{ transform: translateY(-20px); }
+0%,100%{ transform:translateY(0); }
+50%{ transform:translateY(-12px); }
 }
 
 @keyframes grow{
-  from{ width: 0%; }
-  to{ width: 90%; }
+from{ width:60%; }
+to{ width:90%; }
 }
 
 /* RESPONSIVE */
-@media(max-width:1100px){
-  .hero{ grid-template-columns: 1fr; padding-top: 150px; gap: 50px; }
-  .hero h1{ font-size: 3.5rem; }
-  .hero-card { margin: 0 auto; max-width: 550px; width: 100%; }
-  nav{ display: none; }
+@media(max-width:1000px){
+.hero{grid-template-columns:1fr; padding-top:150px; gap:40px;}
+.hero h1{font-size:3.2rem;}
+nav{display:none;}
 }
 
 @media(max-width:600px){
-  .hero h1{ font-size: 2.6rem; }
-  .hero p { font-size: 1.05rem; }
-  .section-title h2{ font-size: 2.2rem; }
-  .btn{ width: 100%; }
-  .contact-box{ padding: 50px 25px; }
-  .contact-box h3 { font-size: 2.5rem; }
-  section { padding: 90px 5%; }
-  .accordion-btn { padding: 25px 30px; font-size: 1.15rem; }
-  .card { padding: 35px 25px; }
-  .rule { padding: 25px; } /* Padding disesuaikan untuk HP */
+.hero h1{font-size:2.4rem;}
+.section-title h2{font-size:1.8rem;}
+.btn{width:100%; text-align:center;}
+.contact-box{padding:35px 20px;}
 }
 </style>
 </head>
@@ -670,271 +498,250 @@ footer p {
 <body>
 
 <header>
-  <div class="logo">
-    <div class="logo-circle">IT</div>
-    <div>
-      <h2>Institute Trading</h2>
-      <p>by RHN Capital Finance</p>
-    </div>
-  </div>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#about">Filosofi</a>
-    <a href="#program">Program & Kurikulum</a>
-    <a href="#materi">Silabus Edukasi</a>
-    <a href="#rules">S.O.P Trading</a>
-    <a href="#contact">Kemitraan</a>
-  </nav>
+<div class="logo">
+<img src="LOGO INTITUTE TRADING.jpeg" alt="Institute Trading Logo" class="logo-img">
+<h2>Institute <span>Trading</span></h2>
+</div>
+<nav>
+<a href="#home">Home</a>
+<a href="#about">Tentang</a>
+<a href="#program">Program</a>
+<a href="#materi">Edukasi</a>
+<a href="#rules">Rules</a>
+<a href="#contact">Kontak</a>
+</nav>
 </header>
 
 <section class="hero" id="home">
-  <div>
-    <div class="badge">Institusi Edukasi Finansial Terpercaya</div>
-    <h1>Menciptakan <span>Trader Profesional</span> Yang Konsisten & Disiplin</h1>
-    <p>Didukung oleh ekosistem <strong>RHN CAPITAL FINANCE</strong>, Institute Trading hadir secara eksklusif untuk membangun trader dengan penguasaan psikologi tingkat tinggi, manajemen risiko institusional, dan akurasi teknikal menuju kebebasan finansial jangka panjang.</p>
-    <div class="hero-buttons">
-      <a href="https://wa.me/6285717426626" class="btn btn-primary">Konsultasi Mentor Gratis</a>
-      <a href="#program" class="btn btn-secondary">Jelajahi Kurikulum</a>
-    </div>
-  </div>
-  
-  <div class="hero-card">
-    <h2>STANDAR AKURASI INSTITUSI</h2>
-    <div class="stat-box">
-      <h3>90%</h3>
-      <p>Penguasaan Psikologi &<br>Manajemen Ekuitas (Margin)</p>
-    </div>
-    <div class="stat-box">
-      <h3>10%</h3>
-      <p>Eksekusi Teknis, Pemetaan Likuiditas & Penggunaan Alat</p>
-    </div>
-    <div class="progress"><div class="progress-fill"></div></div>
-    <div class="progress-text">Fokus Pada Pertumbuhan Akun Jangka Panjang</div>
-  </div>
+<div>
+<div class="badge">#1 Trading Education Platform</div>
+<h1>Menciptakan <span>Trader Muda</span> Yang Disiplin, Sehat & Sukses</h1>
+<p>Institute Trading hadir untuk membangun trader muda profesional dengan mindset kuat, money management sehat, dan risk management yang disiplin agar mampu menjadi trader sukses dan financial freedom.</p>
+<div class="hero-buttons">
+<a href="https://wa.me/6285717426626" class="btn btn-primary">Gabung Sekarang</a>
+<a href="#program" class="btn btn-secondary">Lihat Program</a>
+</div>
+</div>
+<div class="hero-card">
+<h2>TRADER SUCCESS SYSTEM</h2>
+<div class="stat-box"><h3>90%</h3><p>Risk Management & Psikologi</p></div>
+<div class="stat-box"><h3>10%</h3><p>Entry Strategy</p></div>
+<div class="progress"><div class="progress-fill"></div></div>
+<div class="progress-text">Healthy Growth & Consistency</div>
+</div>
 </section>
 
 <section id="about">
-  <div class="section-title">
-    <span>Filosofi & Pendekatan Kami</span>
-    <h2>Pondasi Menuju Profesionalisme</h2>
-    <p>Kami tidak mengajarkan skema cepat kaya. Kami mencetak analis pasar dan pengelola risiko yang bertindak secara objektif layaknya institusi keuangan modern.</p>
-  </div>
-  <div class="grid">
-    <div class="card">
-      <h3>🧠 Psikologi Baja (Trading Mindset)</h3>
-      <p>Melatih kendali emosional absolut. Kami mengajarkan Anda untuk beroperasi layaknya mesin—menghilangkan keraguan, ketakutan (FOMO), dan sifat serakah. Fokus utama kami adalah membentuk disiplin eksekusi tanpa terpengaruh <i>noise</i> dan volatilitas market harian.</p>
-    </div>
-    <div class="card">
-      <h3>💼 Proteksi Ekuitas (Money Management)</h3>
-      <p>Sistem pengelolaan modal yang dirancang untuk memastikan akun Anda mustahil terkena Margin Call. Mulai dari transisi akun <i>Cent</i> untuk melatih mentalitas pemula, hingga pengaturan rasio <i>Lot Size</i> yang proporsional terhadap ketahanan dana di pasar ekstrem.</p>
-    </div>
-    <div class="card">
-      <h3>🛡️ Manajemen Risiko Defensif</h3>
-      <p>Kami menanamkan prinsip bahwa modal adalah "nyawa" bisnis Anda. Penerapan <i>Stop Loss</i> terukur yang tidak bisa diganggu gugat, serta manajemen <i>Drawdown</i> harian untuk menjaga karir trading Anda bertahan selama berpuluh-puluh tahun di industri ini.</p>
-    </div>
-    <div class="card">
-      <h3>⚙️ Penguasaan Teknologi (MT5 & EA)</h3>
-      <p>Di era modern, kecepatan dan presisi adalah segalanya. Kami membekali pemahaman operasional tingkat lanjut menggunakan platform MetaTrader 5 (MT5), termasuk optimalisasi dan tata kelola <i>Expert Advisor</i> (EA/Robot Trading) berbasis algoritma yang kami rancang.</p>
-    </div>
-  </div>
+<div class="section-title">
+<span>TENTANG KAMI</span>
+<h2>Institute Trading Modern</h2>
+</div>
+<div class="grid">
+<div class="card"><h3>Mindset Trader</h3><p>Melatih trader muda agar memiliki mental disiplin, tidak emosional, dan fokus pada konsistensi.</p></div>
+<div class="card"><h3>Money Management</h3><p>Mengajarkan pengelolaan modal profesional agar akun tetap sehat dan berkembang stabil.</p></div>
+<div class="card"><h3>Risk Management</h3><p>Strategi pembatasan kerugian untuk menjaga longevity dalam dunia trading.</p></div>
+</div>
 </section>
 
 <section id="program">
-  <div class="section-title">
-    <span>Kurikulum Akademi</span>
-    <h2>Pilih Jalur Spesialisasi Anda</h2>
-    <p>Dari pemahaman fundamental struktur pasar hingga penguasaan algoritma tingkat lanjut.</p>
-  </div>
-  <div class="accordion-wrapper">
+<div class="section-title">
+<span>PROGRAM</span>
+<h2>Program Unggulan</h2>
+<p style="margin-top: 10px; color: #94a3b8;">Klik pada program untuk melihat detailnya 👇</p>
+</div>
+<div class="accordion-wrapper">
     <div>
-      <button class="accordion-btn">📉 Level 1: Market Structure & Foundation <span>+</span></button>
-      <div class="accordion-content">
-        <p>Kelas fondasi wajib bagi pemula. Modul ini membongkar ilusi market dan memberikan pemahaman logis tentang mengapa harga bergerak. Anda akan belajar:</p>
-        <ul>
-          <li>Anatomi Candlestick dan Price Action murni.</li>
-          <li>Pemetaan Support, Resistance, serta Supply & Demand (SND).</li>
-          <li>Menentukan tren primer, sekunder, dan minor (Market Structure).</li>
-          <li>Transisi ke akun real menggunakan Akun Cent (USC) untuk melatih psikologi rasio.</li>
-        </ul>
-      </div>
+        <button class="accordion-btn">📉 Basic Trading <span>+</span></button>
+        <div class="accordion-content">
+            <p>Belajar market structure, candlestick, support resistance, dan dasar analisis market. Sangat cocok untuk pemula yang ingin belajar dari nol dengan pondasi yang benar.</p>
+        </div>
     </div>
     <div>
-      <button class="accordion-btn premium-acc">👑 Level 2: Smart Money Concept (SMC) & XAUUSD Mastery <span>+</span></button>
-      <div class="accordion-content">
-        <p>Program eksklusif terlaris kami. Anda tidak lagi bertrading seperti "Retail", melainkan mengikuti jejak institusi besar (Bank/Hedge Funds). Sangat direkomendasikan untuk trader yang menyukai pair dengan volatilitas tinggi seperti XAUUSD (Gold).</p>
-        <ul>
-          <li>Membaca jejak likuiditas: Mengidentifikasi area di mana Stop Loss ritel akan disapu oleh Market Maker.</li>
-          <li>Pemahaman mendalam tentang Fair Value Gap (FVG), Imbalance, Order Block, dan Break of Structure (BOS / CHoCH).</li>
-          <li>Spesialisasi pergerakan fundamental dan teknikal pada market Gold (XAUUSD) di berbagai Timeframe (Multi-Timeframe Analysis).</li>
-          <li>Mencari setup presisi (Sniper Entry) dengan rasio Risk:Reward (RR) 1:3 hingga 1:10.</li>
-        </ul>
-      </div>
+        <button class="accordion-btn premium-acc">👑 Professional Trading (BEST) <span>+</span></button>
+        <div class="accordion-content">
+            <p>Belajar Smart Money Concept (SMC), institutional trading, psychology, dan risk management profesional. Setup entry yang lebih tajam layaknya institusi besar.</p>
+        </div>
     </div>
     <div>
-      <button class="accordion-btn">⚙️ Level 3: Algorithmic & EA Configuration <span>+</span></button>
-      <div class="accordion-content">
-        <p>Otomatisasi adalah kunci efisiensi waktu. Program teknis ini dirancang bagi trader yang ingin memanfaatkan kekuatan sistem otomatis tanpa harus menatap layar 24 jam.</p>
-        <ul>
-          <li>Pengenalan mendalam arsitektur platform MetaTrader 5 (MT5).</li>
-          <li>Manajemen instalasi, kompilasi, dan <i>backtesting Expert Advisor</i> (EA) pada folder data.</li>
-          <li>Penyesuaian parameter variabel logika EA agar adaptif terhadap kondisi market berjalan.</li>
-          <li>Manajemen risiko terotomatisasi (Auto Lot & Auto Trailing Stop).</li>
-        </ul>
-      </div>
+        <button class="accordion-btn">🚀 Millionaire Trader <span>+</span></button>
+        <div class="accordion-content">
+            <p>Mentoring elite untuk membangun trader sukses dan financial freedom jangka panjang. Pendampingan eksklusif untuk menjaga konsistensi profit Anda.</p>
+        </div>
     </div>
-    <div>
-      <button class="accordion-btn">🚀 Level 4: Elite Mentorship & Portfolio Management <span>+</span></button>
-      <div class="accordion-content">
-        <p>Layanan konsultasi dan pendampingan 1-on-1 (Eksklusif) yang fokus pada pembentukan Anda menjadi pengelola dana mandiri berpenghasilan tetap.</p>
-        <ul>
-          <li>Audit portofolio dan pembedahan "Trading Journal" secara berkala bersama mentor.</li>
-          <li>Perbaikan kesalahan eksekusi psikologis secara real-time.</li>
-          <li>Strategi <i>compounding</i> tingkat lanjut dan target pertumbuhan dana (Healthy Growth).</li>
-          <li>Akses prioritas ke pembaruan ekosistem riset RHN CAPITAL FINANCE.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+</div>
+</section>
+
+<section id="materi">
+<div class="section-title">
+<span>EDUKASI</span>
+<h2>Perpustakaan Ilmu Trading</h2>
+<p style="margin-top: 10px; color: #94a3b8;">Pelajari dasar-dasar trading gratis dari Institute Trading.</p>
+</div>
+<div id="kontainer-materi" class="rules"></div>
 </section>
 
 <section id="rules">
-  <div class="section-title">
-    <span>Standard Operating Procedure (SOP)</span>
-    <h2>Hukum Mutlak Kesuksesan</h2>
-    <p>Kami tidak menoleransi pelanggaran terhadap aturan dasar keselamatan finansial berikut ini.</p>
-  </div>
-  <div class="rules">
-    <div class="rule">
-      <h4>📜 Pasal 1: Pembatasan Risiko Tetap (Max 1-2%)</h4>
-      <p>Pasar tidak bisa diprediksi secara absolut, hanya probabilitas. Merisikokan lebih dari 2% dari total ekuitas dalam satu transaksi adalah bentuk dari perjudian. Hitung <i>Lot Size</i> Anda berdasarkan jarak <i>Stop Loss</i>, bukan berdasarkan <i>feeling</i>.</p>
-    </div>
-    <div class="rule">
-      <h4>📜 Pasal 2: Kewajiban Penggunaan Stop Loss (SL)</h4>
-      <p>Beroperasi tanpa SL berarti Anda membiarkan pasar memutuskan kapan akun Anda akan hancur. SL adalah asuransi yang melindungi bisnis Anda dari "Black Swan Event" atau rilis berita fundamental yang memicu lonjakan ratusan pips dalam hitungan detik.</p>
-    </div>
-    <div class="rule">
-      <h4>📜 Pasal 3: Kualitas Mengalahkan Kuantitas (No Overtrading)</h4>
-      <p>Tugas utama Anda bukanlah terus-menerus menekan tombol <i>Buy</i> atau <i>Sell</i>. Tugas Anda adalah mengintai, menunggu konfirmasi, dan mengeksekusi HANYA jika pergerakan pasar memenuhi 100% dari kriteria sistem perdagangan Anda. Jika tidak ada setup, jangan memaksakan diri.</p>
-    </div>
-    <div class="rule">
-      <h4>📜 Pasal 4: Audit & Jurnal Mandiri</h4>
-      <p>Trader yang tidak melakukan pencatatan adalah trader buta. Setiap <i>entry</i> wajib dicatat: alasan masuk, target, rasio risiko, hingga emosi saat itu. Evaluasi mingguan adalah satu-satunya cara mengidentifikasi kelemahan sistem Anda.</p>
-    </div>
-  </div>
-</section>
-
-<section id="materi" style="background: white;">
-  <div class="section-title">
-    <span>Silabus Pengetahuan Dasar</span>
-    <h2>Modul Edukasi Terbuka</h2>
-    <p>Pelajari terminologi dan mekanisme dasar pasar finansial global secara komprehensif.</p>
-  </div>
-  <div id="kontainer-materi" class="rules"></div>
+<div class="section-title">
+<span>RULES</span>
+<h2>Trader Sehat & Disiplin</h2>
+</div>
+<div class="rules">
+<div class="rule" style="font-weight:bold; padding:20px; border-left-color: #00ff88;">✅ Maksimal Risk 1-2% Per Entry</div>
+<div class="rule" style="font-weight:bold; padding:20px; border-left-color: #00ff88;">✅ Selalu Gunakan Stop Loss</div>
+<div class="rule" style="font-weight:bold; padding:20px; border-left-color: #00ff88;">✅ Hindari Overtrading</div>
+<div class="rule" style="font-weight:bold; padding:20px; border-left-color: #00ff88;">✅ Fokus Pada Konsistensi</div>
+<div class="rule" style="font-weight:bold; padding:20px; border-left-color: #00ff88;">✅ Utamakan Psikologi Trading</div>
+</div>
 </section>
 
 <section id="contact">
-  <div class="section-title">
-    <span>Layanan Anggota & Pendaftaran</span>
-    <h2>Bergabung Bersama Kami</h2>
-    <p>Lakukan pendaftaran kelas atau konsultasikan tantangan trading Anda langsung dengan divisi pendampingan kami.</p>
-  </div>
-  
-  <div class="contact-wrapper">
-    <div class="contact-box">
-      <h2>TANYA JAWAB <span>DI WHATSAPP</span></h2>
-      <p>Layanan konsultasi langsung cepat tanggap (Fast Response). Bahas strategi, review setup MT5, hingga pemilihan program yang tepat dengan kapasitas Anda.</p>
-      <h3>0857-1742-6626</h3>
-      
-      <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:35px;">
-        <a href="https://wa.me/6285717426626" class="btn btn-primary">📱 Chat via WhatsApp Sekarang</a>
-      </div>
-
-      <div class="payment-methods">
-        <p>Sistem Pembayaran Pendaftaran Kelas Resmi Didukung Oleh:</p>
-        <div class="payment-badges">
-          <div class="payment-badge">GOPAY</div>
-          <div class="payment-badge">DANA</div>
-          <div class="payment-badge">SHOPEEPAY</div>
-          <div class="payment-badge">TRANSFER BANK</div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="section-title">
+<span>KONTAK</span>
+<h2>Hubungi Kami</h2>
+</div>
+<div class="contact-box" style="border: 2px dashed rgba(0, 210, 255, 0.4); background: rgba(17, 21, 32, 0.6);">
+<h2 style="font-size: 2.3rem; color:#ffffff; margin-bottom: 10px;">TANYA JAWAB <span style="color:#00ff88;">DI WA</span></h2>
+<p style="color:#94a3b8; font-size:1.05rem;">Konsultasi langsung dengan mentor kami sekarang juga!</p>
+<h3>085717426626</h3>
+<div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:30px;">
+    <a href="https://wa.me/6285717426626" class="btn btn-primary">📱 Chat WhatsApp</a>
+    <a href="https://www.tiktok.com/@itrading.com?_r=1&_t=ZS-96cThJJNePC" target="_blank" class="btn btn-tiktok">🎵 TikTok: @itrading.com</a>
+</div>
+</div>
 </section>
 
 <footer>
-  <h2>Institute Trading</h2>
-  <p>Dikembangkan secara profesional dan terafiliasi dengan RHN CAPITAL FINANCE.</p>
-  <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.6;">© 2026 Institute Trading. Hak Cipta Dilindungi Undang-Undang.</p>
+<h2>IT - Institute Trading</h2>
+<p>Healthy Trader • Discipline • Financial Freedom</p>
 </footer>
 
 <script>
-// 1. EFEK BAYANGAN NAVBAR
-window.addEventListener('scroll', () => {
-  const header = document.querySelector('header');
-  if(window.scrollY > 50){ 
-    header.style.boxShadow = '0 10px 30px rgba(0, 177, 64, 0.08)'; 
-    header.style.padding = '12px 7%';
-  } else { 
-    header.style.boxShadow = 'none'; 
-    header.style.padding = '18px 7%';
-  }
+// 1. EFEK NAVBAR SAAT SCROLL
+window.addEventListener('scroll',()=>{
+    const header=document.querySelector('header');
+    if(window.scrollY > 50){ 
+        header.style.background='rgba(8, 10, 15, 0.95)';
+        header.style.boxShadow='0 10px 30px rgba(0,0,0,0.5)'; 
+    }
+    else{ 
+        header.style.background='rgba(8, 10, 15, 0.85)';
+        header.style.boxShadow='none'; 
+    }
 });
 
-// 2. ACCORDION BUTTERY SMOOTH
-const accordions = document.querySelectorAll('.accordion-btn');
-accordions.forEach(acc => {
-  acc.addEventListener('click', function() {
-    const content = this.nextElementSibling;
-    const span = this.querySelector('span');
-    
-    accordions.forEach(otherAcc => {
-      if (otherAcc !== this) {
-        otherAcc.classList.remove('active');
-        otherAcc.querySelector('span').innerHTML = '+';
-        otherAcc.nextElementSibling.style.maxHeight = null;
-        otherAcc.nextElementSibling.style.padding = "0 45px";
-      }
-    });
-
-    this.classList.toggle('active');
+// 2. ACCORDION FUNGSI
+var acc = document.getElementsByClassName("accordion-btn");
+for (var i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    var content = this.nextElementSibling;
+    var span = this.querySelector('span');
     
     if (content.style.maxHeight) {
       content.style.maxHeight = null;
-      content.style.padding = "0 45px";
+      content.style.padding = "0 35px";
       span.innerHTML = "+";
     } else {
-      content.style.maxHeight = content.scrollHeight + 120 + "px"; 
-      content.style.padding = "0 45px 35px 45px";
-      span.innerHTML = "+"; 
+      content.style.maxHeight = content.scrollHeight + 80 + "px";
+      content.style.padding = "0 35px 30px 35px";
+      span.innerHTML = "−";
     }
   });
-});
+}
 
-// 3. GENERATOR MATERI EDUKASI
+// 3. DATA MATERI EDUKASI
 const dataMateri = [
-  { judul: "Mekanika Pasar Finansial Global", isi: "Trading adalah partisipasi aktif dalam likuiditas pasar aset finansial. Keuntungan didapatkan dengan memprediksi arah pergerakan aset berdasarkan analisis historis harga, volume, serta rilis data makroekonomi." },
-  { judul: "Anatomi Candlestick Lanjutan", isi: "Candlestick memvisualisasikan psikologi pasar. Body merepresentasikan komitmen pembeli/penjual, sementara Wick/Shadow merepresentasikan penolakan harga atau pengambilan likuiditas." },
-  { judul: "Zonasi Supply & Demand (SND)", isi: "Pasar bergerak dari zona likuiditas ke zona lainnya. Zona Supply adalah area pesanan jual tertunda institusi, sedangkan Demand adalah area minat beli. Identifikasi ini adalah kunci presisi." },
-  { judul: "Hukum Probabilitas & Risk to Reward (RR)", isi: "Dengan rasio RR logis (misal 1:3), Anda cukup merisikokan sedikit untuk keuntungan besar. Win-rate 35-40% sudah cukup membuat portofolio Anda bertumbuh eksponensial." },
-  { judul: "Konsep Dasar Smart Money (SMC)", isi: "SMC mengajarkan Anda melihat pasar layaknya Market Maker. Memahami bagaimana institusi mengumpulkan posisi, menjebak ritel, lalu mendistribusikan harga." },
-  { judul: "Pentingnya Manajemen Multi-Timeframe", isi: "Gunakan TF Daily/H4 untuk tren utama, H1/M15 untuk struktur terkini, dan M5/M1 untuk masuk pasar dengan jarak Stop Loss yang sangat minim." },
-  { judul: "Psikologi: Menghancurkan Bias FOMO", isi: "FOMO sering menghancurkan akun. Trader profesional bersabar membiarkan harga yang mendatangi area zona setup mereka, bukan secara emosional mengejar harga yang sedang melesat." },
-  { judul: "Navigasi Drawdown Portofolio", isi: "Drawdown adalah fase alami. Kuncinya bukan membalas dendam ke pasar dengan menaikkan lot, melainkan menurunkan risiko dan mengevaluasi strategi Anda kembali." },
-  { judul: "Pemanfaatan Indikator vs Price Action", isi: "Indikator seringkali terlambat (lagging). Kami menekankan pentingnya penguasaan Price Action murni karena harga itu sendiri adalah indikator tercepat dan paling jujur." },
-  { judul: "Komitmen Pertumbuhan (Compounding)", isi: "Berfokuslah pada pertumbuhan bulanan realistis (5% - 10%). Efek bunga majemuk (Compounding) akan mengubah pertumbuhan kecil ini menjadi akumulasi kekayaan yang luar biasa." }
+    {
+        judul: "1. Apa itu Trading Forex & Saham?",
+        isi: "Trading adalah kegiatan jual beli aset keuangan seperti mata uang (forex), saham, atau kripto di pasar finansial. Tujuannya adalah mendapatkan keuntungan dari selisih harga beli dan harga jual. Berbeda dengan investasi jangka panjang, trading berfokus pada pergerakan harga dalam jangka pendek atau menengah."
+    },
+    {
+        judul: "2. Membaca Candlestick Dasar",
+        isi: "Candlestick adalah visualisasi pergerakan harga. Candle hijau (Bullish) menunjukkan harga penutupan lebih tinggi dari pembukaan, artinya pembeli mendominasi. Candle merah (Bearish) menunjukkan harga penutupan lebih rendah, artinya penjual mendominasi. Sumbu (wick) menunjukkan harga tertinggi dan terendah pada periode waktu tersebut."
+    },
+    {
+        judul: "3. Support dan Resistance (SNR)",
+        isi: "Support adalah area 'lantai' di mana harga sering memantul naik karena banyaknya minat beli. Resistance adalah area 'atap' di mana harga sering memantul turun karena tingginya minat jual. Mengetahui SNR membantu trader menentukan area entry dan exit yang logis."
+    },
+    {
+        judul: "4. Trend is Your Friend (Uptrend & Downtrend)",
+        isi: "Uptrend ditandai dengan terbentuknya pola Higher High (HH) dan Higher Low (HL). Downtrend ditandai dengan Lower High (LH) dan Lower Low (LL). Kesalahan terbesar pemula adalah melawan arah tren besar. Selalu cari peluang Buy di saat Uptrend dan Sell di saat Downtrend."
+    },
+    {
+        judul: "5. Risk Management (Sangat Penting!)",
+        isi: "Risk management adalah tameng pelindung akun Anda. Rule nomor satu di Institute Trading: Jangan pernah merisikokan lebih dari 1% hingga 2% modal Anda dalam satu transaksi. Jika Anda punya $1000, maksimal kerugian per transaksi hanyalah $10-$20."
+    },
+    {
+        judul: "6. Selalu Gunakan Stop Loss (SL)",
+        isi: "Stop Loss adalah pembatas kerugian otomatis. Trading tanpa Stop Loss sama seperti mengendarai mobil berkecepatan tinggi tanpa rem. SL melindungi modal Anda dari pergerakan pasar yang ekstrem atau berita fundamental yang tak terduga."
+    },
+    {
+        judul: "7. Risk to Reward Ratio (RRR)",
+        isi: "RRR membandingkan potensi kerugian dengan potensi keuntungan. RRR minimal yang sehat adalah 1:2. Artinya, jika Anda merisikokan $10 (SL), target keuntungan Anda harus $20 (TP). Dengan RRR 1:2, win rate 40% saja sudah bisa membuat akun Anda profit."
+    },
+    {
+        judul: "8. Supply and Demand (SND)",
+        isi: "Hukum ekonomi dasar berlaku di market. Area Supply adalah titik di mana penjual (institusi) meninggalkan pesanan besar yang menyebabkan harga drop drastis (Drop-Base-Drop). Area Demand adalah tempat harga rally naik secara agresif (Rally-Base-Rally). Ini adalah strategi andalan trader pro."
+    },
+    {
+        judul: "9. Market Structure (BOS & CHoCH)",
+        isi: "BOS (Break of Structure) terjadi saat tren berlanjut menembus High/Low sebelumnya. CHoCH (Change of Character) adalah sinyal awal bahwa tren mungkin akan berbalik arah. Memahami struktur pasar menghindarkan Anda dari entry di waktu yang salah."
+    },
+    {
+        judul: "10. Pengenalan Smart Money Concept (SMC)",
+        isi: "SMC mengajarkan kita untuk mengikuti jejak Institusi Besar (Bank/Hedge Fund). Institusi membutuhkan Likuiditas besar untuk masuk market. Oleh karena itu, harga sering kali menyentuh Stop Loss trader ritel (Liquidity Sweep) sebelum akhirnya terbang sesuai analisa awal."
+    },
+    {
+        judul: "11. Imbalance / Fair Value Gap (FVG)",
+        isi: "Ketika ada pergerakan harga yang sangat cepat dan kuat (biasanya dari institusi), pasar sering meninggalkan area 'kosong' atau tidak seimbang (Imbalance). Harga cenderung akan kembali ke area ini di masa depan untuk menyeimbangkan pesanan sebelum melanjutkan trennya."
+    },
+    {
+        judul: "12. Psikologi Trading: Bahaya FOMO",
+        isi: "FOMO (Fear of Missing Out) adalah perasaan takut tertinggal peluang. Ini membuat trader entry tergesa-gesa tanpa konfirmasi, membeli di pucuk atau menjual di lembah. Trader sukses sabar menunggu harga datang ke area setup-nya, bukan mengejar harga yang sedang lari."
+    },
+    {
+        judul: "13. Overtrading: Penyakit Utama Pemula",
+        isi: "Overtrading adalah kondisi di mana Anda membuka terlalu banyak posisi dalam sehari, seringkali dipicu oleh emosi setelah Loss (Revenge Trading). Di Institute Trading, kami menyarankan maksimal 2-3 kali entry per hari. Jika sudah loss batas harian, tutup chart dan istirahat."
+    },
+    {
+        judul: "14. Pentingnya Trading Journal",
+        isi: "Bisnis tanpa pembukuan pasti akan hancur. Trading journal berfungsi untuk mencatat alasan Anda entry, screenshot setup chart, emosi yang dirasakan, dan hasil akhir (Profit/Loss). Dari jurnal inilah Anda bisa mengevaluasi strategi mana yang paling efektif."
+    },
+    {
+        judul: "15. Memahami Multi-Timeframe Analysis",
+        isi: "Jangan hanya melihat satu timeframe. Gunakan Timeframe Besar (H4/Daily) untuk melihat arah tren utama. Gunakan Timeframe Sedang (H1/M15) untuk melihat struktur pasar. Lalu gunakan Timeframe Kecil (M5/M1) untuk mencari konfirmasi entry yang presisi dengan risiko sekecil mungkin."
+    },
+    {
+        judul: "16. Likuiditas: Menjadi Mangsa atau Pemangsa?",
+        isi: "Di market, jika Anda tidak bisa melihat di mana letak likuiditas (kumpulan Stop Loss trader lain), kemungkinan besar Andalah likuiditas tersebut. Hindari entry di area Support/Resistance yang terlalu jelas (Equal Highs/Equal Lows) sebelum area tersebut di-sweep (dibersihkan) oleh market maker."
+    },
+    {
+        judul: "17. Mengelola Emosi Saat Floating Minus",
+        isi: "Melihat angka merah di akun bisa memicu kepanikan. Jika Anda sudah menggunakan Lot yang sesuai (Risk 1%) dan sudah memasang Stop Loss, biarkan sistem yang bekerja. Jangan pernah menggeser-geser SL untuk memperlebar kerugian dengan harapan harga akan berbalik."
+    },
+    {
+        judul: "18. Konsistensi Jauh Lebih Penting dari Profit Besar",
+        isi: "Mendapatkan profit 100% dalam sehari itu mudah, itu namanya judi. Mempertahankan profit 5-10% setiap bulan selama bertahun-tahun itulah yang dinamakan trader profesional. Fokuslah pada persentase pertumbuhan, bukan nominal uang di awal karir."
+    },
+    {
+        judul: "19. Menghadapi Drawdown (Masa Rugi Beruntun)",
+        isi: "Semua trader, bahkan yang profesional sekalipun, pasti akan mengalami Drawdown (rentetan Loss). Cara bertahan dari masa ini adalah dengan mengurangi ukuran Lot Anda sementara waktu sampai Anda kembali selaras dengan ritme pergerakan pasar (kembali profit)."
+    },
+    {
+        judul: "20. Langkah Selanjutnya: Belajar Bersama Mentor",
+        isi: "Belajar otodidak itu bagus, namun belajar bersama mentor akan memangkas waktu trial & error Anda bertahun-tahun. Kami di Institute Trading siap membimbing Anda dari nol hingga bisa menganalisa market secara mandiri. Punya pertanyaan? Langsung TANYA JAWAB DI WA!"
+    }
 ];
 
 const kontainer = document.getElementById("kontainer-materi");
 let htmlMateri = "";
 
-dataMateri.forEach((item, index) => {
-  htmlMateri += `
-  <div class="rule">
-    <h4>Modul ${index + 1}: ${item.judul}</h4>
-    <p>${item.isi}</p>
-  </div>
-  `;
+dataMateri.forEach(item => {
+    htmlMateri += `
+    <div class="rule">
+        <h4>📚 ${item.judul}</h4>
+        <p>${item.isi}</p>
+    </div>
+    `;
 });
 
 kontainer.innerHTML = htmlMateri;
