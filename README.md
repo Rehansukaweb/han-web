@@ -16,9 +16,9 @@ scroll-behavior:smooth;
 
 body{
 font-family:'Poppins',sans-serif;
-background:#080a0f; /* Mengikuti warna latar belakang hitam/gelap premium seperti logo */
+background:#080a0f; /* Background Dark Premium */
 overflow-x:hidden;
-color:#f1f5f9; /* Teks terang untuk tema gelap */
+color:#f1f5f9; /* Warna teks terang */
 }
 
 /* NAVBAR */
@@ -27,11 +27,11 @@ position:fixed;
 top:0;
 left:0;
 width:100%;
-padding:15px 7%;
+padding:20px 7%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:rgba(8, 10, 15, 0.85); /* Dark translucent navbar */
+background:rgba(8, 10, 15, 0.85);
 backdrop-filter:blur(14px);
 z-index:1000;
 border-bottom:1px solid rgba(255,255,255,0.05);
@@ -41,23 +41,22 @@ transition:0.3s;
 .logo{
 display:flex;
 align-items:center;
-gap:14px;
+gap:16px;
 }
 
 .logo-img{
-width:50px;
-height:50px;
+width:55px;
+height:55px;
 object-fit:cover;
 border-radius:12px;
 border:1px solid rgba(255,255,255,0.1);
-box-shadow:0 0 15px rgba(0, 210, 255, 0.2);
+box-shadow:0 0 20px rgba(0, 210, 255, 0.2);
 }
 
 .logo h2{
-font-size:1.4rem;
+font-size:1.6rem;
 color:#ffffff;
 font-weight:700;
-letter-spacing:0.5px;
 }
 
 .logo h2 span{
@@ -71,46 +70,44 @@ gap:35px;
 
 nav a{
 text-decoration:none;
-color:#94a3b8;
+color:#cbd5e1;
 font-weight:600;
 transition:0.3s;
-font-size:0.95rem;
+font-size:1.1rem;
 }
 
 nav a:hover{
-color:#00d2ff; /* Aksen biru elektrik dari logo */
+color:#00d2ff;
 }
 
 /* HERO */
 .hero{
 min-height:100vh;
-padding:170px 7% 100px;
+padding:180px 7% 100px;
 display:grid;
 grid-template-columns:1.2fr 1fr;
 align-items:center;
 gap:60px;
 background:
-radial-gradient(circle at top left, rgba(0, 210, 255, 0.12) 0%, transparent 45%),
-radial-gradient(circle at bottom right, rgba(229, 169, 61, 0.08) 0%, transparent 40%);
+radial-gradient(circle at top left, rgba(0, 210, 255, 0.1) 0%, transparent 40%),
+radial-gradient(circle at bottom right, rgba(0, 177, 64, 0.1) 0%, transparent 35%);
 }
 
 .badge{
 display:inline-block;
-padding:10px 20px;
+padding:12px 24px;
 background:rgba(0, 210, 255, 0.1);
 color:#00d2ff;
-border:1px solid rgba(0, 210, 255, 0.2);
 font-weight:700;
 border-radius:50px;
 margin-bottom:25px;
-box-shadow:0 5px 20px rgba(0, 210, 255, 0.1);
-font-size:0.85rem;
-letter-spacing:0.5px;
+border:1px solid rgba(0, 210, 255, 0.2);
+font-size:1rem;
 }
 
 .hero h1{
-font-size:4.2rem;
-line-height:1.2;
+font-size:4.5rem;
+line-height:1.15;
 margin-bottom:25px;
 font-weight:800;
 color:#ffffff;
@@ -123,11 +120,11 @@ background: linear-gradient(135deg, #00b140, #00d2ff);
 }
 
 .hero p{
-font-size:1.05rem;
+font-size:1.2rem;
 line-height:1.8;
 color:#94a3b8;
 max-width:700px;
-margin-bottom:35px;
+margin-bottom:40px;
 }
 
 .hero-buttons{
@@ -137,108 +134,111 @@ flex-wrap:wrap;
 }
 
 .btn{
-padding:16px 32px;
-border-radius:14px;
+padding:18px 38px;
+border-radius:16px;
 text-decoration:none;
 font-weight:700;
 transition:0.3s;
 display: inline-block;
-font-size:0.95rem;
+font-size:1.1rem;
 }
 
 .btn-primary{
-background:linear-gradient(135deg, #00b140, #00ff88);
+background:linear-gradient(135deg,#00b140,#00ff88);
 color:#080a0f;
-box-shadow:0 10px 25px rgba(0,177,64,0.25);
+box-shadow:0 10px 30px rgba(0,177,64,0.3);
 }
 
 .btn-primary:hover{
-transform:translateY(-3px);
-box-shadow:0 15px 30px rgba(0,177,64,0.4);
+transform:translateY(-5px);
+box-shadow:0 15px 40px rgba(0,177,64,0.4);
 }
 
 .btn-secondary{
-border:2px solid rgba(255, 255, 255, 0.15);
+border:2px solid rgba(255,255,255,0.2);
 color:#ffffff;
-background:rgba(255,255,255,0.03);
+background:rgba(255,255,255,0.05);
 }
 
 .btn-secondary:hover{
-background:rgba(255, 255, 255, 0.08);
-border-color:rgba(255, 255, 255, 0.3);
-transform:translateY(-3px);
+background:rgba(255,255,255,0.1);
+transform:translateY(-5px);
 }
 
 .btn-tiktok{
-background:linear-gradient(135deg,#111115,#22252a);
+background:linear-gradient(135deg,#111,#222);
 color:white;
 border:1px solid rgba(255,255,255,0.1);
-box-shadow:0 10px 25px rgba(0,0,0,0.4);
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
 .btn-tiktok:hover{
-transform:translateY(-3px);
+transform:translateY(-5px);
 color:#00ff88;
-border-color:rgba(0,255,136,0.3);
+border-color:#00b140;
 }
 
 /* HERO RIGHT */
 .hero-card{
 background:rgba(18, 22, 32, 0.7);
 backdrop-filter:blur(20px);
-padding:40px;
-border-radius:30px;
+padding:45px;
+border-radius:35px;
+box-shadow:0 20px 60px rgba(0,0,0,0.4);
 border:1px solid rgba(255,255,255,0.05);
-box-shadow:0 20px 50px rgba(0,0,0,0.3);
 position:relative;
 overflow:hidden;
 animation:floating 4s ease-in-out infinite;
 }
 
+.hero-card::before{
+content:'';
+position:absolute;
+width:250px;
+height:250px;
+background:linear-gradient(135deg,#00d2ff,#00b140);
+top:-100px;
+right:-100px;
+border-radius:50%;
+opacity:0.15;
+}
+
 .hero-card h2{
-font-size:1.6rem;
+font-size:2rem;
 margin-bottom:30px;
 color:#ffffff;
-letter-spacing:1px;
-font-weight:700;
-text-align:center;
-border-bottom:1px solid rgba(255,255,255,0.05);
-padding-bottom:15px;
 }
 
 .stat-box{
-background:rgba(255,255,255,0.02);
-padding:22px;
-border-radius:16px;
+background:rgba(255,255,255,0.03);
+padding:25px;
+border-radius:20px;
 margin-bottom:20px;
-border:1px solid rgba(255,255,255,0.03);
-box-shadow:inset 0 2px 4px rgba(255,255,255,0.02);
+border:1px solid rgba(255,255,255,0.05);
 }
 
 .stat-box h3{
 font-size:2.2rem;
 color:#00ff88;
-font-weight:800;
-margin-bottom:4px;
 }
 
 .stat-box p{
-color:#94a3b8;
-font-size:0.95rem;
+font-size:1.1rem;
+color:#cbd5e1;
 }
 
 .progress{
 width:100%;
-height:12px;
+height:16px;
 background:rgba(255,255,255,0.05);
 border-radius:50px;
 overflow:hidden;
-margin-top:25px;
+margin-top:20px;
 }
 
 .progress-fill{
 height:100%;
 width:90%;
-background:linear-gradient(90deg, #00b140, #00d2ff);
+background:linear-gradient(90deg,#00b140,#00d2ff);
 border-radius:50px;
 animation:grow 4s infinite alternate;
 }
@@ -247,143 +247,119 @@ animation:grow 4s infinite alternate;
 margin-top:15px;
 font-weight:600;
 color:#00d2ff;
-font-size:0.9rem;
-text-align:center;
-letter-spacing:0.5px;
+font-size:1.1rem;
 }
 
 /* SECTION */
 section{
-padding:100px 7%;
+padding:120px 7%;
 }
 
 .section-title{
 text-align:center;
-margin-bottom:60px;
+margin-bottom:70px;
 }
 
 .section-title span{
 color:#00d2ff;
 font-weight:700;
 letter-spacing:2px;
-font-size:0.85rem;
+font-size:1.1rem;
 text-transform:uppercase;
 }
 
 .section-title h2{
-font-size:2.6rem;
-margin-top:12px;
+font-size:3.2rem;
+margin-top:15px;
 color:#ffffff;
-font-weight:800;
 }
 
 /* GRID */
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:35px;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:40px;
 }
 
 /* CARD */
 .card{
 background:#111520;
-padding:40px;
-border-radius:24px;
-border:1px solid rgba(255,255,255,0.03);
-box-shadow:0 10px 30px rgba(0,0,0,0.2);
+padding:45px;
+border-radius:30px;
+border:1px solid rgba(255,255,255,0.05);
+box-shadow:0 10px 40px rgba(0,0,0,0.2);
 transition:0.4s;
 position:relative;
 overflow:hidden;
 }
 
-.card::before{
-content:'';
-position:absolute;
-width:100px;
-height:100px;
-background:linear-gradient(135deg, #00d2ff, transparent);
-opacity:0.03;
-top:-30px;
-right:-30px;
-border-radius:50%;
-}
-
 .card:hover{
-transform:translateY(-8px);
-border-color:rgba(0, 210, 255, 0.2);
-box-shadow:0 15px 40px rgba(0, 210, 255, 0.08);
+transform:translateY(-10px);
+border-color:rgba(0, 210, 255, 0.3);
 }
 
 .card h3{
-margin-bottom:15px;
-font-size:1.4rem;
+margin-bottom:20px;
+font-size:1.8rem;
 color:#ffffff;
-font-weight:700;
 }
 
 .card p{
 color:#94a3b8;
-line-height:1.7;
-font-size:0.95rem;
+line-height:1.8;
+font-size:1.1rem;
 }
 
 /* ACCORDION PROGRAM */
 .accordion-wrapper {
-max-width: 900px;
+max-width: 1000px;
 margin: 0 auto;
 display: flex;
 flex-direction: column;
-gap: 20px;
+gap: 25px;
 }
 
 .accordion-btn {
 background: #111520;
-padding: 30px 35px;
-border-radius: 20px;
-border: 1px solid rgba(255,255,255,0.03);
-box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+padding: 35px 40px;
+border-radius: 25px;
+border: 1px solid rgba(255,255,255,0.05);
+box-shadow: 0 10px 40px rgba(0,0,0,0.2);
 width: 100%;
 text-align: left;
-font-size: 1.3rem;
+font-size: 1.6rem;
 font-weight: 700;
 font-family: 'Poppins', sans-serif;
 cursor: pointer;
 transition: 0.4s;
-position: relative;
-overflow: hidden;
 color: #ffffff;
-z-index: 2;
 display: flex;
 justify-content: space-between;
 align-items: center;
 }
 
 .accordion-btn:hover {
-transform: translateY(-3px);
+transform: translateY(-5px);
 border-color: rgba(255,255,255,0.1);
 }
 
 .accordion-btn.premium-acc {
-background: linear-gradient(135deg, #161e2e, #111520);
-border: 1px solid rgba(0, 210, 255, 0.2);
-box-shadow: 0 10px 35px rgba(0, 210, 255, 0.05);
+background: linear-gradient(135deg,#161e2e,#111520);
+border: 1px solid rgba(0, 210, 255, 0.3);
 }
 
 .accordion-btn.premium-acc span {
-color: #e5a93c; /* Aksen Emas pro dari logo */
+color: #e5a93c;
 }
 
 .accordion-content {
-padding: 0 35px;
+padding: 0 40px;
 background: #0d1017;
-border-radius: 0 0 20px 20px;
+border-radius: 0 0 25px 25px;
 max-height: 0;
 overflow: hidden;
 transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-box-shadow: inset 0 4px 20px rgba(0,0,0,0.2);
-margin-top: -20px;
-position: relative;
-z-index: 1;
+margin-top: -25px;
 border: 1px solid rgba(255,255,255,0.02);
 border-top: none;
 }
@@ -391,87 +367,88 @@ border-top: none;
 .accordion-content p {
 color: #94a3b8;
 line-height: 1.8;
-padding: 35px 0 20px 0;
-font-size: 0.98rem;
+padding: 45px 0 25px 0;
+font-size: 1.15rem;
 }
 
 /* RULE (MATERI EDUKASI) */
 .rules{
 display:grid;
-gap:20px;
-max-width:900px;
+gap:25px;
+max-width:1000px;
 margin:auto;
 }
 
 .rule{
 background:#111520;
-padding:25px 30px;
-border-radius:16px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
+padding:35px 40px;
+border-radius:20px;
+box-shadow:0 10px 40px rgba(0,0,0,0.2);
 transition:0.3s;
-border: 1px solid rgba(255,255,255,0.02);
-border-left: 4px solid #00b140;
+border: 1px solid rgba(255,255,255,0.05);
+border-left: 6px solid #00b140;
 }
 
 .rule:hover{
-transform:translateY(-4px);
-border-color: rgba(255,255,255,0.05);
-border-left-color: #00ff88;
+transform:translateY(-5px);
+border-color: rgba(255,255,255,0.1);
+border-left-color: #00d2ff;
 }
 
 .rule h4 {
 color: #ffffff;
-font-size: 1.2rem;
-margin-bottom: 10px;
+font-size: 1.5rem;
+margin-bottom: 15px;
 font-weight: 700;
 }
+
 .rule p {
 color: #94a3b8;
-line-height: 1.7;
-font-size: 0.95rem;
+line-height: 1.8;
+font-size: 1.15rem;
 }
 
 /* CONTACT */
 .contact-box{
-max-width:700px;
+max-width:800px;
 margin:auto;
 background:#111520;
-padding:50px;
-border-radius:30px;
+padding:60px;
+border-radius:35px;
 text-align:center;
-box-shadow:0 15px 40px rgba(0,0,0,0.3);
+box-shadow:0 15px 50px rgba(0,0,0,0.4);
+border: 3px dashed rgba(0, 210, 255, 0.3);
 }
 
 .contact-box h3{
-font-size:2.4rem;
+font-size:3rem;
 margin:20px 0;
 color:#00ff88;
-font-weight:800;
 }
 
 /* FOOTER */
 footer{
 background:#06080c;
-padding:50px 20px;
+padding:60px 20px;
 text-align:center;
-color:#64748b;
-border-top:1px solid rgba(255,255,255,0.03);
+color:#94a3b8;
+border-top:1px solid rgba(255,255,255,0.05);
 }
 
 footer h2{
 margin-bottom:10px;
 color:#ffffff;
-font-size:1.4rem;
+font-size:1.8rem;
 }
 
 footer p {
-font-size:0.9rem;
+font-size:1.1rem;
 }
 
 /* ANIMATION */
 @keyframes floating{
 0%,100%{ transform:translateY(0); }
-50%{ transform:translateY(-12px); }
+50%{ transform:translateY(-15px); }
 }
 
 @keyframes grow{
@@ -479,18 +456,27 @@ from{ width:60%; }
 to{ width:90%; }
 }
 
-/* RESPONSIVE */
-@media(max-width:1000px){
-.hero{grid-template-columns:1fr; padding-top:150px; gap:40px;}
-.hero h1{font-size:3.2rem;}
+/* RESPONSIVE UNTUK HP DAN TABLET */
+@media(max-width:1100px){
+.hero{grid-template-columns:1fr; padding-top:150px; gap:50px;}
+.hero h1{font-size:3.8rem;}
 nav{display:none;}
 }
 
 @media(max-width:600px){
-.hero h1{font-size:2.4rem;}
-.section-title h2{font-size:1.8rem;}
-.btn{width:100%; text-align:center;}
-.contact-box{padding:35px 20px;}
+section {padding: 80px 5%;}
+.hero{padding-top: 130px;}
+.hero h1{font-size: 2.8rem;}
+.hero p {font-size: 1.05rem;}
+.section-title h2{font-size:2.2rem;}
+.btn{width:100%; text-align:center; padding: 15px 20px;}
+.hero-card {padding: 30px;}
+.card, .rule {padding: 25px 25px;}
+.rule h4 {font-size: 1.3rem;}
+.rule p {font-size: 1rem;}
+.accordion-btn {font-size: 1.2rem; padding: 25px;}
+.contact-box{padding:40px 20px;}
+.contact-box h3 {font-size: 2.2rem;}
 }
 </style>
 </head>
@@ -547,7 +533,7 @@ nav{display:none;}
 <div class="section-title">
 <span>PROGRAM</span>
 <h2>Program Unggulan</h2>
-<p style="margin-top: 10px; color: #94a3b8;">Klik pada program untuk melihat detailnya 👇</p>
+<p style="margin-top: 10px; color: #94a3b8; font-size: 1.1rem;">Klik pada program untuk melihat detailnya 👇</p>
 </div>
 <div class="accordion-wrapper">
     <div>
@@ -575,7 +561,7 @@ nav{display:none;}
 <div class="section-title">
 <span>EDUKASI</span>
 <h2>Perpustakaan Ilmu Trading</h2>
-<p style="margin-top: 10px; color: #94a3b8;">Pelajari dasar-dasar trading gratis dari Institute Trading.</p>
+<p style="margin-top: 10px; color: #94a3b8; font-size: 1.1rem;">Pelajari dasar-dasar trading gratis dari Institute Trading.</p>
 </div>
 <div id="kontainer-materi" class="rules"></div>
 </section>
@@ -586,11 +572,11 @@ nav{display:none;}
 <h2>Trader Sehat & Disiplin</h2>
 </div>
 <div class="rules">
-<div class="rule" style="font-weight:bold; padding:20px; border-left-color: #00ff88;">✅ Maksimal Risk 1-2% Per Entry</div>
-<div class="rule" style="font-weight:bold; padding:20px; border-left-color: #00ff88;">✅ Selalu Gunakan Stop Loss</div>
-<div class="rule" style="font-weight:bold; padding:20px; border-left-color: #00ff88;">✅ Hindari Overtrading</div>
-<div class="rule" style="font-weight:bold; padding:20px; border-left-color: #00ff88;">✅ Fokus Pada Konsistensi</div>
-<div class="rule" style="font-weight:bold; padding:20px; border-left-color: #00ff88;">✅ Utamakan Psikologi Trading</div>
+<div class="rule" style="font-weight:bold; border-left-color: #00ff88;">✅ Maksimal Risk 1-2% Per Entry</div>
+<div class="rule" style="font-weight:bold; border-left-color: #00ff88;">✅ Selalu Gunakan Stop Loss</div>
+<div class="rule" style="font-weight:bold; border-left-color: #00ff88;">✅ Hindari Overtrading</div>
+<div class="rule" style="font-weight:bold; border-left-color: #00ff88;">✅ Fokus Pada Konsistensi</div>
+<div class="rule" style="font-weight:bold; border-left-color: #00ff88;">✅ Utamakan Psikologi Trading</div>
 </div>
 </section>
 
@@ -599,11 +585,11 @@ nav{display:none;}
 <span>KONTAK</span>
 <h2>Hubungi Kami</h2>
 </div>
-<div class="contact-box" style="border: 2px dashed rgba(0, 210, 255, 0.4); background: rgba(17, 21, 32, 0.6);">
-<h2 style="font-size: 2.3rem; color:#ffffff; margin-bottom: 10px;">TANYA JAWAB <span style="color:#00ff88;">DI WA</span></h2>
-<p style="color:#94a3b8; font-size:1.05rem;">Konsultasi langsung dengan mentor kami sekarang juga!</p>
+<div class="contact-box">
+<h2 style="font-size: 2.5rem; color:#ffffff; margin-bottom: 10px;">TANYA JAWAB <span style="color:#00ff88;">DI WA</span></h2>
+<p style="color:#94a3b8; font-size:1.2rem;">Konsultasi langsung dengan mentor kami sekarang juga!</p>
 <h3>085717426626</h3>
-<div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:30px;">
+<div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:40px;">
     <a href="https://wa.me/6285717426626" class="btn btn-primary">📱 Chat WhatsApp</a>
     <a href="https://www.tiktok.com/@itrading.com?_r=1&_t=ZS-96cThJJNePC" target="_blank" class="btn btn-tiktok">🎵 TikTok: @itrading.com</a>
 </div>
@@ -638,11 +624,11 @@ for (var i = 0; i < acc.length; i++) {
     
     if (content.style.maxHeight) {
       content.style.maxHeight = null;
-      content.style.padding = "0 35px";
+      content.style.padding = "0 40px";
       span.innerHTML = "+";
     } else {
       content.style.maxHeight = content.scrollHeight + 80 + "px";
-      content.style.padding = "0 35px 30px 35px";
+      content.style.padding = "0 40px 30px 40px";
       span.innerHTML = "−";
     }
   });
