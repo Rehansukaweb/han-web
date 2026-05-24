@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="id" translate="no">
 <head>
 <meta charset="UTF-8"/>
@@ -276,14 +275,14 @@ margin-top:15px;
 color:#ffffff;
 }
 
-/* GRID */
+/* GRID TENTANG KAMI */
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
 gap:40px;
 }
 
-/* CARD */
+/* CARD TENTANG KAMI */
 .card{
 background:#111520;
 padding:45px;
@@ -373,7 +372,55 @@ padding: 45px 0 25px 0;
 font-size: 1.15rem;
 }
 
-/* RULE (MATERI EDUKASI) */
+/* ---------------------------------------------------- */
+/* NEW CLASS KHUSUS MATERI EDUKASI (ANTI GEPENG/COLLAPSE) */
+/* ---------------------------------------------------- */
+.materi-container {
+display: flex;
+flex-direction: column;
+gap: 25px;
+max-width: 1000px;
+margin: auto;
+}
+
+.materi-card {
+background: #111520;
+padding: 35px 40px;
+border-radius: 20px;
+box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+border: 1px solid rgba(255,255,255,0.05);
+border-left: 6px solid #00b140;
+transition: 0.3s;
+/* Wajib Flexbox agar browser membaca isi teks */
+display: flex;
+flex-direction: column;
+gap: 15px; 
+height: auto;
+}
+
+.materi-card:hover {
+transform: translateY(-5px);
+border-color: rgba(255,255,255,0.1);
+border-left-color: #00d2ff;
+}
+
+.materi-card h4 {
+color: #ffffff;
+font-size: 1.5rem;
+font-weight: 700;
+margin: 0;
+}
+
+.materi-card p {
+color: #94a3b8;
+line-height: 1.8;
+font-size: 1.15rem;
+margin: 0;
+}
+/* ---------------------------------------------------- */
+
+
+/* RULES SECTION (Checklist) */
 .rules{
 display:grid;
 gap:25px;
@@ -397,18 +444,6 @@ border-color: rgba(255,255,255,0.1);
 border-left-color: #00d2ff;
 }
 
-.rule h4 {
-color: #ffffff;
-font-size: 1.5rem;
-margin-bottom: 15px;
-font-weight: 700;
-}
-
-.rule p {
-color: #94a3b8;
-line-height: 1.8;
-font-size: 1.15rem;
-}
 
 /* CONTACT */
 .contact-box{
@@ -473,9 +508,9 @@ section {padding: 80px 5%;}
 .section-title h2{font-size:2.2rem;}
 .btn{width:100%; text-align:center; padding: 15px 20px;}
 .hero-card {padding: 30px;}
-.card, .rule {padding: 25px 25px;}
-.rule h4 {font-size: 1.3rem;}
-.rule p {font-size: 1rem;}
+.card, .rule, .materi-card {padding: 25px 25px;}
+.materi-card h4 {font-size: 1.3rem;}
+.materi-card p {font-size: 1rem;}
 .accordion-btn {font-size: 1.2rem; padding: 25px;}
 .contact-box{padding:40px 20px;}
 .contact-box h3 {font-size: 2.2rem;}
@@ -565,7 +600,7 @@ section {padding: 80px 5%;}
 <h2>Perpustakaan Ilmu Trading</h2>
 <p style="margin-top: 10px; color: #94a3b8; font-size: 1.1rem;">Pelajari dasar-dasar trading gratis dari Institute Trading.</p>
 </div>
-<div id="kontainer-materi" class="rules"></div>
+<div id="kontainer-materi" class="materi-container"></div>
 </section>
 
 <section id="rules">
@@ -636,7 +671,7 @@ for (var i = 0; i < acc.length; i++) {
   });
 }
 
-// 3. DATA MATERI EDUKASI (Spasi invisible sudah dibersihkan)
+// 3. DATA MATERI EDUKASI
 const dataMateri = [
     {
         judul: "1. Apa itu Trading Forex & Saham?",
@@ -723,9 +758,10 @@ const dataMateri = [
 const kontainer = document.getElementById("kontainer-materi");
 let htmlMateri = "";
 
+// SEKARANG MENGGUNAKAN CLASS .materi-card KHUSUS
 dataMateri.forEach(item => {
     htmlMateri += `
-    <div class="rule">
+    <div class="materi-card">
         <h4>📚 ${item.judul}</h4>
         <p>${item.isi}</p>
     </div>
