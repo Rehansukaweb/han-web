@@ -372,9 +372,7 @@ padding: 45px 0 25px 0;
 font-size: 1.15rem;
 }
 
-/* ---------------------------------------------------- */
-/* NEW CLASS KHUSUS MATERI EDUKASI (ANTI GEPENG/COLLAPSE) */
-/* ---------------------------------------------------- */
+/* MATERI EDUKASI CARDS */
 .materi-container {
 display: flex;
 flex-direction: column;
@@ -391,11 +389,9 @@ box-shadow: 0 10px 40px rgba(0,0,0,0.2);
 border: 1px solid rgba(255,255,255,0.05);
 border-left: 6px solid #00b140;
 transition: 0.3s;
-/* Wajib Flexbox agar browser membaca isi teks */
 display: flex;
 flex-direction: column;
 gap: 15px; 
-height: auto;
 }
 
 .materi-card:hover {
@@ -417,33 +413,39 @@ line-height: 1.8;
 font-size: 1.15rem;
 margin: 0;
 }
-/* ---------------------------------------------------- */
 
-
-/* RULES SECTION (Checklist) */
+/* RULES SECTION FIXED - ANTI CACAT TENGAH */
 .rules{
-display:grid;
-gap:25px;
-max-width:1000px;
-margin:auto;
+display: flex;
+flex-direction: column;
+gap: 20px;
+max-width: 1000px;
+margin: auto;
 }
 
 .rule{
-background:#111520;
-padding:35px 40px;
-border-radius:20px;
-box-shadow:0 10px 40px rgba(0,0,0,0.2);
-transition:0.3s;
+background: #111520;
+padding: 20px 40px;
+border-radius: 20px;
+box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+transition: 0.3s;
 border: 1px solid rgba(255,255,255,0.05);
 border-left: 6px solid #00b140;
+color: #ffffff;
+font-size: 1.15rem;
+font-weight: bold;
+
+/* INI KUNCI BIAR TEKS NGUNCI DI TENGAH VERTIKAL */
+display: flex;
+align-items: center; 
+min-height: 80px;
 }
 
 .rule:hover{
-transform:translateY(-5px);
+transform: translateY(-5px);
 border-color: rgba(255,255,255,0.1);
 border-left-color: #00d2ff;
 }
-
 
 /* CONTACT */
 .contact-box{
@@ -508,7 +510,8 @@ section {padding: 80px 5%;}
 .section-title h2{font-size:2.2rem;}
 .btn{width:100%; text-align:center; padding: 15px 20px;}
 .hero-card {padding: 30px;}
-.card, .rule, .materi-card {padding: 25px 25px;}
+.card, .materi-card {padding: 25px 25px;}
+.rule {padding: 15px 25px; font-size: 1.05rem; min-height: 70px;}
 .materi-card h4 {font-size: 1.3rem;}
 .materi-card p {font-size: 1rem;}
 .accordion-btn {font-size: 1.2rem; padding: 25px;}
@@ -600,7 +603,88 @@ section {padding: 80px 5%;}
 <h2>Perpustakaan Ilmu Trading</h2>
 <p style="margin-top: 10px; color: #94a3b8; font-size: 1.1rem;">Pelajari dasar-dasar trading gratis dari Institute Trading.</p>
 </div>
-<div id="kontainer-materi" class="materi-container"></div>
+<div id="kontainer-materi" class="materi-container">
+    <div class="materi-card">
+        <h4>📚 1. Apa itu Trading Forex & Saham?</h4>
+        <p>Trading adalah kegiatan jual beli aset keuangan seperti mata uang (forex), saham, atau kripto di pasar finansial. Tujuannya adalah mendapatkan keuntungan dari selisih harga beli dan harga jual. Berbeda dengan investasi jangka panjang, trading berfokus pada pergerakan harga dalam jangka pendek atau menengah.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 2. Membaca Candlestick Dasar</h4>
+        <p>Candlestick adalah visualisasi pergerakan harga. Candle hijau (Bullish) menunjukkan harga penutupan lebih tinggi dari pembukaan, artinya pembeli mendominasi. Candle merah (Bearish) menunjukkan harga penutupan lebih rendah, artinya penjual mendominasi. Sumbu (wick) menunjukkan harga tertinggi dan terendah pada periode waktu tersebut.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 3. Support dan Resistance (SNR)</h4>
+        <p>Support adalah area 'lantai' di mana harga sering memantul naik karena banyaknya minat beli. Resistance adalah area 'atap' di mana harga sering memantul turun karena tingginya minat jual. Mengetahui SNR membantu trader menentukan area entry dan exit yang logis.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 4. Trend is Your Friend (Uptrend & Downtrend)</h4>
+        <p>Uptrend ditandai dengan terbentuknya pola Higher High (HH) dan Higher Low (HL). Downtrend ditandai dengan Lower High (LH) dan Lower Low (LL). Kesalahan terbesar pemula adalah melawan arah tren besar. Selalu cari peluang Buy di saat Uptrend dan Sell di saat Downtrend.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 5. Risk Management (Sangat Penting!)</h4>
+        <p>Risk management adalah tameng pelindung akun Anda. Rule nomor satu di Institute Trading: Jangan pernah merisikokan lebih dari 1% hingga 2% modal Anda dalam satu transaksi. Jika Anda punya $1000, maksimal kerugian per transaksi hanyalah $10-$20.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 6. Selalu Gunakan Stop Loss (SL)</h4>
+        <p>Stop Loss adalah pembatas kerugian otomatis. Trading tanpa Stop Loss sama seperti mengendarai mobil berkecepatan tinggi tanpa rem. SL melindungi modal Anda dari pergerakan pasar yang ekstrem atau berita fundamental yang tak terduga.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 7. Risk to Reward Ratio (RRR)</h4>
+        <p>RRR membandingkan potensi kerugian dengan potensi keuntungan. RRR minimal yang sehat adalah 1:2. Artinya, jika Anda merisikokan $10 (SL), target keuntungan Anda harus $20 (TP). Dengan RRR 1:2, win rate 40% saja sudah bisa membuat akun Anda profit.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 8. Supply and Demand (SND)</h4>
+        <p>Hukum ekonomi dasar berlaku di market. Area Supply adalah titik di mana penjual (institusi) meninggalkan pesanan besar yang menyebabkan harga drop drastis (Drop-Base-Drop). Area Demand adalah tempat harga rally naik secara agresif (Rally-Base-Rally). Ini adalah strategi andalan trader pro.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 9. Market Structure (BOS & CHoCH)</h4>
+        <p>BOS (Break of Structure) terjadi saat tren berlanjut menembus High/Low sebelumnya. CHoCH (Change of Character) adalah sinyal awal bahwa tren mungkin akan berbalik arah. Memahami struktur pasar menghindarkan Anda dari entry di waktu yang salah.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 10. Pengenalan Smart Money Concept (SMC)</h4>
+        <p>SMC mengajarkan kita untuk mengikuti jejak Institusi Besar (Bank/Hedge Fund). Institusi membutuhkan Likuiditas besar untuk masuk market. Oleh karena itu, harga sering kali menyentuh Stop Loss trader ritel (Liquidity Sweep) sebelum akhirnya terbang sesuai analisa awal.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 11. Imbalance / Fair Value Gap (FVG)</h4>
+        <p>Ketika ada pergerakan harga yang sangat cepat dan kuat (biasanya dari institusi), pasar sering meninggalkan area 'kosong' atau tidak seimbang (Imbalance). Harga cenderung akan kembali ke area ini di masa depan untuk menyeimbangkan pesanan sebelum melanjutkan trennya.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 12. Psikologi Trading: Bahaya FOMO</h4>
+        <p>FOMO (Fear of Missing Out) adalah perasaan takut tertinggal peluang. Ini membuat trader entry tergesa-gesa tanpa konfirmasi, membeli di pucuk atau menjual di lembah. Trader sukses sabar menunggu harga datang ke area setup-nya, bukan mengejar harga yang sedang lari.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 13. Overtrading: Penyakit Utama Pemula</h4>
+        <p>Overtrading adalah kondisi di mana Anda membuka terlalu banyak posisi dalam sehari, seringkali dipicu oleh emosi setelah Loss (Revenge Trading). Di Institute Trading, kami menyarankan maksimal 2-3 kali entry per hari. Jika sudah loss batas harian, tutup chart dan istirahat.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 14. Pentingnya Trading Journal</h4>
+        <p>Bisnis tanpa pembukuan pasti akan hancur. Trading journal berfungsi untuk mencatat alasan Anda entry, screenshot setup chart, emosi yang dirasakan, dan hasil akhir (Profit/Loss). Dari jurnal inilah Anda bisa mengevaluasi strategi mana yang paling efektif.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 15. Memahami Multi-Timeframe Analysis</h4>
+        <p>Jangan hanya melihat satu timeframe. Gunakan Timeframe Besar (H4/Daily) untuk melihat arah tren utama. Gunakan Timeframe Sedang (H1/M15) untuk melihat struktur pasar. Lalu gunakan Timeframe Kecil (M5/M1) untuk mencari konfirmasi entry yang presisi dengan risiko sekecil mungkin.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 16. Likuiditas: Menjadi Mangsa atau Pemangsa?</h4>
+        <p>Di market, jika Anda tidak bisa melihat di mana letak likuiditas (kumpulan Stop Loss trader lain), kemungkinan besar Andalah likuiditas tersebut. Hindari entry di area Support/Resistance yang terlalu jelas (Equal Highs/Equal Lows) sebelum area tersebut di-sweep (dibersihkan) oleh market maker.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 17. Mengelola Emosi Saat Floating Minus</h4>
+        <p>Melihat angka merah di akun bisa memicu kepanikan. Jika Anda sudah menggunakan Lot yang sesuai (Risk 1%) dan sudah memasang Stop Loss, biarkan sistem yang bekerja. Jangan pernah menggeser-geser SL untuk memperlebar kerugian dengan harapan harga akan berbalik.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 18. Konsistensi Jauh Lebih Penting dari Profit Besar</h4>
+        <p>Mendapatkan profit 100% dalam sehari itu mudah, itu namanya judi. Mempertahankan profit 5-10% setiap bulan selama bertahun-tahun itulah yang dinamakan trader profesional. Fokuslah pada persentase pertumbuhan, bukan nominal uang di awal karir.</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 19. Menghadapi Drawdown (Masa Rugi Beruntun)</h4>
+        <p>Semua trader, bahkan yang profesional sekalipun, pasti akan mengalami Drawdown (rentetan Loss). Cara bertahan dari masa ini adalah dengan mengurangi ukuran Lot Anda sementara waktu sampai Anda kembali selaras dengan ritme pergerakan pasar (kembali profit).</p>
+    </div>
+    <div class="materi-card">
+        <h4>📚 20. Langkah Selanjutnya: Belajar Bersama Mentor</h4>
+        <p>Belajar otodidak itu bagus, namun belajar bersama mentor akan memangkas waktu trial & error Anda bertahun-tahun. Kami di Institute Trading siap membimbing Anda dari nol hingga bisa menganalisa market secara mandiri. Punya pertanyaan? Langsung TANYA JAWAB DI WA!</p>
+    </div>
+</div>
 </section>
 
 <section id="rules">
@@ -609,11 +693,11 @@ section {padding: 80px 5%;}
 <h2>Trader Sehat & Disiplin</h2>
 </div>
 <div class="rules">
-<div class="rule" style="font-weight:bold; border-left-color: #00ff88;">✅ Maksimal Risk 1-2% Per Entry</div>
-<div class="rule" style="font-weight:bold; border-left-color: #00ff88;">✅ Selalu Gunakan Stop Loss</div>
-<div class="rule" style="font-weight:bold; border-left-color: #00ff88;">✅ Hindari Overtrading</div>
-<div class="rule" style="font-weight:bold; border-left-color: #00ff88;">✅ Fokus Pada Konsistensi</div>
-<div class="rule" style="font-weight:bold; border-left-color: #00ff88;">✅ Utamakan Psikologi Trading</div>
+<div class="rule" style="border-left-color: #00ff88;">✅ Maksimal Risk 1-2% Per Entry</div>
+<div class="rule" style="border-left-color: #00ff88;">✅ Selalu Gunakan Stop Loss</div>
+<div class="rule" style="border-left-color: #00ff88;">✅ Hindari Overtrading</div>
+<div class="rule" style="border-left-color: #00ff88;">✅ Fokus Pada Konsistensi</div>
+<div class="rule" style="border-left-color: #00ff88;">✅ Utamakan Psikologi Trading</div>
 </div>
 </section>
 
@@ -670,105 +754,6 @@ for (var i = 0; i < acc.length; i++) {
     }
   });
 }
-
-// 3. DATA MATERI EDUKASI
-const dataMateri = [
-    {
-        judul: "1. Apa itu Trading Forex & Saham?",
-        isi: "Trading adalah kegiatan jual beli aset keuangan seperti mata uang (forex), saham, atau kripto di pasar finansial. Tujuannya adalah mendapatkan keuntungan dari selisih harga beli dan harga jual. Berbeda dengan investasi jangka panjang, trading berfokus pada pergerakan harga dalam jangka pendek atau menengah."
-    },
-    {
-        judul: "2. Membaca Candlestick Dasar",
-        isi: "Candlestick adalah visualisasi pergerakan harga. Candle hijau (Bullish) menunjukkan harga penutupan lebih tinggi dari pembukaan, artinya pembeli mendominasi. Candle merah (Bearish) menunjukkan harga penutupan lebih rendah, artinya penjual mendominasi. Sumbu (wick) menunjukkan harga tertinggi dan terendah pada periode waktu tersebut."
-    },
-    {
-        judul: "3. Support dan Resistance (SNR)",
-        isi: "Support adalah area 'lantai' di mana harga sering memantul naik karena banyaknya minat beli. Resistance adalah area 'atap' di mana harga sering memantul turun karena tingginya minat jual. Mengetahui SNR membantu trader menentukan area entry dan exit yang logis."
-    },
-    {
-        judul: "4. Trend is Your Friend (Uptrend & Downtrend)",
-        isi: "Uptrend ditandai dengan terbentuknya pola Higher High (HH) dan Higher Low (HL). Downtrend ditandai dengan Lower High (LH) dan Lower Low (LL). Kesalahan terbesar pemula adalah melawan arah tren besar. Selalu cari peluang Buy di saat Uptrend dan Sell di saat Downtrend."
-    },
-    {
-        judul: "5. Risk Management (Sangat Penting!)",
-        isi: "Risk management adalah tameng pelindung akun Anda. Rule nomor satu di Institute Trading: Jangan pernah merisikokan lebih dari 1% hingga 2% modal Anda dalam satu transaksi. Jika Anda punya $1000, maksimal kerugian per transaksi hanyalah $10-$20."
-    },
-    {
-        judul: "6. Selalu Gunakan Stop Loss (SL)",
-        isi: "Stop Loss adalah pembatas kerugian otomatis. Trading tanpa Stop Loss sama seperti mengendarai mobil berkecepatan tinggi tanpa rem. SL melindungi modal Anda dari pergerakan pasar yang ekstrem atau berita fundamental yang tak terduga."
-    },
-    {
-        judul: "7. Risk to Reward Ratio (RRR)",
-        isi: "RRR membandingkan potensi kerugian dengan potensi keuntungan. RRR minimal yang sehat adalah 1:2. Artinya, jika Anda merisikokan $10 (SL), target keuntungan Anda harus $20 (TP). Dengan RRR 1:2, win rate 40% saja sudah bisa membuat akun Anda profit."
-    },
-    {
-        judul: "8. Supply and Demand (SND)",
-        isi: "Hukum ekonomi dasar berlaku di market. Area Supply adalah titik di mana penjual (institusi) meninggalkan pesanan besar yang menyebabkan harga drop drastis (Drop-Base-Drop). Area Demand adalah tempat harga rally naik secara agresif (Rally-Base-Rally). Ini adalah strategi andalan trader pro."
-    },
-    {
-        judul: "9. Market Structure (BOS & CHoCH)",
-        isi: "BOS (Break of Structure) terjadi saat tren berlanjut menembus High/Low sebelumnya. CHoCH (Change of Character) adalah sinyal awal bahwa tren mungkin akan berbalik arah. Memahami struktur pasar menghindarkan Anda dari entry di waktu yang salah."
-    },
-    {
-        judul: "10. Pengenalan Smart Money Concept (SMC)",
-        isi: "SMC mengajarkan kita untuk mengikuti jejak Institusi Besar (Bank/Hedge Fund). Institusi membutuhkan Likuiditas besar untuk masuk market. Oleh karena itu, harga sering kali menyentuh Stop Loss trader ritel (Liquidity Sweep) sebelum akhirnya terbang sesuai analisa awal."
-    },
-    {
-        judul: "11. Imbalance / Fair Value Gap (FVG)",
-        isi: "Ketika ada pergerakan harga yang sangat cepat dan kuat (biasanya dari institusi), pasar sering meninggalkan area 'kosong' atau tidak seimbang (Imbalance). Harga cenderung akan kembali ke area ini di masa depan untuk menyeimbangkan pesanan sebelum melanjutkan trennya."
-    },
-    {
-        judul: "12. Psikologi Trading: Bahaya FOMO",
-        isi: "FOMO (Fear of Missing Out) adalah perasaan takut tertinggal peluang. Ini membuat trader entry tergesa-gesa tanpa konfirmasi, membeli di pucuk atau menjual di lembah. Trader sukses sabar menunggu harga datang ke area setup-nya, bukan mengejar harga yang sedang lari."
-    },
-    {
-        judul: "13. Overtrading: Penyakit Utama Pemula",
-        isi: "Overtrading adalah kondisi di mana Anda membuka terlalu banyak posisi dalam sehari, seringkali dipicu oleh emosi setelah Loss (Revenge Trading). Di Institute Trading, kami menyarankan maksimal 2-3 kali entry per hari. Jika sudah loss batas harian, tutup chart dan istirahat."
-    },
-    {
-        judul: "14. Pentingnya Trading Journal",
-        isi: "Bisnis tanpa pembukuan pasti akan hancur. Trading journal berfungsi untuk mencatat alasan Anda entry, screenshot setup chart, emosi yang dirasakan, dan hasil akhir (Profit/Loss). Dari jurnal inilah Anda bisa mengevaluasi strategi mana yang paling efektif."
-    },
-    {
-        judul: "15. Memahami Multi-Timeframe Analysis",
-        isi: "Jangan hanya melihat satu timeframe. Gunakan Timeframe Besar (H4/Daily) untuk melihat arah tren utama. Gunakan Timeframe Sedang (H1/M15) untuk melihat struktur pasar. Lalu gunakan Timeframe Kecil (M5/M1) untuk mencari konfirmasi entry yang presisi dengan risiko sekecil mungkin."
-    },
-    {
-        judul: "16. Likuiditas: Menjadi Mangsa atau Pemangsa?",
-        isi: "Di market, jika Anda tidak bisa melihat di mana letak likuiditas (kumpulan Stop Loss trader lain), kemungkinan besar Andalah likuiditas tersebut. Hindari entry di area Support/Resistance yang terlalu jelas (Equal Highs/Equal Lows) sebelum area tersebut di-sweep (dibersihkan) oleh market maker."
-    },
-    {
-        judul: "17. Mengelola Emosi Saat Floating Minus",
-        isi: "Melihat angka merah di akun bisa memicu kepanikan. Jika Anda sudah menggunakan Lot yang sesuai (Risk 1%) dan sudah memasang Stop Loss, biarkan sistem yang bekerja. Jangan pernah menggeser-geser SL untuk memperlebar kerugian dengan harapan harga akan berbalik."
-    },
-    {
-        judul: "18. Konsistensi Jauh Lebih Penting dari Profit Besar",
-        isi: "Mendapatkan profit 100% dalam sehari itu mudah, itu namanya judi. Mempertahankan profit 5-10% setiap bulan selama bertahun-tahun itulah yang dinamakan trader profesional. Fokuslah pada persentase pertumbuhan, bukan nominal uang di awal karir."
-    },
-    {
-        judul: "19. Menghadapi Drawdown (Masa Rugi Beruntun)",
-        isi: "Semua trader, bahkan yang profesional sekalipun, pasti akan mengalami Drawdown (rentetan Loss). Cara bertahan dari masa ini adalah dengan mengurangi ukuran Lot Anda sementara waktu sampai Anda kembali selaras dengan ritme pergerakan pasar (kembali profit)."
-    },
-    {
-        judul: "20. Langkah Selanjutnya: Belajar Bersama Mentor",
-        isi: "Belajar otodidak itu bagus, namun belajar bersama mentor akan memangkas waktu trial & error Anda bertahun-tahun. Kami di Institute Trading siap membimbing Anda dari nol hingga bisa menganalisa market secara mandiri. Punya pertanyaan? Langsung TANYA JAWAB DI WA!"
-    }
-];
-
-const kontainer = document.getElementById("kontainer-materi");
-let htmlMateri = "";
-
-// SEKARANG MENGGUNAKAN CLASS .materi-card KHUSUS
-dataMateri.forEach(item => {
-    htmlMateri += `
-    <div class="materi-card">
-        <h4>📚 ${item.judul}</h4>
-        <p>${item.isi}</p>
-    </div>
-    `;
-});
-
-kontainer.innerHTML = htmlMateri;
 </script>
 
 </body>
