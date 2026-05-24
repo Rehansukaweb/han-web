@@ -1,7 +1,9 @@
-<html lang="id">
+<!DOCTYPE html>
+<html lang="id" translate="no">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="google" content="notranslate">
 <title>IT - Institute Trading</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,9 +18,9 @@ scroll-behavior:smooth;
 
 body{
 font-family:'Poppins',sans-serif;
-background:#080a0f; /* Background Dark Premium */
+background:#080a0f;
 overflow-x:hidden;
-color:#f1f5f9; /* Warna teks terang */
+color:#f1f5f9;
 }
 
 /* NAVBAR */
@@ -634,7 +636,7 @@ for (var i = 0; i < acc.length; i++) {
   });
 }
 
-// 3. DATA MATERI EDUKASI
+// 3. DATA MATERI EDUKASI (Spasi invisible sudah dibersihkan)
 const dataMateri = [
     {
         judul: "1. Apa itu Trading Forex & Saham?",
