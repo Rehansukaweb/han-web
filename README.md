@@ -541,7 +541,7 @@ section {padding: 80px 5%;}
 <section class="hero" id="home">
 <div>
 <div class="badge">#1 Trading Education Platform</div>
-<h1>Menciptakan <span>Trader Muda</span> Yang Disiplin, Sehat & Sukses</h1>
+<h1>Menciptakan Trader Generasi Emas Indonesia Yang sehat dan Terstruktur</h1>
 <p>Institute Trading hadir untuk membangun trader muda profesional dengan mindset kuat, money management sehat, dan risk management yang disiplin agar mampu menjadi trader sukses dan financial freedom.</p>
 <div class="hero-buttons">
 <a href="https://wa.me/6285717426626" class="btn btn-primary">Gabung Sekarang</a>
